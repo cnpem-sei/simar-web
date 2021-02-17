@@ -31,7 +31,7 @@ export default {
       viewMode: true,
       sortBy: "name",
       search: "",
-      keys: ["Name", "Value", "Connected"]
+      keys: ["Name", "Value", "Connected"],
     },
   }),
 
@@ -51,3 +51,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-main {
+  background: rgb(1, 45, 87); 
+}
+</style>

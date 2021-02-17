@@ -1,4 +1,6 @@
-# simar-vue
+# SIMAR Front end
+
+![Screencap]("./readme-data/screencap.png)
 
 ## Project setup
 ```
@@ -20,5 +22,6 @@ yarn build
 yarn lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Direct deployment
+
+Just copy `dist` to your server

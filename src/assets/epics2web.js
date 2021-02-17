@@ -25,7 +25,7 @@ jlab.contextPrefix = jlab.contextPrefix || '';
     }
 
     function CustomEvent(event, params) {
-        params = params || {bubbles: false, cancelable: false, detail: undefined};
+        params = params || { bubbles: false, cancelable: false, detail: undefined };
         var evt = document.createEvent('CustomEvent');
         evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
         return evt;
@@ -70,11 +70,11 @@ jlab.epics2web.ClientConnection = function (options) {
 
     // Private variables
     var socket = null,
-            eventElem = document.createElement('div'),
-            lastUpdated = null,
-            self = this,
-            livenessTimer = null,
-            reconnecting = false;
+        eventElem = document.createElement('div'),
+        lastUpdated = null,
+        self = this,
+        livenessTimer = null,
+        reconnecting = false;
 
     // Private functions
     var doPingWithTimer = function () {
@@ -148,8 +148,8 @@ jlab.epics2web.ClientConnection = function (options) {
             eventElem.dispatchEvent(event);
 
             let u = this.url;
-            
-            if(this.clientName !== null) {
+
+            if (this.clientName !== null) {
                 u = u + '?clientName=' + encodeURIComponent(this.clientName);
             }
 
@@ -201,10 +201,10 @@ jlab.epics2web.ClientConnection = function (options) {
                 var json = JSON.parse(_event.data);
                 json.date = lastUpdated;
                 if (json.type === 'update') {
-                    let event = new CustomEvent('update', {'detail': json});
+                    let event = new CustomEvent('update', { 'detail': json });
                     eventElem.dispatchEvent(event);
                 } else if (json.type === 'info') {
-                    let event = new CustomEvent('info', {'detail': json});
+                    let event = new CustomEvent('info', { 'detail': json });
                     eventElem.dispatchEvent(event);
                 } else if (json.type === 'pong') {
                     let event = new CustomEvent('pong');
@@ -212,7 +212,7 @@ jlab.epics2web.ClientConnection = function (options) {
                 }
 
                 let event = new CustomEvent('message');
-                eventElem.dispatchEvent(event, {'detail': json});
+                eventElem.dispatchEvent(event, { 'detail': json });
             };
 
             socket.onopen = function () {
@@ -253,7 +253,7 @@ jlab.epics2web.ClientConnection = function (options) {
     };
 
     this.monitorPvsChunk = function (pvs) {
-        var msg = {type: 'monitor', pvs: pvs};
+        var msg = { type: 'monitor', pvs: pvs };
         socket.send(JSON.stringify(msg));
     };
 
@@ -270,12 +270,12 @@ jlab.epics2web.ClientConnection = function (options) {
     };
 
     this.clearPvsChunk = function (pvs) {
-        var msg = {type: 'clear', pvs: pvs};
+        var msg = { type: 'clear', pvs: pvs };
         socket.send(JSON.stringify(msg));
     };
 
     this.ping = function () {
-        var msg = {type: 'ping'};
+        var msg = { type: 'ping' };
         socket.send(JSON.stringify(msg));
     };
 
@@ -288,15 +288,15 @@ jlab.epics2web.ClientConnection = function (options) {
     }
 };
 
-jlab.epics2web.ClientConnection.prototype.onopen = function () {};
-jlab.epics2web.ClientConnection.prototype.onclose = function () {};
-jlab.epics2web.ClientConnection.prototype.onconnecting = function () {};
-jlab.epics2web.ClientConnection.prototype.onclosing = function () {};
-jlab.epics2web.ClientConnection.prototype.onmessage = function () {};
-jlab.epics2web.ClientConnection.prototype.onerror = function () {};
-jlab.epics2web.ClientConnection.prototype.onupdate = function () {};
-jlab.epics2web.ClientConnection.prototype.oninfo = function () {};
-jlab.epics2web.ClientConnection.prototype.onpong = function () {};
+jlab.epics2web.ClientConnection.prototype.onopen = function () { };
+jlab.epics2web.ClientConnection.prototype.onclose = function () { };
+jlab.epics2web.ClientConnection.prototype.onconnecting = function () { };
+jlab.epics2web.ClientConnection.prototype.onclosing = function () { };
+jlab.epics2web.ClientConnection.prototype.onmessage = function () { };
+jlab.epics2web.ClientConnection.prototype.onerror = function () { };
+jlab.epics2web.ClientConnection.prototype.onupdate = function () { };
+jlab.epics2web.ClientConnection.prototype.oninfo = function () { };
+jlab.epics2web.ClientConnection.prototype.onpong = function () { };
 
 jlab.epics2web.isNumericEpicsType = function (datatype) {
     var isNumeric;
