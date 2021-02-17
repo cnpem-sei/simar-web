@@ -10,12 +10,14 @@
       />
       <iterator v-bind:settings="settings" />
     </v-main>
+    <ft/>
   </v-app>
 </template>
 
 <script>
 import iterator from "./components/iterator";
 import toolbar from "./components/toolbar";
+import ft from "./components/footer";
 
 export default {
   name: "App",
@@ -23,6 +25,7 @@ export default {
   components: {
     toolbar,
     iterator,
+    ft
   },
 
   data: () => ({
