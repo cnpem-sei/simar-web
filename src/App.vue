@@ -1,28 +1,52 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-main fluid>
+      <toolbar
+        @sort="updateSort"
+        @desc="updateDesc"
+        @view="updateView"
+        @search="updateSearch"
+        v-bind:settings="settings"
+      />
+      <iterator v-bind:settings="settings" />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import iterator from "./components/iterator";
+import toolbar from "./components/toolbar";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+  name: "App",
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  components: {
+    toolbar,
+    iterator,
+  },
+
+  data: () => ({
+    settings: {
+      sortDesc: false,
+      viewMode: true,
+      sortBy: "name",
+      search: "",
+    },
+  }),
+
+  methods: {
+    updateSearch: function (value) {
+      this.settings.search = value;
+    },
+    updateView: function (value) {
+      this.settings.viewMode = value;
+    },
+    updateDesc: function (value) {
+      this.settings.sortBy = value.toLowerCase();
+    },
+    updateSort: function (value) {
+      this.settings.sortDesc = value;
+    },
+  },
+};
+</script>
