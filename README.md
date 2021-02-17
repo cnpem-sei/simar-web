@@ -1,6 +1,7 @@
 # SIMAR Front end
 
-![Screencap]("./readme-data/screencap.png)
+![Screencap](readme-data/screencap.png)
+Example UI with RAD PVs
 
 ## Project setup
 ```
