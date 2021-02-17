@@ -89,7 +89,7 @@
 			host = window.location.host;
 	}
 
-	if (host === "0.0.0.0:8000") {
+	if (host === "0.0.0.0:8000" || host === "0.0.0.0:8080") {
 			host = "10.0.38.42";
 			console.log("DEBUG SERVER. Setting host to 10.0.38.42");
 	}
@@ -100,19 +100,12 @@
   var con = new e2w.jlab.epics2web.ClientConnection(options);
 
   export default {
-    props: [
-      'settings'
-    ],
+    props: ["settings"],
     data () {
       return {
         filter: {},
         page: 1,
         itemsPerPage: 8,
-        keys: [
-          'Name',
-          'Value',
-          'Connected'
-        ],
         headers: [
           {text:'Name', value:'name'},
           {text:'Value', value:'value'},
@@ -182,7 +175,7 @@
         return Math.ceil(this.items.length / this.itemsPerPage)
       },
       filteredKeys () {
-        return this.keys.filter(key => key !== 'Name')
+        return this.settings.keys.filter(key => key !== 'Name')
       }
     },
     methods: {

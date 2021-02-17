@@ -31,6 +31,7 @@ export default {
       viewMode: true,
       sortBy: "name",
       search: "",
+      keys: ["Name", "Value", "Connected"]
     },
   }),
 

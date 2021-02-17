@@ -17,7 +17,7 @@
           flat
           solo-inverted
           hide-details
-          :items="keys"
+          :items="this.settings.keys"
           prepend-inner-icon="mdi-magnify"
           label="Sort by"
           v-show="this.settings.viewMode"
@@ -57,7 +57,7 @@
           flat
           solo-inverted
           hide-details
-          :items="keys"
+          :items="this.settings.keys"
           prepend-inner-icon="mdi-magnify"
           label="Sort by"
           v-show="this.settings.viewMode"
@@ -86,12 +86,11 @@
 
 <script>
 export default {
-  props: ["settings"],
+  props: ['settings'],
   data() {
     return {
       filter: {},
       dropdown: false,
-      keys: ["Name", "Value", "Connected"],
     };
   },
 };
