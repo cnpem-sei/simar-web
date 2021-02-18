@@ -1,7 +1,7 @@
 # SIMAR Front end
 
 ![Screencap](readme-data/screencap.png)
-Example UI with RAD PVs
+Example screencap with one BBB reading temperature and pressure data (dummy voltage and RPM data)
 
 ## Project setup
 ```
