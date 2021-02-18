@@ -187,6 +187,11 @@ export default {
       this.itemsPerPage = number;
     },
     get_pv_color(value_raw, key) {
+      if(value_raw[key.toLowerCase()] === "?")
+      {
+        return "gray";
+      }
+
       const index = this.items.findIndex((i) => i.name === value_raw.name);
       const value = parseFloat(value_raw[key.toLowerCase()]);
       const m_type = key.toLowerCase().substring(0, 1);
@@ -215,7 +220,6 @@ export default {
   },
   created() {
     let self = this;
-
     let url = getUrl();
 
     var options = { url: "ws://" + url + "/epics2web/monitor" };

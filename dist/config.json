@@ -11,11 +11,11 @@
         {
             "fields": {
                 "name": "Server 1",
-                "temperature": "0 C",
-                "pressure": "0 hPa",
-                "voltage": "220 V",
-                "hatch open": "No",
-                "fan speed": "0 RPM"
+                "temperature": "?",
+                "pressure": "?",
+                "voltage": "?",
+                "hatch open": "?",
+                "fan speed": "?"
             },
             "config": {
                 "pvs": [
