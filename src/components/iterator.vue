@@ -43,12 +43,12 @@
           </v-col>
         </v-row>
       </template>
-      <template v-slot:footer >
+      <template v-slot:footer>
         <v-row class="mt-2 no-margin" align="center" justify="center">
           <span class="white--text">Items per page</span>
           <v-menu offset-y>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn 
+              <v-btn
                 dark
                 text
                 color="white"
@@ -76,12 +76,7 @@
           <span class="mr-4 white--text">
             Page {{ page }} of {{ numberOfPages }}
           </span>
-          <v-btn
-            dark
-            color="blue darken-3"
-            class="mr-1"
-            @click="formerPage"
-          >
+          <v-btn dark color="blue darken-3" class="mr-1" @click="formerPage">
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
           <v-btn dark color="blue darken-3" class="ml-1" @click="nextPage">
@@ -114,7 +109,6 @@
         </tr>
       </template>
     </v-data-table>
-    <v-data-footer />
   </v-container>
 </template>
 
@@ -142,8 +136,25 @@ const getUrl = () => {
   return host;
 };
 
-var options = { url: "ws://" + getUrl() + "/epics2web/monitor" };
-var con = new e2w.jlab.epics2web.ClientConnection(options);
+const parseJSON = async (self) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      let pvs = [];
+
+      fetch("config.json")
+        .then((response) => response.json())
+        .then((data) => {
+          for (const item of data.items) {
+            self.config.push(item.config);
+            self.items.push(item.fields);
+            pvs.push(item.config.pv_temp_name);
+            pvs.push(item.config.pv_pres_name);
+          }
+          resolve(pvs);
+        });
+    }, 100);
+  });
+};
 
 export default {
   props: ["settings"],
@@ -154,66 +165,14 @@ export default {
       itemsPerPage: 8,
       headers: [
         { text: "Name", value: "name" },
-        { text: "Value", value: "value" },
-        { text: "Connected", value: "connected" },
+        { text: "Temperature", value: "temperature" },
+        { text: "Pressure", value: "pressure" },
+        { text: "Voltage", value: "voltage" },
+        { text: "Hatch open", value: "hatch open" },
+        { text: "Fan speed", value: "fan speed" },
       ],
-      items: [
-        {
-          name: "RAD:Thermo12:TotalDoseRate:Dose",
-          value: "300 uSv",
-          connected: "Yes",
-        },
-        {
-          name: "RAD:Thermo11:TotalDoseRate:Dose",
-          value: "300 uSv",
-          connected: "Yes",
-        },
-        {
-          name: "RAD:Thermo10:TotalDoseRate:Dose",
-          value: "300 uSv",
-          connected: "Yes",
-        },
-        {
-          name: "RAD:Thermo9:TotalDoseRate:Dose",
-          value: "300 uSv",
-          connected: "Yes",
-        },
-        {
-          name: "RAD:Thermo8:TotalDoseRate:Dose",
-          value: "300 uSv",
-          connected: "Yes",
-        },
-        {
-          name: "RAD:Thermo7:TotalDoseRate:Dose",
-          value: "300 uSv",
-          connected: "Yes",
-        },
-        {
-          name: "RAD:Thermo6:TotalDoseRate:Dose",
-          value: "300 uSv",
-          connected: "Yes",
-        },
-        {
-          name: "RAD:Thermo5:TotalDoseRate:Dose",
-          value: "300 uSv",
-          connected: "Yes",
-        },
-        {
-          name: "RAD:Thermo4:TotalDoseRate:Dose",
-          value: "300 uSv",
-          connected: "Yes",
-        },
-        {
-          name: "RAD:Thermo3:TotalDoseRate:Dose",
-          value: "300 uSv",
-          connected: "Yes",
-        },
-        {
-          name: "RAD:Thermo2:TotalDoseRate:Dose",
-          value: "300 uSv",
-          connected: "Yes",
-        },
-      ],
+      items: [],
+      config: [],
     };
   },
   computed: {
@@ -235,30 +194,49 @@ export default {
       this.itemsPerPage = number;
     },
     get_pv_color(value_raw, key) {
-      let connected = value_raw.connected == "Yes";
+      const index = this.items.findIndex((i) => i.name === value_raw.name);
+      let value = parseFloat(value_raw[key.toLowerCase()]);
 
-      if (key === "Connected") {
-        return connected ? "green" : "red";
-      } else {
-        let value = parseFloat(value_raw.value);
-        if (!connected) return "grey";
-        else if (value > 1) return "red";
-        else if (value > 0.6) return "orange";
-        else return "green";
+      switch (key)
+      {
+        case "Temperature":
+          if (value > this.config[index].t_hihi) return "red";
+          else if (value > this.config[index].t_hi) return "orange";
+          else return "green";
+        case "Pressure":
+          if (value > this.config[index].p_hihi || value < this.config[index].p_lolo) return "red";
+          else if (value > this.config[index].p_hi || value < this.config[index].p_lo) return "orange";
+          else return "green";
+        case "Hatch open":
+          return value_raw["hatch open"] === "No" ? "green" : "orange";
+        default:
+          return "green";
       }
     },
   },
   created() {
     let self = this;
-    console.log(self.items);
 
-    con.onopen = function () {
-      con.monitorPvs(self.items.map((i) => i.name));
+    var options = { url: "ws://" + getUrl() + "/epics2web/monitor" };
+    var con = new e2w.jlab.epics2web.ClientConnection(options);
+
+    con.onopen = async function () {
+      let pvs = await parseJSON(self);
+      con.monitorPvs(pvs);
     };
 
     con.onupdate = function (e) {
-      const index = self.items.map((i) => i.name).indexOf(e.detail.pv);
-      self.items[index].value = e.detail.value.toFixed(2) + " uSv";
+      const pv = e.detail.pv;
+      const type = pv.substring(pv.lastIndexOf(":") + 1);
+
+      if (type === "Temperature") {
+        const index = self.config.findIndex((i) => i.pv_temp_name === pv);
+        self.items[index].temperature = e.detail.value.toFixed(2) + " C";
+      } else {
+        const index = self.config.findIndex((i) => i.pv_pres_name === pv);
+        self.items[index].pressure = e.detail.value.toFixed(2) + " hPa";
+        self.items[index]["hatch open"] = e.detail.value > self.config[index].hatch ? "No" : "Yes";
+      }
     };
   },
 };
@@ -270,6 +248,6 @@ export default {
 }
 
 .blue-background {
-  background: rgb(21, 101, 192) ;
+  background: rgb(21, 101, 192);
 }
 </style>

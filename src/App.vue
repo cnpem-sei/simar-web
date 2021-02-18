@@ -34,7 +34,7 @@ export default {
       viewMode: true,
       sortBy: "name",
       search: "",
-      keys: ["Name", "Value", "Connected"],
+      keys: ["Name", "Temperature", "Pressure", "Voltage", "Hatch open", "Fan speed"],
     },
   }),
 

@@ -8,14 +8,31 @@
         no-gutters
       >
         <v-btn
-          v-for='link in ["Wiki", "Gitlab", "Contact"]'
-          :key="link"
+          href="https://wiki-sirius.lnls.br/mediawiki/index.php/CON:CON"
           color="white"
           text
           rounded
           class="my-2"
         >
-          {{ link }}
+          wiki 
+        </v-btn>
+        <v-btn
+          href="https://gitlab.cnpem.br/IoT/simar-vue"
+          color="white"
+          text
+          rounded
+          class="my-2"
+        >
+          gitlab
+        </v-btn>
+        <v-btn
+          href="mailto:guilherme.freitas@cnpem.br"
+          color="white"
+          text
+          rounded
+          class="my-2"
+        >
+          contact 
         </v-btn>
         <v-col
           class="primary darken-3 py-4 text-center white--text"

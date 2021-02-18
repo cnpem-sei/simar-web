@@ -1,0 +1,29 @@
+{
+    "items": [
+        {
+            "fields": {
+                "name": "Server 1",
+                "temperature": "0 C",
+                "pressure": "0 hPa",
+                "voltage": "220 V",
+                "hatch open": "No",
+                "fan speed": "0 RPM"
+            },
+            "config": {
+                "pv_temp_name": "RedisTEST:Temperature",
+                "pv_pres_name": "RedisTEST:Pressure",
+                "hatch": 950,
+                "t_hihi": 120,
+                "t_hi": 100,
+                "p_hihi": 1200,
+                "p_hi": 1000,
+                "p_lolo": 600,
+                "p_lo": 700,
+                "v_hihi": 300,
+                "v_hi": 250,
+                "v_lolo": 120,
+                "v_lo": 180
+            }
+        }
+    ]
+}
