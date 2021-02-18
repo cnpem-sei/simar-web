@@ -129,7 +129,7 @@ const getUrl = () => {
     host = window.location.host;
   }
 
-  if (host === "0.0.0.0:8000" || host === "0.0.0.0:8080") {
+  if (host.includes("0.0.0.0") || host.includes("localhost")) {
     host = "10.0.38.42";
     console.log("DEBUG SERVER. Setting host to 10.0.38.42");
   }
@@ -144,6 +144,7 @@ const parseJSON = async (self) => {
       fetch("config.json")
         .then((response) => response.json())
         .then((data) => {
+          self.headers = data.headers;
           for (const item of data.items) {
             self.config.push(item.config);
             self.items.push(item.fields);
@@ -162,14 +163,7 @@ export default {
       filter: {},
       page: 1,
       itemsPerPage: 8,
-      headers: [
-        { text: "Name", value: "name" },
-        { text: "Temperature", value: "temperature" },
-        { text: "Pressure", value: "pressure" },
-        { text: "Voltage", value: "voltage" },
-        { text: "Hatch open", value: "hatch open" },
-        { text: "Fan speed", value: "fan speed" },
-      ],
+      headers: [],
       items: [],
       config: [],
     };

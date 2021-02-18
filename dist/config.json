@@ -1,4 +1,12 @@
 {
+    "headers": [
+        { "text": "Name", "value": "name" },
+        { "text": "Temperature", "value": "temperature" },
+        { "text": "Pressure", "value": "pressure" },
+        { "text": "Voltage", "value": "voltage" },
+        { "text": "Hatch open", "value": "hatch open" },
+        { "text": "Fan speed", "value": "fan speed" }
+    ],
     "items": [
         {
             "fields": {
