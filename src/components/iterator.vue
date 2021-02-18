@@ -195,47 +195,80 @@ export default {
     },
     get_pv_color(value_raw, key) {
       const index = this.items.findIndex((i) => i.name === value_raw.name);
-      let value = parseFloat(value_raw[key.toLowerCase()]);
+      const value = parseFloat(value_raw[key.toLowerCase()]);
+      const m_type = key.toLowerCase().substring(0,1);
 
-      switch (key)
-      {
+      switch (key) {
         case "Temperature":
           if (value > this.config[index].t_hihi) return "red";
           else if (value > this.config[index].t_hi) return "orange";
           else return "green";
-        case "Pressure":
-          if (value > this.config[index].p_hihi || value < this.config[index].p_lolo) return "red";
-          else if (value > this.config[index].p_hi || value < this.config[index].p_lo) return "orange";
-          else return "green";
         case "Hatch open":
           return value_raw["hatch open"] === "No" ? "green" : "orange";
         default:
-          return "green";
+          if (
+            value > this.config[index][m_type + "_hihi"] ||
+            value < this.config[index][m_type + "_lolo"]
+          )
+            return "red";
+          else if (
+            value > this.config[index][m_type + "_hi"] ||
+            value < this.config[index][m_type + "_lo"]
+          )
+            return "orange";
+          else return "green";
       }
     },
   },
   created() {
     let self = this;
 
-    var options = { url: "ws://" + getUrl() + "/epics2web/monitor" };
+    let url = getUrl();
+
+    var options = { url: "ws://" + url + "/epics2web/monitor" };
     var con = new e2w.jlab.epics2web.ClientConnection(options);
 
     con.onopen = async function () {
       let pvs = await parseJSON(self);
+
+      for(let c of self.config){
+        fetch("http://" + url + "/retrieval/bpl/getMetadata?pv=" + c.pv_temp_name)
+        .then((response) => response.json())
+        .then((data) => {
+          c.t_hihi = data.HIHI;
+          c.t_hi = data.HIGH;
+        });
+
+        fetch("http://" + url + "/retrieval/bpl/getMetadata?pv=" + c.pv_pres_name)
+        .then((response) => response.json())
+        .then((data) => {
+          c.p_hihi = data.HIHI;
+          c.p_hi = data.HIGH;
+          c.p_lolo = data.LOLO;
+          c.p_lo = data.LOW;
+        });
+      }
+
+      console.log(self.config);
       con.monitorPvs(pvs);
     };
 
     con.onupdate = function (e) {
       const pv = e.detail.pv;
       const type = pv.substring(pv.lastIndexOf(":") + 1);
+      const index = self.config.findIndex((i) => i.pv_temp_name === pv || i.pv_pres_name === pv);
 
-      if (type === "Temperature") {
-        const index = self.config.findIndex((i) => i.pv_temp_name === pv);
-        self.items[index].temperature = e.detail.value.toFixed(2) + " C";
-      } else {
-        const index = self.config.findIndex((i) => i.pv_pres_name === pv);
-        self.items[index].pressure = e.detail.value.toFixed(2) + " hPa";
-        self.items[index]["hatch open"] = e.detail.value > self.config[index].hatch ? "No" : "Yes";
+      switch (type) {
+        case "Temperature":
+          self.items[index].temperature = e.detail.value.toFixed(2) + " C";
+          break;
+        case "Pressure":
+          self.items[index].pressure = e.detail.value.toFixed(2) + " hPa";
+          self.items[index]["hatch open"] =
+            e.detail.value > self.config[index].hatch ? "No" : "Yes";
+          break;
+        default:
+          break;
       }
     };
   },
