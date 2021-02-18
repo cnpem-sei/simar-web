@@ -147,8 +147,7 @@ const parseJSON = async (self) => {
           for (const item of data.items) {
             self.config.push(item.config);
             self.items.push(item.fields);
-            pvs.push(item.config.pv_temp_name);
-            pvs.push(item.config.pv_pres_name);
+            pvs = pvs.concat(item.config.pvs);
           }
           resolve(pvs);
         });
@@ -196,7 +195,7 @@ export default {
     get_pv_color(value_raw, key) {
       const index = this.items.findIndex((i) => i.name === value_raw.name);
       const value = parseFloat(value_raw[key.toLowerCase()]);
-      const m_type = key.toLowerCase().substring(0,1);
+      const m_type = key.toLowerCase().substring(0, 1);
 
       switch (key) {
         case "Temperature":
@@ -231,32 +230,29 @@ export default {
     con.onopen = async function () {
       let pvs = await parseJSON(self);
 
-      for(let c of self.config){
-        fetch("http://" + url + "/retrieval/bpl/getMetadata?pv=" + c.pv_temp_name)
-        .then((response) => response.json())
-        .then((data) => {
-          c.t_hihi = data.HIHI;
-          c.t_hi = data.HIGH;
-        });
+      for (let c of self.config) {
+        for (const pv of c.pvs) {
+          const type_index = pv.lastIndexOf(":") + 1;
+          const m_type = pv.substring(type_index, type_index + 1);
 
-        fetch("http://" + url + "/retrieval/bpl/getMetadata?pv=" + c.pv_pres_name)
-        .then((response) => response.json())
-        .then((data) => {
-          c.p_hihi = data.HIHI;
-          c.p_hi = data.HIGH;
-          c.p_lolo = data.LOLO;
-          c.p_lo = data.LOW;
-        });
+          fetch("http://" + url + "/retrieval/bpl/getMetadata?pv=" + pv)
+            .then((response) => response.json())
+            .then((data) => {
+              c[m_type + "_hihi"] = data.HIHI ?? c[m_type + "_hihi"];
+              c[m_type + "_hi"] = data.HIGH ?? c[m_type + "_hi"];
+              c[m_type + "_lolo"] = data.LOLO ?? c[m_type + "_lolo"];
+              c[m_type + "_lo"] = data.LO ?? c[m_type + "_lo"];
+            });
+        }
       }
 
-      console.log(self.config);
       con.monitorPvs(pvs);
     };
 
     con.onupdate = function (e) {
       const pv = e.detail.pv;
       const type = pv.substring(pv.lastIndexOf(":") + 1);
-      const index = self.config.findIndex((i) => i.pv_temp_name === pv || i.pv_pres_name === pv);
+      const index = self.config.findIndex((i) => i.pvs.includes(pv));
 
       switch (type) {
         case "Temperature":

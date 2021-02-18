@@ -10,8 +10,10 @@
                 "fan speed": "0 RPM"
             },
             "config": {
-                "pv_temp_name": "RedisTEST:Temperature",
-                "pv_pres_name": "RedisTEST:Pressure",
+                "pvs": [
+                    "RedisTEST:Temperature",
+                    "RedisTEST:Pressure"
+                ],
                 "hatch": 950,
                 "t_hihi": 120,
                 "t_hi": 100,
