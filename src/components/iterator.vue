@@ -75,7 +75,30 @@
 </template>
 
 <script>
-import iteratorcard from "./iteratorcard.vue";
+import * as e2w from "../assets/epics2web.js";
+import iteratorcard from "./iteratorcard.vue"
+
+const getUrl = () => {
+  let host = "10.0.38.42";
+  if (window.location.host === "vpn.cnpem.br") {
+    // If using WEB VPN
+    // Capture IPv4 address
+    const ipRegExp = /https?\/((?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])))\//;
+    const match = ipRegExp.exec(window.location.href);
+    if (match && match.length > 1) {
+      host = match[1];
+    }
+  } else {
+    host = window.location.host;
+  }
+
+  if (host.includes("0.0.0.0") || host.includes("localhost")) {
+    host = "10.0.38.42";
+    console.log("DEBUG SERVER. Setting host to 10.0.38.42");
+  }
+  return host;
+};
+
 const parseJSON = async (self) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -96,11 +119,11 @@ const parseJSON = async (self) => {
   });
 };
 
-export default {
-  props: ["settings"],
+export default {  
   components: {
     iteratorcard,
   },
+  props: ["settings"],
   data() {
     return {
       filter: {},
@@ -110,6 +133,7 @@ export default {
       items: [],
       config: [],
       symbols: { temperature: " C", pressure: " hPa", voltage: " V" },
+      edit_fan: false,
     };
   },
   computed: {
@@ -133,29 +157,49 @@ export default {
   },
   created() {
     let self = this;
-    let ws = new WebSocket("ws://127.0.0.1:5678/");
+    let url = getUrl();
 
-    ws.onopen = async function () {
+    var options = { url: "ws://" + url + "/epics2web/monitor" };
+    var con = new e2w.jlab.epics2web.ClientConnection(options);
+
+    con.onopen = async function () {
       let pvs = await parseJSON(self);
 
-      ws.send(pvs);
+      for (let c of self.config) {
+        for (const pv of c.pvs) {
+          const type_index = pv.lastIndexOf(":") + 1;
+          const m_type = pv.substring(type_index, type_index + 1);
+
+          fetch("http://" + url + "/retrieval/bpl/getMetadata?pv=" + pv)
+            .then((data) => {
+              if(data !== undefined){
+                c[m_type + "_hihi"] = data.HIHI ?? c[m_type + "_hihi"];
+                c[m_type + "_hi"] = data.HIGH ?? c[m_type + "_hi"];
+                c[m_type + "_lolo"] = data.LOLO ?? c[m_type + "_lolo"];
+                c[m_type + "_lo"] = data.LO ?? c[m_type + "_lo"];
+              }
+            });
+        }
+      }
+
+      con.monitorPvs(pvs);
     };
 
-    ws.onmessage = function (e) {
-      const pv = JSON.parse(e.data);
-      const type = pv["name"].toLowerCase();
-      const index = self.config.findIndex((i) => i.pvs.includes(type));
+    con.onupdate = function (e) {
+      const pv = e.detail.pv;
+      const type = pv.substring(pv.lastIndexOf(":") + 1).toLowerCase();
+      const index = self.config.findIndex((i) => i.pvs.includes(pv));
 
       switch (type) {
         case "pressure":
           self.items[index]["rack open"] =
-            pv.value > self.config[index].hatch ? "No" : "Yes";
+            e.detail.value > self.config[index].hatch ? "No" : "Yes";
           break;
         default:
           break;
       }
 
-      self.items[index][type] = pv.value.toFixed(2) + self.symbols[type];
+      self.items[index][type] = e.detail.value.toFixed(2) + self.symbols[type];
     };
   },
 };

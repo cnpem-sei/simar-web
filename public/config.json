@@ -19,9 +19,9 @@
             },
             "config": {
                 "pvs": [
-                    "temperature",
-                    "pressure",
-                    "voltage"
+                    "RedisTEST:Temperature",
+                    "RedisTEST:Pressure",
+                    "RedisTEST:Voltage"
                 ],
                 "hatch": 950,
                 "t_hihi": 120,
