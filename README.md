@@ -1,4 +1,4 @@
-# SIMAR Front end
+# SIMAR Front end - Redis
 
 ![Screencap](readme-data/screencap.png)
 Example screencap with one BBB reading temperature and pressure data (dummy voltage and RPM data)
