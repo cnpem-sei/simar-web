@@ -115,11 +115,32 @@
         <tr>
           <td v-for="(col, columnIndex) in headers" :key="columnIndex">
             <div v-if="columnIndex > 0">
-              <v-chip
-                text-color="white"
-                :color="get_pv_color(item, col.text)"
-                >{{ item[col.value] }}</v-chip
+              <v-btn
+                v-if="col.text === 'Fan speed'"
+                text
+                rounded
+                @click="edit_fan = !edit_fan"
               >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-text-field
+                v-if="col.text == 'Fan speed' && edit_fan"
+                v-model="title"
+                suffix="RPM"
+                label="Speed"
+                type="number"
+                outlined
+                dense
+                hide-details="true"
+              ></v-text-field>
+              <v-chip
+                v-if="col.text != 'Fan speed' || !edit_fan"
+                class="align-end"
+                :color="get_pv_color(item, col.text)"
+                text-color="white"
+              >
+                {{ item[col.value] }}
+              </v-chip>
             </div>
             <div v-else-if="columnIndex == 0 || columnIndex == 1">
               <p>{{ item[col.value] }}</p>
@@ -293,7 +314,8 @@ export default {
   background: rgb(21, 101, 192);
 }
 
-.v-text-field{
-      width: 50px;
+.v-text-field {
+  width: 30%;
+  display:inline-block;
 }
 </style>
