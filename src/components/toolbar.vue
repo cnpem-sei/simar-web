@@ -13,35 +13,24 @@
       <template v-if="$vuetify.breakpoint.mdAndUp">
         <v-spacer></v-spacer>
         <v-select
-          v-on:change="$emit('desc', $event)"
+          v-on:change="$emit('sort', $event)"
           flat
           solo-inverted
           hide-details
           :items="this.settings.keys"
           prepend-inner-icon="mdi-magnify"
           label="Sort by"
-          v-show="this.settings.viewMode"
         ></v-select>
         <v-spacer></v-spacer>
         <v-btn-toggle
-          v-on:change="$emit('sort', $event)"
+          v-on:change="$emit('desc', $event)"
           mandatory
-          v-show="this.settings.viewMode"
         >
           <v-btn large depressed color="blue" :value="false" align="start">
             <v-icon>mdi-trending-up</v-icon>
           </v-btn>
           <v-btn large depressed color="blue" :value="true">
             <v-icon>mdi-trending-down</v-icon>
-          </v-btn>
-        </v-btn-toggle>
-        <v-spacer></v-spacer>
-        <v-btn-toggle v-on:change="$emit('view', $event)" mandatory>
-          <v-btn large depressed color="blue" :value="false">
-            <v-icon>mdi-table</v-icon>
-          </v-btn>
-          <v-btn large depressed color="blue" :value="true">
-            <v-icon>mdi-view-module</v-icon>
           </v-btn>
         </v-btn-toggle>
       </template>
@@ -58,41 +47,21 @@
       class="mb-1"
     >
       <v-select
-        v-on:change="$emit('desc', $event)"
+        v-on:change="$emit('sort', $event)"
         flat
         solo-inverted
         hide-details
         :items="this.settings.keys"
         prepend-inner-icon="mdi-magnify"
         label="Sort by"
-        v-show="this.settings.viewMode"
       ></v-select>
-      <v-btn
-        v-show="this.settings.viewMode"
-        icon
-        v-on:click="$emit('view', false)"
-      >
-        <v-icon>mdi-table</v-icon>
-      </v-btn>
-      <v-btn
-        v-show="!this.settings.viewMode"
-        icon
-        v-on:click="$emit('view', true)"
-      >
-        <v-icon>mdi-view-module</v-icon>
-      </v-btn>
-      <v-btn-toggle
-        v-on:change="$emit('sort', $event)"
-        mandatory
-        v-show="this.settings.viewMode"
-      >
-        <v-btn large depressed color="blue" :value="false" align="start">
-          <v-icon>mdi-trending-up</v-icon>
-        </v-btn>
-        <v-btn large depressed color="blue" :value="true">
+      <v-spacer></v-spacer>
+        <v-btn large depressed color="blue" v-show="!this.settings.sortDesc" v-on:click="$emit('desc', true)">
           <v-icon>mdi-trending-down</v-icon>
         </v-btn>
-      </v-btn-toggle>
+        <v-btn large depressed color="blue" v-show="this.settings.sortDesc" align="start" v-on:click="$emit('desc', false)">
+          <v-icon>mdi-trending-up</v-icon>
+        </v-btn>
     </v-toolbar>
   </v-container>
 </template>

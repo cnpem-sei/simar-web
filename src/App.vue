@@ -4,7 +4,6 @@
       <toolbar
         @sort="updateSort"
         @desc="updateDesc"
-        @view="updateView"
         @search="updateSearch"
         v-bind:settings="settings"
       />
@@ -31,7 +30,6 @@ export default {
   data: () => ({
     settings: {
       sortDesc: false,
-      viewMode: true,
       sortBy: "name",
       search: "",
       keys: ["Name", "Temperature", "Pressure", "Voltage", "Rack open", "Fan speed"],
@@ -42,14 +40,11 @@ export default {
     updateSearch: function (value) {
       this.settings.search = value;
     },
-    updateView: function (value) {
-      this.settings.viewMode = value;
-    },
     updateDesc: function (value) {
-      this.settings.sortBy = value.toLowerCase();
+      this.settings.sortDesc = value;
     },
     updateSort: function (value) {
-      this.settings.sortDesc = value;
+      this.settings.sortBy = value.toLowerCase();
     },
   },
 };

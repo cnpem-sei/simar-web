@@ -14,7 +14,7 @@
                 "temperature": "?",
                 "pressure": "?",
                 "voltage": "?",
-                "hatch open": "?",
+                "rack open": "?",
                 "fan speed": "?"
             },
             "config": {
@@ -22,6 +22,62 @@
                     "temperature",
                     "pressure",
                     "voltage"
+                ],
+                "hatch": 950,
+                "t_hihi": 120,
+                "t_hi": 100,
+                "p_hihi": 1200,
+                "p_hi": 1000,
+                "p_lolo": 600,
+                "p_lo": 700,
+                "v_hihi": 1.5,
+                "v_hi": 1,
+                "v_lolo": 0.3,
+                "v_lo": 0.5
+            }
+        },
+        {
+            "fields": {
+                "name": "Server 2",
+                "temperature": "900 C",
+                "pressure": "5500 hPa",
+                "voltage": "3000 V",
+                "rack open": "No",
+                "fan speed": "9000 RPM"
+            },
+            "config": {
+                "pvs": [
+                    "temperature1",
+                    "pressure1",
+                    "voltage1"
+                ],
+                "hatch": 950,
+                "t_hihi": 120,
+                "t_hi": 100,
+                "p_hihi": 1200,
+                "p_hi": 1000,
+                "p_lolo": 600,
+                "p_lo": 700,
+                "v_hihi": 1.5,
+                "v_hi": 1,
+                "v_lolo": 0.3,
+                "v_lo": 0.5
+            }
+        },
+        {
+            "fields": {
+                "name": "Server 3",
+                "temperature": "15 C",
+                "pressure": "900 hPa",
+                "voltage": "220 V",
+                "rack open": "No",
+                "fan speed": "1200 RPM"
+            },
+            "config": {
+                "pvs": [
+                    "temperature2",
+                    "pressure2",
+                    "voltage2"
                 ],
                 "hatch": 950,
                 "t_hihi": 120,
