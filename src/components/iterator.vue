@@ -30,7 +30,26 @@
               <v-list dense>
                 <v-list-item v-for="(key, index) in filteredKeys" :key="index">
                   <v-list-item-content> {{ key }}: </v-list-item-content>
+                  <v-btn
+                    v-if="key === 'Fan speed'"
+                    text
+                    rounded
+                    @click="edit_fan = !edit_fan"
+                  >
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                  <v-text-field
+                    v-if="key == 'Fan speed' && edit_fan"
+                    v-model="title"
+                    suffix="RPM"
+                    label="Speed"
+                    type="number"
+                    outlined
+                    dense
+                    hide-details="true"
+                  ></v-text-field>
                   <v-chip
+                    v-if="key != 'Fan speed' || !edit_fan"
                     class="align-end"
                     :color="get_pv_color(item, key)"
                     text-color="white"
@@ -96,11 +115,32 @@
         <tr>
           <td v-for="(col, columnIndex) in headers" :key="columnIndex">
             <div v-if="columnIndex > 0">
-              <v-chip
-                text-color="white"
-                :color="get_pv_color(item, col.text)"
-                >{{ item[col.value] }}</v-chip
+              <v-btn
+                v-if="col.text === 'Fan speed'"
+                text
+                rounded
+                @click="edit_fan = !edit_fan"
               >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-text-field
+                v-if="col.text == 'Fan speed' && edit_fan"
+                v-model="title"
+                suffix="RPM"
+                label="Speed"
+                type="number"
+                outlined
+                dense
+                hide-details="true"
+              ></v-text-field>
+              <v-chip
+                v-if="col.text != 'Fan speed' || !edit_fan"
+                class="align-end"
+                :color="get_pv_color(item, col.text)"
+                text-color="white"
+              >
+                {{ item[col.value] }}
+              </v-chip>
             </div>
             <div v-else-if="columnIndex == 0 || columnIndex == 1">
               <p>{{ item[col.value] }}</p>
@@ -166,7 +206,8 @@ export default {
       headers: [],
       items: [],
       config: [],
-      symbols: {"temperature": " C", "pressure":" hPa", "voltage":" V"}
+      symbols: { temperature: " C", pressure: " hPa", voltage: " V" },
+      edit_fan: false,
     };
   },
   computed: {
@@ -188,8 +229,7 @@ export default {
       this.itemsPerPage = number;
     },
     get_pv_color(value_raw, key) {
-      if(value_raw[key.toLowerCase()] === "?")
-      {
+      if (value_raw[key.toLowerCase()] === "?") {
         return "gray";
       }
 
@@ -275,5 +315,10 @@ export default {
 
 .blue-background {
   background: rgb(21, 101, 192);
+}
+
+.v-text-field {
+  width: 30%;
+  display:inline-block;
 }
 </style>
