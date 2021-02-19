@@ -4,7 +4,7 @@
         { "text": "Temperature", "value": "temperature" },
         { "text": "Pressure", "value": "pressure" },
         { "text": "Voltage", "value": "voltage" },
-        { "text": "Hatch open", "value": "hatch open" },
+        { "text": "Rack open", "value": "rack open" },
         { "text": "Fan speed", "value": "fan speed" }
     ],
     "items": [
@@ -19,8 +19,9 @@
             },
             "config": {
                 "pvs": [
-                    "RedisTEST:Temperature",
-                    "RedisTEST:Pressure"
+                    "temperature",
+                    "pressure",
+                    "voltage"
                 ],
                 "hatch": 950,
                 "t_hihi": 120,
@@ -29,10 +30,10 @@
                 "p_hi": 1000,
                 "p_lolo": 600,
                 "p_lo": 700,
-                "v_hihi": 300,
-                "v_hi": 250,
-                "v_lolo": 120,
-                "v_lo": 180
+                "v_hihi": 1.5,
+                "v_hi": 1,
+                "v_lolo": 0.3,
+                "v_lo": 0.5
             }
         }
     ]

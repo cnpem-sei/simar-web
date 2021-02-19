@@ -113,9 +113,7 @@
 </template>
 
 <script>
-import * as e2w from "../assets/epics2web.js";
-
-const getUrl = () => {
+/*const getUrl = () => {
   let host = "10.0.38.42";
   if (window.location.host === "vpn.cnpem.br") {
     // If using WEB VPN
@@ -134,7 +132,7 @@ const getUrl = () => {
     console.log("DEBUG SERVER. Setting host to 10.0.38.42");
   }
   return host;
-};
+};*/
 
 const parseJSON = async (self) => {
   return new Promise((resolve) => {
@@ -221,15 +219,14 @@ export default {
   },
   created() {
     let self = this;
-    let url = getUrl();
+    //let url = getUrl();
 
-    var options = { url: "ws://" + url + "/epics2web/monitor" };
-    var con = new e2w.jlab.epics2web.ClientConnection(options);
+    var ws = new WebSocket("ws://127.0.0.1:5678/");
 
-    con.onopen = async function () {
+    ws.onopen = async function () {
       let pvs = await parseJSON(self);
 
-      for (let c of self.config) {
+      /*for (let c of self.config) {
         for (const pv of c.pvs) {
           const type_index = pv.lastIndexOf(":") + 1;
           const m_type = pv.substring(type_index, type_index + 1);
@@ -243,26 +240,26 @@ export default {
               c[m_type + "_lo"] = data.LO ?? c[m_type + "_lo"];
             });
         }
-      }
+      }*/
 
-      con.monitorPvs(pvs);
+      ws.send(pvs);
     };
 
-    con.onupdate = function (e) {
-      const pv = e.detail.pv;
-      const type = pv.substring(pv.lastIndexOf(":") + 1).toLowerCase();
-      const index = self.config.findIndex((i) => i.pvs.includes(pv));
+    ws.onmessage = function (e) {
+      const pv = JSON.parse(e.data);
+      const type = pv["name"].toLowerCase();
+      const index = self.config.findIndex((i) => i.pvs.includes(type));
 
       switch (type) {
         case "pressure":
           self.items[index]["rack open"] =
-            e.detail.value > self.config[index].hatch ? "No" : "Yes";
+            pv.value > self.config[index].hatch ? "No" : "Yes";
           break;
         default:
           break;
       }
 
-      self.items[index][type] = e.detail.value.toFixed(2) + self.symbols[type];
+      self.items[index][type] = pv.value.toFixed(2) + self.symbols[type];
     };
   },
 };

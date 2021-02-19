@@ -6,7 +6,7 @@ module.exports = {
     config
       .plugin('html')
       .tap(args => {
-        args[0].title = "SIMAR";
+        args[0].title = "SIMAR - Redis Variant";
         return args;
       })
   }
