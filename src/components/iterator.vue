@@ -166,6 +166,7 @@ export default {
       headers: [],
       items: [],
       config: [],
+      symbols: {"temperature": " C", "pressure":" hPa", "voltage":" V"}
     };
   },
   computed: {
@@ -201,8 +202,8 @@ export default {
           if (value > this.config[index].t_hihi) return "red";
           else if (value > this.config[index].t_hi) return "orange";
           else return "green";
-        case "Hatch open":
-          return value_raw["hatch open"] === "No" ? "green" : "orange";
+        case "Rack open":
+          return value_raw["rack open"] === "No" ? "green" : "orange";
         default:
           if (
             value > this.config[index][m_type + "_hihi"] ||
@@ -249,21 +250,19 @@ export default {
 
     con.onupdate = function (e) {
       const pv = e.detail.pv;
-      const type = pv.substring(pv.lastIndexOf(":") + 1);
+      const type = pv.substring(pv.lastIndexOf(":") + 1).toLowerCase();
       const index = self.config.findIndex((i) => i.pvs.includes(pv));
 
       switch (type) {
-        case "Temperature":
-          self.items[index].temperature = e.detail.value.toFixed(2) + " C";
-          break;
-        case "Pressure":
-          self.items[index].pressure = e.detail.value.toFixed(2) + " hPa";
-          self.items[index]["hatch open"] =
+        case "pressure":
+          self.items[index]["rack open"] =
             e.detail.value > self.config[index].hatch ? "No" : "Yes";
           break;
         default:
           break;
       }
+
+      self.items[index][type] = e.detail.value.toFixed(2) + self.symbols[type];
     };
   },
 };
