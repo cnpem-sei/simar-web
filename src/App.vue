@@ -32,7 +32,7 @@ export default {
       sortDesc: false,
       sortBy: "name",
       search: "",
-      keys: ["Name", "Temperature", "Pressure", "Voltage", "Rack open", "Fan speed"],
+      keys: ["Name", "Temperature", "Pressure", "Voltage", "Rack open", "Fan speed", "Humidity"],
     },
   }),
 

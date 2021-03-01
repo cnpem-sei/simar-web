@@ -108,6 +108,7 @@ const parseJSON = async (self) => {
         .then((response) => response.json())
         .then((data) => {
           self.headers = data.headers;
+          self.symbols = data.symbols;
           for (const item of data.items) {
             self.config.push(item.config);
             self.items.push(item.fields);
@@ -132,7 +133,7 @@ export default {
       headers: [],
       items: [],
       config: [],
-      symbols: { temperature: " C", pressure: " hPa", voltage: " V" },
+      symbols: {},
       edit_fan: false,
     };
   },

@@ -1,11 +1,39 @@
 {
+    "symbols": {
+        "temperature": " C",
+        "pressure": " hPa",
+        "voltage": " V",
+        "humidity": "%"
+    },
     "headers": [
-        { "text": "Name", "value": "name" },
-        { "text": "Temperature", "value": "temperature" },
-        { "text": "Pressure", "value": "pressure" },
-        { "text": "Voltage", "value": "voltage" },
-        { "text": "Rack open", "value": "rack open" },
-        { "text": "Fan speed", "value": "fan speed" }
+        {
+            "text": "Name",
+            "value": "name"
+        },
+        {
+            "text": "Temperature",
+            "value": "temperature"
+        },
+        {
+            "text": "Pressure",
+            "value": "pressure"
+        },
+        {
+            "text": "Voltage",
+            "value": "voltage"
+        },
+        {
+            "text": "Rack open",
+            "value": "rack open"
+        },
+        {
+            "text": "Fan speed",
+            "value": "fan speed"
+        },
+        {
+            "text": "Humidity",
+            "value": "humidity"
+        }
     ],
     "items": [
         {
@@ -15,13 +43,15 @@
                 "pressure": "?",
                 "voltage": "?",
                 "rack open": "?",
-                "fan speed": "?"
+                "fan speed": "?",
+                "humidity": "?"
             },
             "config": {
                 "pvs": [
                     "RedisTEST:Temperature",
                     "RedisTEST:Pressure",
-                    "RedisTEST:Voltage"
+                    "RedisTEST:Voltage",
+                    "RedisTEST:Humidity"
                 ],
                 "hatch": 950,
                 "t_hihi": 120,
@@ -33,7 +63,11 @@
                 "v_hihi": 1.5,
                 "v_hi": 1,
                 "v_lolo": 0.3,
-                "v_lo": 0.5
+                "v_lo": 0.5,
+                "h_hihi": 70,
+                "h_hi": 60,
+                "h_lolo": 40,
+                "h_lo": 30
             }
         },
         {
@@ -43,7 +77,8 @@
                 "pressure": "5500 hPa",
                 "voltage": "3000 V",
                 "rack open": "No",
-                "fan speed": "9000 RPM"
+                "fan speed": "9000 RPM",
+                "humidity": "?"
             },
             "config": {
                 "pvs": [
@@ -61,7 +96,11 @@
                 "v_hihi": 1.5,
                 "v_hi": 1,
                 "v_lolo": 0.3,
-                "v_lo": 0.5
+                "v_lo": 0.5,
+                "h_hihi": 70,
+                "h_hi": 60,
+                "h_lolo": 40,
+                "h_lo": 30
             }
         },
         {
@@ -71,7 +110,8 @@
                 "pressure": "900 hPa",
                 "voltage": "220 V",
                 "rack open": "No",
-                "fan speed": "1200 RPM"
+                "fan speed": "1200 RPM",
+                "humidity": "?"
             },
             "config": {
                 "pvs": [
@@ -89,7 +129,11 @@
                 "v_hihi": 1.5,
                 "v_hi": 1,
                 "v_lolo": 0.3,
-                "v_lo": 0.5
+                "v_lo": 0.5,
+                "h_hihi": 70,
+                "h_hi": 60,
+                "h_lolo": 40,
+                "h_lo": 30
             }
         }
     ]
