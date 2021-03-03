@@ -7,6 +7,7 @@
       :search="this.settings.search"
       :sort-by="this.settings.sortBy"
       :sort-desc="this.settings.sortDesc"
+      :custom-sort="numSort"
       hide-default-footer
     >
       <template v-slot:default="props">
@@ -146,6 +147,25 @@ export default {
     },
   },
   methods: {
+    numSort(items, index) {
+      items.sort((a, b) => {
+        let index_name = index[0];
+        let c = index_name === "humidity" ? "%" : " ";
+
+        if (index_name !== "rack open" && index_name !== "name") {
+          if (!this.settings.sortDesc)
+            return parseFloat(a[index].substring(0,a[index].indexOf(c))) > parseFloat(b[index].substring(0,b[index].indexOf(c)));
+          else
+            return parseFloat(b[index].substring(0,b[index].indexOf(c))) > parseFloat(a[index].substring(0,a[index].indexOf(c)));
+        } else {
+          if (!this.settings.sortDesc)
+            return a[index] > b[index];
+          else
+            return b[index] > a[index];
+        }
+      });
+      return items;
+    },
     nextPage() {
       if (this.page + 1 <= this.numberOfPages) this.page += 1;
     },
