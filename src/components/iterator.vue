@@ -93,9 +93,9 @@ const getUrl = () => {
     host = window.location.host;
   }
 
-  if (host.includes("0.0.0.0") || host.includes("localhost")) {
+  if (host.includes("0.0.0.0") || host.includes("localhost") || host.includes("10.0.38.50")) {
     host = "10.0.38.42";
-    console.log("DEBUG SERVER. Setting host to 10.0.38.42");
+    console.log("__`o##o>__ DEBUG SERVER. Setting host to 10.0.38.42");
   }
   return host;
 };
