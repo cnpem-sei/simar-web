@@ -208,19 +208,13 @@ export default {
 
     con.onupdate = function (e) {
       const pv = e.detail.pv;
-      const type = pv.substring(pv.lastIndexOf(":") + 1).toLowerCase();
+      const pv_type = pv.substring(pv.lastIndexOf(":") + 1).toLowerCase();
       const index = self.config.findIndex((i) => i.pvs.includes(pv));
 
-      switch (type) {
-        case "pressure":
-          self.items[index]["rack open"] =
-            e.detail.value > self.config[index].hatch ? "No" : "Yes";
-          break;
-        default:
-          break;
-      }
-
-      self.items[index][type] = e.detail.value.toFixed(2) + self.symbols[type];
+      if(pv_type == "open")
+        self.items[index]["rack open"] = e.detail.value == 0 ? "No" : "Yes";
+      else
+        self.items[index][pv_type] = e.detail.value.toFixed(2) + self.symbols[pv_type];
     };
   },
 };
