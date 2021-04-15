@@ -228,4 +228,8 @@ export default {
 .blue-background {
   background: rgb(21, 101, 192);
 }
+
+div:first-child .v-data-iterator {
+  color: white;
+}
 </style>
