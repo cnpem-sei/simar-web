@@ -211,10 +211,13 @@ export default {
       const pv_type = pv.substring(pv.lastIndexOf(":") + 1).toLowerCase();
       const index = self.config.findIndex((i) => i.pvs.includes(pv));
 
-      if(pv_type == "open")
+      if(pv_type == "open") {
         self.items[index]["rack open"] = e.detail.value == 0 ? "No" : "Yes";
-      else
+      } else if (pv_type.substring(0,3) === "ext") {
+        self.items[index]["ext. " + pv_type.substring(3)] = e.detail.value.toFixed(2) + self.symbols[pv_type];
+      } else {
         self.items[index][pv_type] = e.detail.value.toFixed(2) + self.symbols[pv_type];
+      }
     };
   },
 };
