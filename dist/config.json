@@ -55,8 +55,8 @@
                 "rack open": "?",
                 "fan speed": "?",
                 "humidity": "?",
-                "extpressure": "?",
-                "exttemperature": "?"
+                "ext. pressure": "?",
+                "ext. temperature": "?"
             },
             "config": {
                 "pvs": [
@@ -75,11 +75,7 @@
                 "v_hihi": 1.5,
                 "v_hi": 1,
                 "v_lolo": 0.3,
-                "v_lo": 0.5,
-                "h_hihi": 70,
-                "h_hi": 60,
-                "h_lolo": 40,
-                "h_lo": 30
+                "v_lo": 0.5
             }
         },
         {
@@ -91,8 +87,8 @@
                 "rack open": "?",
                 "fan speed": "?",
                 "humidity": "?",
-                "extpressure": "?",
-                "exttemperature": "?"
+                "ext. pressure": "?",
+                "ext. temperature": "?"
             },
             "config": {
                 "pvs": [
@@ -111,11 +107,36 @@
                 "v_hihi": 1.5,
                 "v_hi": 1,
                 "v_lolo": 0.3,
+                "v_lo": 0.5
+            }
+        },
+        {
+            "fields": {
+                "name": "External",
+                "temperature": "?",
+                "pressure": "?",
+                "voltage": "?",
+                "rack open": "?",
+                "fan speed": "?",
+                "humidity": "?",
+                "ext. pressure": "?",
+                "ext. temperature": "?"
+            },
+            "config": {
+                "pvs": [
+                    "SIMAR-EXT:Temperature",
+                    "SIMAR-EXT:Humidity"
+                ],
+                "t_hihi": 120,
+                "t_hi": 100,
+                "v_hihi": 1.5,
+                "v_hi": 1,
+                "v_lolo": 0.3,
                 "v_lo": 0.5,
-                "h_hihi": 70,
-                "h_hi": 60,
-                "h_lolo": 40,
-                "h_lo": 30
+                "h_hihi": 100,
+                "h_hi": 100,
+                "h_lolo": 0,
+                "h_lo": 0
             }
         }
     ]
