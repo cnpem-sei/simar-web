@@ -211,9 +211,6 @@ export default {
       const pv_type = pv.substring(pv.lastIndexOf(":") + 1).toLowerCase();
       const index = self.config.findIndex((i) => i.pvs.includes(pv));
 
-      if(index === 2)
-        console.log(pv_type)
-
       if(pv_type == "open") {
         self.items[index]["rack open"] = e.detail.value == 0 ? "No" : "Yes";
       } else if (pv_type.substring(0,3) === "ext") {
