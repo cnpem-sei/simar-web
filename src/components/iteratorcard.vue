@@ -32,7 +32,7 @@
           :color="get_pv_color(item, key)"
           text-color="white"
         >
-          {{ item[key.toLowerCase()] }}
+          {{ item[pvs[key]] }}
         </v-chip>
       </v-list-item>
     </v-list>
@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  props: ["items", "item", "filteredKeys", "config"],
+  props: ["items", "item", "filteredKeys", "pvs"],
   data: function () {
     return {
       edit_fan: false,
@@ -49,30 +49,29 @@ export default {
   },
   methods: {
     get_pv_color(value_raw, key) {
-      if (value_raw[key.toLowerCase()] === "?") {
-        return "gray";
-      }
+      const m_type =
+        key.substring(0, 1).toLowerCase() !== "c"
+          ? key.substring(0, 1).toLowerCase()
+          : key.substring(5, 6).toLowerCase();
+
+      key = this.pvs[key];
+      if (value_raw[key] === "?") return "gray";
 
       const index = this.items.findIndex((i) => i.name === value_raw.name);
-      const value = parseFloat(value_raw[key.toLowerCase()]);
-      const m_type = key.toLowerCase().substring(0, 1);
+      const value = parseFloat(value_raw[key]);
 
       switch (key) {
-        case "Temperature":
-          if (value > this.config[index].t_hihi) return "red";
-          else if (value > this.config[index].t_hi) return "orange";
-          else return "green";
         case "Rack open":
-          return value_raw["rack open"] === "No" ? "green" : "orange";
+          return value_raw["RackOpen-Mon"] === "No" ? "green" : "orange";
         default:
           if (
-            value > this.config[index][m_type + "_hihi"] ||
-            value < this.config[index][m_type + "_lolo"]
+            value > this.items[index][m_type + "_hihi"] ||
+            value < this.items[index][m_type + "_lolo"]
           )
             return "red";
           else if (
-            value > this.config[index][m_type + "_hi"] ||
-            value < this.config[index][m_type + "_lo"]
+            value > this.items[index][m_type + "_hi"] ||
+            value < this.items[index][m_type + "_lo"]
           )
             return "orange";
           else return "green";

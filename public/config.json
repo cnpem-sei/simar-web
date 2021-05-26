@@ -1,73 +1,37 @@
 {
     "symbols": {
-        "temperature": " °C",
-        "pressure": " hPa",
+        "RackInternalTemperature-Mon": " °C",
+        "RackInternalPressure-Mon": " hPa",
         "voltage": " V",
-        "humidity": "%",
-        "exttemperature": " °C",
-        "extpressure": " hPa"
+        "Humidity-Mon": "%",
+        "CorridorCTemperature-Mon": " °C",
+        "CorridorCPressure-Mon": " hPa"
     },
-    "headers": [
-        {
-            "text": "Name",
-            "value": "name"
-        },
-        {
-            "text": "Temperature",
-            "value": "temperature"
-        },
-        {
-            "text": "Pressure",
-            "value": "pressure"
-        },
-        {
-            "text": "Voltage",
-            "value": "voltage"
-        },
-        {
-            "text": "Rack open",
-            "value": "rack open"
-        },
-        {
-            "text": "Fan speed",
-            "value": "fan speed"
-        },
-        {
-            "text": "Humidity",
-            "value": "humidity"
-        },
-        {
-            "text": "Ext. Temperature",
-            "value": "ext. temperature"
-        },
-        {
-            "text": "Ext. Pressure",
-            "value": "ext. pressure"
-        }
-    ],
     "items": [
         {
             "fields": {
                 "name": "Room 17, CONS Rack",
-                "temperature": "?",
-                "pressure": "?",
+                "RackInternalTemperature-Mon": "?",
+                "RackInternalPressure-Mon": "?",
                 "voltage": "?",
-                "rack open": "?",
-                "fan speed": "?",
-                "humidity": "?",
-                "ext. pressure": "?",
-                "ext. temperature": "?"
+                "RackOpen-Mon": "?",
+                "fanspeed": "?",
+                "Humidity-Mon": "?",
+                "CorridorCPressure-Mon": "?",
+                "CorridorCTemperature-Mon": "?"
             },
             "config": {
                 "pvs": [
-                    "SIMAR-S17R0:Temperature",
-                    "SIMAR-S17R0:Pressure",
-                    "SIMAR-S17R0:Open",
-                    "SIMAR-S17R0:ExtTemperature",
-                    "SIMAR-S17R0:ExtPressure"
+                    "IA-17RaCtrl:IoT-SIMAR-01:CorridorCPressure-Mon",
+                    "IA-17RaCtrl:IoT-SIMAR-01:CorridorCTemperature-Mon",
+                    "IA-17RaCtrl:IoT-SIMAR-01:RackOpen-Mon",
+                    "IA-17RaCtrl:IoT-SIMAR-01:RackInternalPressure-Mon",
+                    "IA-17RaCtrl:IoT-SIMAR-01:RackInternalTemperature-Mon"
                 ],
-                "t_hihi": 120,
-                "t_hi": 100,
+                "t_hihi": 40,
+                "t_hi": 27,
+                "t_lolo": 10,
+                "t_lo": 0,
                 "p_hihi": 1200,
                 "p_hi": 1000,
                 "p_lolo": 600,
@@ -81,25 +45,27 @@
         {
             "fields": {
                 "name": "Room 7, CONS Rack",
-                "temperature": "?",
-                "pressure": "?",
+                "RackInternalTemperature-Mon": "?",
+                "RackInternalPressure-Mon": "?",
                 "voltage": "?",
-                "rack open": "?",
-                "fan speed": "?",
-                "humidity": "?",
-                "ext. pressure": "?",
-                "ext. temperature": "?"
+                "RackOpen-Mon": "?",
+                "fanspeed": "?",
+                "Humidity-Mon": "?",
+                "CorridorCPressure-Mon": "?",
+                "CorridorCTemperature-Mon": "?"
             },
             "config": {
                 "pvs": [
-                    "SIMAR-S07R0:Temperature",
-                    "SIMAR-S07R0:Pressure",
-                    "SIMAR-S07R0:Open",
-                    "SIMAR-S07R0:ExtTemperature",
-                    "SIMAR-S07R0:ExtPressure"
+                    "IA-07RaCtrl:IoT-SIMAR-01:CorridorCPressure-Mon",
+                    "IA-07RaCtrl:IoT-SIMAR-01:CorridorCTemperature-Mon",
+                    "IA-07RaCtrl:IoT-SIMAR-01:RackOpen-Mon",
+                    "IA-07RaCtrl:IoT-SIMAR-01:RackInternalPressure-Mon",
+                    "IA-07RaCtrl:IoT-SIMAR-01:RackInternalTemperature-Mon"
                 ],
-                "t_hihi": 120,
-                "t_hi": 100,
+                "t_hihi": 40,
+                "t_hi": 27,
+                "t_lolo": 10,
+                "t_lo": 0,
                 "p_hihi": 1200,
                 "p_hi": 1000,
                 "p_lolo": 600,
@@ -113,22 +79,24 @@
         {
             "fields": {
                 "name": "External",
-                "temperature": "?",
-                "pressure": "?",
+                "RackInternalTemperature-Mon": "?",
+                "RackInternalPressure-Mon": "?",
                 "voltage": "?",
-                "rack open": "?",
-                "fan speed": "?",
-                "humidity": "?",
-                "ext. pressure": "?",
-                "ext. temperature": "?"
+                "RackOpen-Mon": "?",
+                "fanspeed": "?",
+                "Humidity-Mon": "?",
+                "CorridorCPressure-Mon": "?",
+                "CorridorCTemperature-Mon": "?"
             },
             "config": {
                 "pvs": [
-                    "SIMAR-EXT:Temperature",
-                    "SIMAR-EXT:Humidity"
+                    "B-15RaCtrl:IoT-SIMAR-01:Temperature-Mon",
+                    "B-15RaCtrl:IoT-SIMAR-01:Humidity-Mon"
                 ],
-                "t_hihi": 120,
-                "t_hi": 100,
+                "t_hihi": 40,
+                "t_hi": 27,
+                "t_lolo": 10,
+                "t_lo": 0,
                 "v_hihi": 1.5,
                 "v_hi": 1,
                 "v_lolo": 0.3,

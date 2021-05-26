@@ -9,7 +9,7 @@
       />
       <iterator v-bind:settings="settings" />
     </v-main>
-    <ft/>
+    <ft />
   </v-app>
 </template>
 
@@ -24,7 +24,7 @@ export default {
   components: {
     toolbar,
     iterator,
-    ft
+    ft,
   },
 
   data: () => ({
@@ -32,7 +32,28 @@ export default {
       sortDesc: false,
       sortBy: "name",
       search: "",
-      keys: ["Name", "Temperature", "Pressure", "Voltage", "Rack open", "Fan speed", "Humidity", "Ext. Temperature", "Ext. Pressure"],
+      keys: [
+        "Name",
+        "Temperature",
+        "Pressure",
+        "Voltage",
+        "Rack open",
+        "Fan speed",
+        "Humidity",
+        "Cor. Temperature",
+        "Cor. Pressure",
+      ],
+      pvs: {
+        name: "name",
+        Temperature: "RackInternalTemperature-Mon",
+        Pressure: "RackInternalPressure-Mon",
+        Voltage: "voltage",
+        "Rack open": "RackOpen-Mon",
+        "Fan speed": "fanspeed",
+        Humidity: "Humidity-Mon",
+        "Cor. Temperature": "CorridorCTemperature-Mon",
+        "Cor. Pressure": "CorridorCPressure-Mon",
+      },
     },
   }),
 
@@ -44,7 +65,7 @@ export default {
       this.settings.sortDesc = value;
     },
     updateSort: function (value) {
-      this.settings.sortBy = value.toLowerCase();
+      this.settings.sortBy = value;
     },
   },
 };
@@ -52,6 +73,6 @@ export default {
 
 <style scoped>
 .v-main {
-  background: rgb(1, 45, 87); 
+  background: rgb(1, 45, 87);
 }
 </style>

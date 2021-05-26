@@ -23,8 +23,8 @@
             <iteratorcard
               :key="item.name"
               v-bind:items="props.items"
-              v-bind:config="config"
               v-bind:item="item"
+              v-bind:pvs="pvs"
               v-bind:filteredKeys="filteredKeys"
             />
           </v-col>
@@ -77,7 +77,7 @@
 
 <script>
 import * as e2w from "../assets/epics2web.js";
-import iteratorcard from "./iteratorcard.vue"
+import iteratorcard from "./iteratorcard.vue";
 
 const getUrl = () => {
   let host = "10.0.38.42";
@@ -93,7 +93,11 @@ const getUrl = () => {
     host = window.location.host;
   }
 
-  if (host.includes("0.0.0.0") || host.includes("localhost") || host.includes("10.0.38.50")) {
+  if (
+    host.includes("0.0.0.0") ||
+    host.includes("localhost") ||
+    host.includes("10.0.38.50")
+  ) {
     host = "10.0.38.42";
     console.log("__`o##o>__ DEBUG SERVER. Setting host to 10.0.38.42");
   }
@@ -111,8 +115,7 @@ const parseJSON = async (self) => {
           self.headers = data.headers;
           self.symbols = data.symbols;
           for (const item of data.items) {
-            self.config.push(item.config);
-            self.items.push(item.fields);
+            self.items.push(Object.assign({}, item.fields, item.config));
             pvs = pvs.concat(item.config.pvs);
           }
           resolve(pvs);
@@ -121,7 +124,7 @@ const parseJSON = async (self) => {
   });
 };
 
-export default {  
+export default {
   components: {
     iteratorcard,
   },
@@ -133,9 +136,9 @@ export default {
       itemsPerPage: 8,
       headers: [],
       items: [],
-      config: [],
       symbols: {},
       edit_fan: false,
+      pvs: this.settings.pvs,
     };
   },
   computed: {
@@ -149,19 +152,23 @@ export default {
   methods: {
     numSort(items, index) {
       items.sort((a, b) => {
-        let index_name = index[0];
-        let c = index_name === "humidity" ? "%" : " ";
+        const pv_index = this.settings.pvs[index[0]];
+        let c = pv_index === "Humidity-Mon" ? "%" : " ";
 
-        if (index_name !== "rack open" && index_name !== "name") {
+        if (pv_index !== "RackOpen-Mon" && pv_index !== "name") {
           if (!this.settings.sortDesc)
-            return parseFloat(a[index].substring(0,a[index].indexOf(c))) > parseFloat(b[index].substring(0,b[index].indexOf(c)));
+            return (
+              parseFloat(a[pv_index].substring(0, a[pv_index].indexOf(c))) >
+              parseFloat(b[pv_index].substring(0, b[pv_index].indexOf(c)))
+            );
           else
-            return parseFloat(b[index].substring(0,b[index].indexOf(c))) > parseFloat(a[index].substring(0,a[index].indexOf(c)));
+            return (
+              parseFloat(b[pv_index].substring(0, b[pv_index].indexOf(c))) >
+              parseFloat(a[pv_index].substring(0, a[pv_index].indexOf(c)))
+            );
         } else {
-          if (!this.settings.sortDesc)
-            return a[index] > b[index];
-          else
-            return b[index] > a[index];
+          if (!this.settings.sortDesc) return a[pv_index] > b[pv_index];
+          else return b[pv_index] > a[pv_index];
         }
       });
       return items;
@@ -186,20 +193,28 @@ export default {
     con.onopen = async function () {
       let pvs = await parseJSON(self);
 
-      for (let c of self.config) {
+      for (let c of self.items) {
         for (const pv of c.pvs) {
-          const type_index = pv.lastIndexOf(":") + 1;
-          const m_type = pv.substring(type_index, type_index + 1);
+          const type_index = pv.substring(pv.lastIndexOf(":") + 1);
+          let m_type = type_index.substring(0, 1).toLowerCase();
 
-          fetch("http://" + url + "/retrieval/bpl/getMetadata?pv=" + pv)
-            .then((data) => {
-              if(data !== undefined){
+          if (type_index.includes("RackOpen")) continue;
+
+          if (type_index.includes("Corridor"))
+            m_type = type_index.substring(9, 10).toLowerCase();
+          else if (pv.includes("Rack"))
+            m_type = type_index.substring(12, 13).toLowerCase();
+
+          fetch("http://" + url + "/retrieval/bpl/getMetadata?pv=" + pv).then(
+            (data) => {
+              if (data !== undefined) {
                 c[m_type + "_hihi"] = data.HIHI ?? c[m_type + "_hihi"];
                 c[m_type + "_hi"] = data.HIGH ?? c[m_type + "_hi"];
                 c[m_type + "_lolo"] = data.LOLO ?? c[m_type + "_lolo"];
                 c[m_type + "_lo"] = data.LO ?? c[m_type + "_lo"];
               }
-            });
+            }
+          );
         }
       }
 
@@ -208,16 +223,17 @@ export default {
 
     con.onupdate = function (e) {
       const pv = e.detail.pv;
-      const pv_type = pv.substring(pv.lastIndexOf(":") + 1).toLowerCase();
-      const index = self.config.findIndex((i) => i.pvs.includes(pv));
+      let pv_type = pv.substring(pv.lastIndexOf(":") + 1);
+      const index = self.items.findIndex((i) => i.pvs.includes(pv));
 
-      if(pv_type == "open") {
-        self.items[index]["rack open"] = e.detail.value == 0 ? "No" : "Yes";
-      } else if (pv_type.substring(0,3) === "ext") {
-        self.items[index]["ext. " + pv_type.substring(3)] = e.detail.value.toFixed(2) + self.symbols[pv_type];
-      } else {
-        self.items[index][pv_type] = e.detail.value.toFixed(2) + self.symbols[pv_type];
-      }
+      if (pv_type === "Temperature-Mon" || pv_type === "Pressure-Mon")
+        pv_type = "RackInternal" + pv_type;
+
+      if (pv_type === "RackOpen-Mon")
+        self.items[index][pv_type] = e.detail.value == 0 ? "No" : "Yes";
+      else
+        self.items[index][pv_type] =
+          e.detail.value.toFixed(2) + self.symbols[pv_type];
     };
   },
 };
