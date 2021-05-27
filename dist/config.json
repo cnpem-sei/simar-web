@@ -22,11 +22,14 @@
             },
             "config": {
                 "pvs": [
-                    "IA-17RaCtrl:IoT-SIMAR-01:CorridorCPressure-Mon",
-                    "IA-17RaCtrl:IoT-SIMAR-01:CorridorCTemperature-Mon",
-                    "IA-17RaCtrl:IoT-SIMAR-01:RackOpen-Mon",
+                    "IA-17RaCtrl:IoT-SIMAR-01:RackInternalTemperature-Mon",
                     "IA-17RaCtrl:IoT-SIMAR-01:RackInternalPressure-Mon",
-                    "IA-17RaCtrl:IoT-SIMAR-01:RackInternalTemperature-Mon"
+                    "",
+                    "IA-17RaCtrl:IoT-SIMAR-01:RackOpen-Mon",
+                    "",
+                    "",
+                    "IA-17RaCtrl:IoT-SIMAR-01:CorridorCTemperature-Mon",
+                    "IA-17RaCtrl:IoT-SIMAR-01:CorridorCPressure-Mon"
                 ],
                 "t_hihi": 40,
                 "t_hi": 27,
@@ -56,11 +59,14 @@
             },
             "config": {
                 "pvs": [
-                    "IA-07RaCtrl:IoT-SIMAR-01:CorridorCPressure-Mon",
-                    "IA-07RaCtrl:IoT-SIMAR-01:CorridorCTemperature-Mon",
-                    "IA-07RaCtrl:IoT-SIMAR-01:RackOpen-Mon",
+                    "IA-07RaCtrl:IoT-SIMAR-01:RackInternalTemperature-Mon",
+                    "",
                     "IA-07RaCtrl:IoT-SIMAR-01:RackInternalPressure-Mon",
-                    "IA-07RaCtrl:IoT-SIMAR-01:RackInternalTemperature-Mon"
+                    "IA-07RaCtrl:IoT-SIMAR-01:RackOpen-Mon",
+                    "",
+                    "",
+                    "IA-07RaCtrl:IoT-SIMAR-01:CorridorCTemperature-Mon",
+                    "IA-07RaCtrl:IoT-SIMAR-01:CorridorCPressure-Mon"
                 ],
                 "t_hihi": 40,
                 "t_hi": 27,
@@ -91,7 +97,13 @@
             "config": {
                 "pvs": [
                     "B-15RaCtrl:IoT-SIMAR-01:Temperature-Mon",
-                    "B-15RaCtrl:IoT-SIMAR-01:Humidity-Mon"
+                    "",
+                    "",
+                    "",
+                    "",
+                    "B-15RaCtrl:IoT-SIMAR-01:Humidity-Mon",
+                    "",
+                    ""
                 ],
                 "t_hihi": 40,
                 "t_hi": 27,

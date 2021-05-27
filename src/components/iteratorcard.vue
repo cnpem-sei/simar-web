@@ -31,6 +31,7 @@
           class="align-end"
           :color="get_pv_color(item, key)"
           text-color="white"
+          :href="`http://10.0.38.42/archiver-viewer/?pv=${item.pvs[Object.keys(pvs).indexOf(key)-1]}`"
         >
           {{ item[pvs[key]] }}
         </v-chip>
