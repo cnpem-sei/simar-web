@@ -84,7 +84,8 @@ const getUrl = () => {
   if (window.location.host === "vpn.cnpem.br") {
     // If using WEB VPN
     // Capture IPv4 address
-    const ipRegExp = /https?\/((?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])))\//;
+    const ipRegExp =
+      /https?\/((?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])))\//;
     const match = ipRegExp.exec(window.location.href);
     if (match && match.length > 1) {
       host = match[1];
@@ -205,16 +206,18 @@ export default {
           else if (pv.includes("Rack"))
             m_type = type_index.substring(12, 13).toLowerCase();
 
-          fetch("http://" + url + "/retrieval/bpl/getMetadata?pv=" + pv).then(
-            (data) => {
-              if (data !== undefined) {
-                c[m_type + "_hihi"] = data.HIHI ?? c[m_type + "_hihi"];
-                c[m_type + "_hi"] = data.HIGH ?? c[m_type + "_hi"];
-                c[m_type + "_lolo"] = data.LOLO ?? c[m_type + "_lolo"];
-                c[m_type + "_lo"] = data.LO ?? c[m_type + "_lo"];
+          if (pv !== "") {
+            fetch("http://" + url + "/retrieval/bpl/getMetadata?pv=" + pv).then(
+              (data) => {
+                if (data !== undefined) {
+                  c[m_type + "_hihi"] = data.HIHI ?? c[m_type + "_hihi"];
+                  c[m_type + "_hi"] = data.HIGH ?? c[m_type + "_hi"];
+                  c[m_type + "_lolo"] = data.LOLO ?? c[m_type + "_lolo"];
+                  c[m_type + "_lo"] = data.LO ?? c[m_type + "_lo"];
+                }
               }
-            }
-          );
+            );
+          }
         }
       }
 
