@@ -134,7 +134,7 @@
             "config": {
                 "pvs": [
                     "B-15RaCtrl:IoT-SIMAR-01:Temperature-Mon",
-                    "",
+                    "B-15RaCtrl:IoT-SIMAR-01:Pressure-Mon",
                     "",
                     "",
                     "",
