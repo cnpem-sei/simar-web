@@ -62,7 +62,7 @@ export default {
       const value = parseFloat(value_raw[key]);
 
       switch (key) {
-        case "Rack open":
+        case "RackOpen-Mon":
           return value_raw["RackOpen-Mon"] === "No" ? "green" : "orange";
         default:
           if (

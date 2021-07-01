@@ -229,7 +229,7 @@ export default {
       let pv_type = pv.substring(pv.lastIndexOf(":") + 1);
       const index = self.items.findIndex((i) => i.pvs.includes(pv));
 
-      if (pv_type === "Temperature-Mon" || pv_type === "Pressure-Mon")
+      if (pv_type === "Temperature-Mon" || pv_type === "Pressure-Mon" || pv_type === "Humidity-Mon")
         pv_type = "RackInternal" + pv_type;
 
       if (pv_type === "RackOpen-Mon")

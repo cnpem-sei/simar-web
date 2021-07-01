@@ -3,22 +3,18 @@
         "RackInternalTemperature-Mon": " °C",
         "RackInternalPressure-Mon": " hPa",
         "voltage": " V",
-        "Humidity-Mon": "%",
-        "CorridorCTemperature-Mon": " °C",
-        "CorridorCPressure-Mon": " hPa"
+        "RackInternalHumidity-Mon": "%"
     },
     "items": [
         {
             "fields": {
-                "name": "Room 17, CONS Rack",
+                "name": "Room 17, CON Rack",
                 "RackInternalTemperature-Mon": "?",
                 "RackInternalPressure-Mon": "?",
                 "voltage": "?",
                 "RackOpen-Mon": "?",
                 "fanspeed": "?",
-                "Humidity-Mon": "?",
-                "CorridorCPressure-Mon": "?",
-                "CorridorCTemperature-Mon": "?"
+                "RackInternalHumidity-Mon": "?"
             },
             "config": {
                 "pvs": [
@@ -26,45 +22,6 @@
                     "IA-17RaCtrl:IoT-SIMAR-01:RackInternalPressure-Mon",
                     "",
                     "IA-17RaCtrl:IoT-SIMAR-01:RackOpen-Mon",
-                    "",
-                    "",
-                    "IA-17RaCtrl:IoT-SIMAR-01:CorridorCTemperature-Mon",
-                    "IA-17RaCtrl:IoT-SIMAR-01:CorridorCPressure-Mon"
-                ],
-                "t_hihi": 40,
-                "t_hi": 27,
-                "t_lolo": 10,
-                "t_lo": 0,
-                "p_hihi": 1200,
-                "p_hi": 1000,
-                "p_lolo": 600,
-                "p_lo": 700,
-                "v_hihi": 1.5,
-                "v_hi": 1,
-                "v_lolo": 0.3,
-                "v_lo": 0.5
-            }
-        },
-        {
-            "fields": {
-                "name": "Corridor (Room 13)",
-                "RackInternalTemperature-Mon": "?",
-                "RackInternalPressure-Mon": "?",
-                "voltage": "?",
-                "RackOpen-Mon": "?",
-                "fanspeed": "?",
-                "Humidity-Mon": "?",
-                "CorridorCPressure-Mon": "?",
-                "CorridorCTemperature-Mon": "?"
-            },
-            "config": {
-                "pvs": [
-                    "C-13RaCtrl:IoT-SIMAR-01:Temperature-Mon",
-                    "C-13RaCtrl:IoT-SIMAR-01:Pressure-Mon",
-                    "",
-                    "",
-                    "",
-                    "C-13RaCtrl:IoT-SIMAR-01:Humidity-Mon",
                     "",
                     ""
                 ],
@@ -84,26 +41,57 @@
         },
         {
             "fields": {
-                "name": "Room 7, CONS Rack",
+                "name": "Sector 8, M1",
                 "RackInternalTemperature-Mon": "?",
                 "RackInternalPressure-Mon": "?",
                 "voltage": "?",
                 "RackOpen-Mon": "?",
                 "fanspeed": "?",
-                "Humidity-Mon": "?",
-                "CorridorCPressure-Mon": "?",
-                "CorridorCTemperature-Mon": "?"
+                "RackInternalHumidity-Mon": "?"
+            },
+            "config": {
+                "pvs": [
+                    "SI-08M1:IoT-SIMAR-01:Temperature-Mon",
+                    "SI-08M1:IoT-SIMAR-01:Pressure-Mon",
+                    "",
+                    "",
+                    "",
+                    "SI-08M1:IoT-SIMAR-01:Humidity-Mon",
+                    "",
+                    ""
+                ],
+                "t_hihi": 40,
+                "t_hi": 27,
+                "t_lolo": 10,
+                "t_lo": 0,
+                "p_hihi": 1200,
+                "p_hi": 1000,
+                "p_lolo": 600,
+                "p_lo": 700,
+                "v_hihi": 1.5,
+                "v_hi": 1,
+                "v_lolo": 0.3,
+                "v_lo": 0.5
+            }
+        },
+        {
+            "fields": {
+                "name": "Room 7, CON Rack",
+                "RackInternalTemperature-Mon": "?",
+                "RackInternalPressure-Mon": "?",
+                "voltage": "?",
+                "RackOpen-Mon": "?",
+                "fanspeed": "?",
+                "RackInternalHumidity-Mon": "?"
             },
             "config": {
                 "pvs": [
                     "IA-07RaCtrl:IoT-SIMAR-01:RackInternalTemperature-Mon",
-                    "",
                     "IA-07RaCtrl:IoT-SIMAR-01:RackInternalPressure-Mon",
+                    "",
                     "IA-07RaCtrl:IoT-SIMAR-01:RackOpen-Mon",
                     "",
-                    "",
-                    "IA-07RaCtrl:IoT-SIMAR-01:CorridorCTemperature-Mon",
-                    "IA-07RaCtrl:IoT-SIMAR-01:CorridorCPressure-Mon"
+                    ""
                 ],
                 "t_hihi": 40,
                 "t_hi": 27,
@@ -127,9 +115,7 @@
                 "voltage": "?",
                 "RackOpen-Mon": "?",
                 "fanspeed": "?",
-                "Humidity-Mon": "?",
-                "CorridorCPressure-Mon": "?",
-                "CorridorCTemperature-Mon": "?"
+                "Humidity-Mon": "?"
             },
             "config": {
                 "pvs": [
@@ -141,6 +127,172 @@
                     "B-15RaCtrl:IoT-SIMAR-01:Humidity-Mon",
                     "",
                     ""
+                ],
+                "t_hihi": 40,
+                "t_hi": 27,
+                "t_lolo": 10,
+                "t_lo": 0,
+                "v_hihi": 1.5,
+                "v_hi": 1,
+                "v_lolo": 0.3,
+                "v_lo": 0.5,
+                "h_hihi": 100,
+                "h_hi": 100,
+                "h_lolo": 0,
+                "h_lo": 0
+            }
+        },
+        {
+            "fields": {
+                "name": "Room 20, EPP-2 Rack",
+                "RackInternalTemperature-Mon": "?",
+                "RackInternalPressure-Mon": "?",
+                "voltage": "?",
+                "RackOpen-Mon": "?",
+                "fanspeed": "?",
+                "RackInternalHumidity-Mon": "?"
+            },
+            "config": {
+                "pvs": [
+                    "IA-20RaEPP:IoT-SIMAR-01:RackInternalTemperature-Mon",
+                    "IA-20RaEPP:IoT-SIMAR-01:RackInternalPressure-Mon",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "IA-20RaEPP:IoT-SIMAR-01:RackInternalHumidity-Mon"
+                ],
+                "t_hihi": 40,
+                "t_hi": 27,
+                "t_lolo": 10,
+                "t_lo": 0,
+                "v_hihi": 1.5,
+                "v_hi": 1,
+                "v_lolo": 0.3,
+                "v_lo": 0.5,
+                "h_hihi": 100,
+                "h_hi": 100,
+                "h_lolo": 0,
+                "h_lo": 0
+            }
+        },
+        {
+            "fields": {
+                "name": "Room 20, ELP-1 Rack",
+                "RackInternalTemperature-Mon": "?",
+                "RackInternalPressure-Mon": "?",
+                "voltage": "?",
+                "RackOpen-Mon": "?",
+                "fanspeed": "?",
+                "RackInternalHumidity-Mon": "?"
+            },
+            "config": {
+                "pvs": [
+                    "IA-20RaELP01:IoT-SIMAR-01:RackInternalTemperature-Mon",
+                    "IA-20RaELP01:IoT-SIMAR-01:RackInternalPressure-Mon",
+                    "",
+                    "IA-20RaELP01:IoT-SIMAR-01:RackOpen-Mon",
+                    "",
+                    "IA-20RaELP01:IoT-SIMAR-01:RackInternalHumidity-Mon"
+                ],
+                "t_hihi": 40,
+                "t_hi": 27,
+                "t_lolo": 10,
+                "t_lo": 0,
+                "v_hihi": 1.5,
+                "v_hi": 1,
+                "v_lolo": 0.3,
+                "v_lo": 0.5,
+                "h_hihi": 100,
+                "h_hi": 100,
+                "h_lolo": 0,
+                "h_lo": 0
+            }
+        },
+        {
+            "fields": {
+                "name": "Room 20, CON Rack",
+                "RackInternalTemperature-Mon": "?",
+                "RackInternalPressure-Mon": "?",
+                "voltage": "?",
+                "RackOpen-Mon": "?",
+                "fanspeed": "?",
+                "RackInternalHumidity-Mon": "?"
+            },
+            "config": {
+                "pvs": [
+                    "IA-20RaCtrl:IoT-SIMAR-01:RackInternalTemperature-Mon",
+                    "IA-20RaCtrl:IoT-SIMAR-01:RackInternalPressure-Mon",
+                    "",
+                    "IA-20RaCtrl:IoT-SIMAR-01:RackOpen-Mon",
+                    "",
+                    "IA-20RaCtrl:IoT-SIMAR-01:RackInternalHumidity-Mon"
+                ],
+                "t_hihi": 40,
+                "t_hi": 27,
+                "t_lolo": 10,
+                "t_lo": 0,
+                "v_hihi": 1.5,
+                "v_hi": 1,
+                "v_lolo": 0.3,
+                "v_lo": 0.5,
+                "h_hihi": 100,
+                "h_hi": 100,
+                "h_lolo": 0,
+                "h_lo": 0
+            }
+        },
+        {
+            "fields": {
+                "name": "Room 20, ELP-2 Rack",
+                "RackInternalTemperature-Mon": "?",
+                "RackInternalPressure-Mon": "?",
+                "voltage": "?",
+                "RackOpen-Mon": "?",
+                "fanspeed": "?",
+                "RackInternalHumidity-Mon": "?"
+            },
+            "config": {
+                "pvs": [
+                    "IA-20RaELP02:IoT-SIMAR-01:RackInternalTemperature-Mon",
+                    "IA-20RaELP02:IoT-SIMAR-01:RackInternalPressure-Mon",
+                    "",
+                    "IA-20RaELP02:IoT-SIMAR-01:RackOpen-Mon",
+                    "",
+                    "IA-20RaELP02:IoT-SIMAR-01:RackInternalHumidity-Mon"
+                ],
+                "t_hihi": 40,
+                "t_hi": 27,
+                "t_lolo": 10,
+                "t_lo": 0,
+                "v_hihi": 1.5,
+                "v_hi": 1,
+                "v_lolo": 0.3,
+                "v_lo": 0.5,
+                "h_hihi": 100,
+                "h_hi": 100,
+                "h_lolo": 0,
+                "h_lo": 0
+            }
+        },
+        {
+            "fields": {
+                "name": "Room 20, VAC Rack",
+                "RackInternalTemperature-Mon": "?",
+                "RackInternalPressure-Mon": "?",
+                "voltage": "?",
+                "RackOpen-Mon": "?",
+                "fanspeed": "?",
+                "RackInternalHumidity-Mon": "?"
+            },
+            "config": {
+                "pvs": [
+                    "IA-20RaVAC:IoT-SIMAR-01:RackInternalTemperature-Mon",
+                    "IA-20RaVAC:IoT-SIMAR-01:RackInternalPressure-Mon",
+                    "",
+                    "IA-20RaVAC:IoT-SIMAR-01:RackOpen-Mon",
+                    "",
+                    "IA-20RaVAC:IoT-SIMAR-01:RackInternalHumidity-Mon"
                 ],
                 "t_hihi": 40,
                 "t_hi": 27,

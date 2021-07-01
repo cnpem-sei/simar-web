@@ -39,9 +39,7 @@ export default {
         "Voltage",
         "Rack open",
         "Fan speed",
-        "Humidity",
-        "Cor. Temperature",
-        "Cor. Pressure",
+        "Humidity"
       ],
       pvs: {
         name: "name",
@@ -50,9 +48,7 @@ export default {
         Voltage: "voltage",
         "Rack open": "RackOpen-Mon",
         "Fan speed": "fanspeed",
-        Humidity: "Humidity-Mon",
-        "Cor. Temperature": "CorridorCTemperature-Mon",
-        "Cor. Pressure": "CorridorCPressure-Mon",
+        Humidity: "RackInternalHumidity-Mon"
       },
     },
   }),
