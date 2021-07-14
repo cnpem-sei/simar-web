@@ -158,7 +158,7 @@
                     "IA-20RaEPP:IoT-SIMAR-01:RackInternalPressure-Mon",
                     "",
                     "",
-                    "",
+                    "IA-20RaEPP:IoT-SIMAR-01:RackOpen-Mon",
                     "",
                     "IA-20RaEPP:IoT-SIMAR-01:RackInternalHumidity-Mon"
                 ],
@@ -293,6 +293,39 @@
                     "IA-20RaVAC:IoT-SIMAR-01:RackOpen-Mon",
                     "",
                     "IA-20RaVAC:IoT-SIMAR-01:RackInternalHumidity-Mon"
+                ],
+                "t_hihi": 40,
+                "t_hi": 27,
+                "t_lolo": 10,
+                "t_lo": 0,
+                "v_hihi": 1.5,
+                "v_hi": 1,
+                "v_lolo": 0.3,
+                "v_lo": 0.5,
+                "h_hihi": 100,
+                "h_hi": 100,
+                "h_lolo": 0,
+                "h_lo": 0
+            }
+        },
+        {
+            "fields": {
+                "name": "Sector 18, M1",
+                "RackInternalTemperature-Mon": "?",
+                "RackInternalPressure-Mon": "?",
+                "voltage": "?",
+                "RackOpen-Mon": "?",
+                "fanspeed": "?",
+                "RackInternalHumidity-Mon": "?"
+            },
+            "config": {
+                "pvs": [
+                    "SI-18M1:IoT-SIMAR-01:Temperature-Mon",
+                    "SI-18M1:IoT-SIMAR-01:Pressure-Mon",
+                    "",
+                    "",
+                    "",
+                    "SI-18M1:IoT-SIMAR-01:Humidity-Mon"
                 ],
                 "t_hihi": 40,
                 "t_hi": 27,

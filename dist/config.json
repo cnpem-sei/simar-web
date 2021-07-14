@@ -188,12 +188,12 @@
             },
             "config": {
                 "pvs": [
-                    "IA-20RaELP01:IoT-SIMAR-01:RackInternalTemperature-Mon",
-                    "IA-20RaELP01:IoT-SIMAR-01:RackInternalPressure-Mon",
+                    "IA-20RaPS01:IoT-SIMAR-01:RackInternalTemperature-Mon",
+                    "IA-20RaPS01:IoT-SIMAR-01:RackInternalPressure-Mon",
                     "",
-                    "IA-20RaELP01:IoT-SIMAR-01:RackOpen-Mon",
+                    "IA-20RaPS01:IoT-SIMAR-01:RackOpen-Mon",
                     "",
-                    "IA-20RaELP01:IoT-SIMAR-01:RackInternalHumidity-Mon"
+                    "IA-20RaPS01:IoT-SIMAR-01:RackInternalHumidity-Mon"
                 ],
                 "t_hihi": 40,
                 "t_hi": 27,
@@ -254,12 +254,12 @@
             },
             "config": {
                 "pvs": [
-                    "IA-20RaELP02:IoT-SIMAR-01:RackInternalTemperature-Mon",
-                    "IA-20RaELP02:IoT-SIMAR-01:RackInternalPressure-Mon",
+                    "IA-20RaPS02:IoT-SIMAR-01:RackInternalTemperature-Mon",
+                    "IA-20RaPS02:IoT-SIMAR-01:RackInternalPressure-Mon",
                     "",
-                    "IA-20RaELP02:IoT-SIMAR-01:RackOpen-Mon",
+                    "IA-20RaPS02:IoT-SIMAR-01:RackOpen-Mon",
                     "",
-                    "IA-20RaELP02:IoT-SIMAR-01:RackInternalHumidity-Mon"
+                    "IA-20RaPS02:IoT-SIMAR-01:RackInternalHumidity-Mon"
                 ],
                 "t_hihi": 40,
                 "t_hi": 27,
