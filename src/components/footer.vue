@@ -2,7 +2,7 @@
   <v-footer color="primary darken-2" padless>
     <v-row justify="center" no-gutters>
       <v-btn
-        href="https://wiki-sirius.lnls.br/mediawiki/index.php/CON:CON"
+        href="https://cnpemcamp.sharepoint.com/sites/iot/SitePages/SIMAR-Soft.aspxN"
         color="white"
         text
         rounded
