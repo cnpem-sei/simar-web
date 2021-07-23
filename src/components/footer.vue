@@ -2,7 +2,7 @@
   <v-footer color="primary darken-2" padless>
     <v-row justify="center" no-gutters>
       <v-btn
-        href="https://cnpemcamp.sharepoint.com/sites/iot/SitePages/SIMAR-Soft.aspxN"
+        href="https://cnpemcamp.sharepoint.com/sites/iot/SitePages/SIMAR-Soft.aspx"
         color="white"
         text
         rounded
