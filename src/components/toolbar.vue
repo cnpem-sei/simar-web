@@ -1,6 +1,11 @@
 <template>
   <v-container fluid>
     <v-toolbar src="../assets/back.png" dark color="blue darken-3" class="mb-1">
+      <template v-if="$vuetify.breakpoint.smAndDown">
+        <v-btn icon v-on:click="dropdown = !dropdown">
+          <v-icon>mdi-menu</v-icon>
+        </v-btn>
+      </template>
       <v-text-field
         v-on:input="$emit('search', $event)"
         clearable
@@ -17,15 +22,13 @@
           flat
           solo-inverted
           hide-details
+          v-model="settings.sortBy"
           :items="this.settings.keys"
           prepend-inner-icon="mdi-magnify"
           label="Sort by"
         ></v-select>
         <v-spacer></v-spacer>
-        <v-btn-toggle
-          v-on:change="$emit('desc', $event)"
-          mandatory
-        >
+        <v-btn-toggle v-on:change="$emit('desc', $event)" mandatory>
           <v-btn large depressed color="blue" :value="false" align="start">
             <v-icon>mdi-trending-up</v-icon>
           </v-btn>
@@ -34,11 +37,9 @@
           </v-btn>
         </v-btn-toggle>
       </template>
-      <template v-if="$vuetify.breakpoint.smAndDown">
-        <v-btn icon v-on:click="dropdown = !dropdown">
-          <v-icon>mdi-menu</v-icon>
-        </v-btn>
-      </template>
+
+      <v-spacer></v-spacer>
+      <login style="flex-grow: 0" v-on="$listeners"></login>
     </v-toolbar>
     <v-toolbar
       v-if="dropdown && $vuetify.breakpoint.smAndDown"
@@ -56,23 +57,40 @@
         label="Sort by"
       ></v-select>
       <v-spacer></v-spacer>
-        <v-btn large depressed color="blue" v-show="!this.settings.sortDesc" v-on:click="$emit('desc', true)">
-          <v-icon>mdi-trending-down</v-icon>
-        </v-btn>
-        <v-btn large depressed color="blue" v-show="this.settings.sortDesc" align="start" v-on:click="$emit('desc', false)">
-          <v-icon>mdi-trending-up</v-icon>
-        </v-btn>
+      <v-btn
+        large
+        depressed
+        color="blue"
+        v-show="!this.settings.sortDesc"
+        v-on:click="$emit('desc', true)"
+      >
+        <v-icon>mdi-trending-down</v-icon>
+      </v-btn>
+      <v-btn
+        large
+        depressed
+        color="blue"
+        v-show="this.settings.sortDesc"
+        align="start"
+        v-on:click="$emit('desc', false)"
+      >
+        <v-icon>mdi-trending-up</v-icon>
+      </v-btn>
     </v-toolbar>
   </v-container>
 </template>
 
 <script>
+import login from "./login";
+
 export default {
-  props: ["settings"],
+  components: { login },
+  props: ["settings", "account"],
   data() {
     return {
       filter: {},
       dropdown: false,
+      logged: true,
     };
   },
 };

@@ -28,9 +28,6 @@
       >
         contact
       </v-btn>
-      <v-col class="primary darken-3 py-4 text-center white--text" cols="12">
-        {{ new Date().getFullYear() }} — <strong>CNPEM</strong>
-      </v-col>
     </v-row>
   </v-footer>
 </template>

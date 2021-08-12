@@ -22,9 +22,8 @@
           >
             <iteratorcard
               :key="item.name"
-              v-bind:items="props.items"
               v-bind:item="item"
-              v-bind:pvs="pvs"
+              v-bind:keys="settings.keys"
               v-bind:filteredKeys="filteredKeys"
             />
           </v-col>
@@ -108,16 +107,32 @@ const getUrl = () => {
 const parseJSON = async (self) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      let pvs = [];
-
       fetch("config.json")
         .then((response) => response.json())
         .then((data) => {
+          const pvs = [];
           self.headers = data.headers;
           self.symbols = data.symbols;
           for (const item of data.items) {
-            self.items.push(Object.assign({}, item.fields, item.config));
-            pvs = pvs.concat(item.config.pvs);
+            self.items.push(
+              Object.assign(
+                {},
+                item.fields,
+                item.config,
+                {
+                  outlets: {
+                    voltages: ["?", "?", "?", "?", "?", "?"],
+                    currents: ["?", "?", "5", "?", "?", "?"],
+                  },
+                },
+                { values: ["?", "?", "?", "?", "?", "?"] }
+              )
+            );
+            for (let inner_pv of item.config.pvs) {
+              if (inner_pv !== "") {
+                pvs.push(inner_pv);
+              }
+            }
           }
           resolve(pvs);
         });
@@ -139,7 +154,8 @@ export default {
       items: [],
       symbols: {},
       edit_fan: false,
-      pvs: this.settings.pvs,
+      con: undefined,
+      url: "",
     };
   },
   computed: {
@@ -153,48 +169,45 @@ export default {
   methods: {
     numSort(items, index) {
       items.sort((a, b) => {
-        const pv_index = this.settings.pvs[index[0]];
+        if (index[0] === "Name") {
+          if (!this.settings.sortDesc) return a.name > b.name;
+          else return b.name > a.name;
+        }
+
+        const pv_index = this.settings.keys.indexOf(index[0]);
         let c = pv_index === "Humidity-Mon" ? "%" : " ";
 
-        if (pv_index !== "RackOpen-Mon" && pv_index !== "name") {
+        if (pv_index !== "RackOpen-Mon") {
           if (!this.settings.sortDesc)
             return (
-              parseFloat(a[pv_index].substring(0, a[pv_index].indexOf(c))) >
-              parseFloat(b[pv_index].substring(0, b[pv_index].indexOf(c)))
+              parseFloat(
+                a.values[pv_index].substring(0, a.values[pv_index].indexOf(c))
+              ) >
+              parseFloat(
+                b.values[pv_index].substring(0, b.values[pv_index].indexOf(c))
+              )
             );
           else
             return (
-              parseFloat(b[pv_index].substring(0, b[pv_index].indexOf(c))) >
-              parseFloat(a[pv_index].substring(0, a[pv_index].indexOf(c)))
+              parseFloat(
+                b.values[pv_index].substring(0, b.values[pv_index].indexOf(c))
+              ) >
+              parseFloat(
+                a.values[pv_index].substring(0, a.values[pv_index].indexOf(c))
+              )
             );
         } else {
-          if (!this.settings.sortDesc) return a[pv_index] > b[pv_index];
-          else return b[pv_index] > a[pv_index];
+          if (!this.settings.sortDesc)
+            return a.values[pv_index] > b.values[pv_index];
+          else return b.values[pv_index] > a.values[pv_index];
         }
       });
       return items;
     },
-    nextPage() {
-      if (this.page + 1 <= this.numberOfPages) this.page += 1;
-    },
-    formerPage() {
-      if (this.page - 1 >= 1) this.page -= 1;
-    },
-    updateItemsPerPage(number) {
-      this.itemsPerPage = number;
-    },
-  },
-  created() {
-    let self = this;
-    let url = getUrl();
+    async openPVs() {
+      let pvs = await parseJSON(this);
 
-    var options = { url: "ws://" + url + "/epics2web/monitor" };
-    var con = new e2w.jlab.epics2web.ClientConnection(options);
-
-    con.onopen = async function () {
-      let pvs = await parseJSON(self);
-
-      for (let c of self.items) {
+      for (let c of this.items) {
         for (const pv of c.pvs) {
           const type_index = pv.substring(pv.lastIndexOf(":") + 1);
           let m_type = type_index.substring(0, 1).toLowerCase();
@@ -207,37 +220,61 @@ export default {
             m_type = type_index.substring(12, 13).toLowerCase();
 
           if (pv !== "") {
-            fetch("http://" + url + "/retrieval/bpl/getMetadata?pv=" + pv).then(
-              (data) => {
-                if (data !== undefined) {
-                  c[m_type + "_hihi"] = data.HIHI ?? c[m_type + "_hihi"];
-                  c[m_type + "_hi"] = data.HIGH ?? c[m_type + "_hi"];
-                  c[m_type + "_lolo"] = data.LOLO ?? c[m_type + "_lolo"];
-                  c[m_type + "_lo"] = data.LO ?? c[m_type + "_lo"];
-                }
+            fetch(
+              "http://" + this.url + "/retrieval/bpl/getMetadata?pv=" + pv
+            ).then((data) => {
+              if (data !== undefined) {
+                c[m_type + "_hihi"] = data.HIHI ?? c[m_type + "_hihi"];
+                c[m_type + "_hi"] = data.HIGH ?? c[m_type + "_hi"];
+                c[m_type + "_lolo"] = data.LOLO ?? c[m_type + "_lolo"];
+                c[m_type + "_lo"] = data.LO ?? c[m_type + "_lo"];
               }
-            );
+            });
           }
         }
       }
 
-      con.monitorPvs(pvs);
-    };
-
-    con.onupdate = function (e) {
+      this.con.monitorPvs(pvs);
+    },
+    onUpdate(e) {
       const pv = e.detail.pv;
-      let pv_type = pv.substring(pv.lastIndexOf(":") + 1);
-      const index = self.items.findIndex((i) => i.pvs.includes(pv));
+      const index = this.items.findIndex((i) => i.pvs.includes(pv));
+      const pv_index = this.items[index].pvs.indexOf(e.detail.pv);
 
-      if (pv_type === "Temperature-Mon" || pv_type === "Pressure-Mon" || pv_type === "Humidity-Mon")
-        pv_type = "RackInternal" + pv_type;
+      if (pv.includes("RackOpen-Mon")) {
+        this.$set(
+          this.items[index].values,
+          pv_index,
+          e.detail.value == 0 ? "No" : "Yes"
+        );
+      } else {
+        this.$set(
+          this.items[index].values,
+          pv_index,
+          e.detail.value.toFixed(2) + this.symbols[pv_index]
+        );
+      }
 
-      if (pv_type === "RackOpen-Mon")
-        self.items[index][pv_type] = e.detail.value == 0 ? "No" : "Yes";
-      else
-        self.items[index][pv_type] =
-          e.detail.value.toFixed(2) + self.symbols[pv_type];
-    };
+      this.$forceUpdate();
+    },
+    nextPage() {
+      if (this.page + 1 <= this.numberOfPages) this.page += 1;
+    },
+    formerPage() {
+      if (this.page - 1 >= 1) this.page -= 1;
+    },
+    updateItemsPerPage(number) {
+      this.itemsPerPage = number;
+    },
+  },
+  created() {
+    this.url = getUrl();
+
+    var options = { url: "ws://" + this.url + "/epics2web/monitor" };
+    this.con = new e2w.jlab.epics2web.ClientConnection(options);
+
+    this.con.onopen = this.openPVs;
+    this.con.onupdate = this.onUpdate;
   },
 };
 </script>
