@@ -7,17 +7,19 @@ const store = new Vuex.Store({
     state: {
         msalConfig: {
             auth: {
-                clientId: "22b80e5a-e13f-48a2-b20f-9b3c24b90d64",
+                clientId: "",
                 authority:
-                    'https://login.microsoftonline.com/ed764e1f-b3b8-4aaf-8fb2-1d05be08443b',
+                    '',
             },
             cache: {
                 cacheLocation: 'localStorage',
             },
         },
-        accessToken: '',
-        msalInstance: '',
-        account: undefined
+        accessToken: "",
+        msalInstance: "",
+        account: undefined,
+        message: "",
+        snackbar: false
     },
     mutations: {
         setAccessToken(state, token) {
@@ -28,6 +30,13 @@ const store = new Vuex.Store({
         },
         setAccount(state, account) {
             state.account = account;
+        },
+        showSnackbar(state, message) {
+            state.snackbar = true;
+            state.message = message;
+        },
+        hideSnackbar(state) {
+            state.snackbar = false;
         }
     }
 });

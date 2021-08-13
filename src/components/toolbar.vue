@@ -24,7 +24,7 @@
           hide-details
           v-model="settings.sortBy"
           :items="this.settings.keys"
-          prepend-inner-icon="mdi-magnify"
+          prepend-inner-icon="mdi-sort"
           label="Sort by"
         ></v-select>
         <v-spacer></v-spacer>

@@ -1,6 +1,4 @@
-module.exports = {
-  
-}
+var fs = require('fs');
 
 module.exports = {
   publicPath: '',
@@ -14,5 +12,16 @@ module.exports = {
         args[0].title = "SIMAR - EPICS Variant";
         return args;
       })
-  }
+  },
+  devServer: {
+    open: process.platform === 'darwin',
+    host: '0.0.0.0',
+    https: {
+      key: fs.readFileSync('./sim.key'),
+      cert: fs.readFileSync('./sim.crt'),
+    },
+    port: 8085, // CHANGE YOUR PORT HERE!
+    https: true,
+    hotOnly: false,
+  },
 }

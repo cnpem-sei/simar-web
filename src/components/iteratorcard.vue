@@ -3,7 +3,7 @@
     <v-card-title class="subheading font-weight-bold">
       {{ item.name }}
       <v-spacer></v-spacer>
-      <config v-bind:name="item.name" v-bind:outlets="item.outlets" />
+      <config v-bind:name="item.name" v-bind:outlets="item.outlets" v-on="$listeners" />
     </v-card-title>
 
     <v-divider></v-divider>

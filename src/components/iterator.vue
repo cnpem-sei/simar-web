@@ -96,7 +96,8 @@ const getUrl = () => {
   if (
     host.includes("0.0.0.0") ||
     host.includes("localhost") ||
-    host.includes("10.0.38.50")
+    host.includes("10.0.38.50") ||
+    host.includes("10.0.6.70")
   ) {
     host = "10.0.38.42";
     console.log("__`o##o>__ DEBUG SERVER. Setting host to 10.0.38.42");
@@ -121,8 +122,8 @@ const parseJSON = async (self) => {
                 item.config,
                 {
                   outlets: {
-                    voltages: ["?", "?", "?", "?", "?", "?"],
-                    currents: ["?", "?", "5", "?", "?", "?"],
+                    voltages: ["?", "?", "?", "?", "?", "?", "?", "?"],
+                    currents: ["?", "?", "?", "?", "?", "?", "?", "?"],
                   },
                 },
                 { values: ["?", "?", "?", "?", "?", "?"] }
@@ -220,16 +221,10 @@ export default {
             m_type = type_index.substring(12, 13).toLowerCase();
 
           if (pv !== "") {
-            fetch(
-              "http://" + this.url + "/retrieval/bpl/getMetadata?pv=" + pv
-            ).then((data) => {
-              if (data !== undefined) {
-                c[m_type + "_hihi"] = data.HIHI ?? c[m_type + "_hihi"];
-                c[m_type + "_hi"] = data.HIGH ?? c[m_type + "_hi"];
-                c[m_type + "_lolo"] = data.LOLO ?? c[m_type + "_lolo"];
-                c[m_type + "_lo"] = data.LO ?? c[m_type + "_lo"];
-              }
-            });
+            c[m_type + "_hihi"] = c[m_type + "_hihi"];
+            c[m_type + "_hi"] = c[m_type + "_hi"];
+            c[m_type + "_lolo"] = c[m_type + "_lolo"];
+            c[m_type + "_lo"] = c[m_type + "_lo"];
           }
         }
       }

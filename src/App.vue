@@ -14,12 +14,12 @@
     </v-main>
     <ft />
 
-    <v-snackbar v-model="snackbar" timeout="4000" color="white" light>
-      {{ snackbar_text }}
+    <v-snackbar v-model="$store.state.snackbar" timeout="4000" color="white" light>
+      {{ $store.state.message }}
 
       <template v-slot:action="{ attrs }">
-        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
-          Close
+        <v-btn icon text v-bind="attrs" @click="$store.commit('hideSnackbar');">
+          <v-icon>mdi-close</v-icon>
         </v-btn>
       </template>
     </v-snackbar>
@@ -55,8 +55,8 @@ export default {
       pvs: {},
     },
     account: undefined,
-    snackbar_text: "Testing text",
-    snackbar: true,
+    snackbar_text: "",
+    snackbar: false,
   }),
   async created() {
     const msalInstance = new PublicClientApplication(
@@ -88,10 +88,6 @@ export default {
     getInitials(account) {
       return account.name.split(" ")[0].substring(0, 1);
     },
-    showSnackbar(text) {
-      this.snackbar_text = text;
-      this.snackbar = true;
-    },
     async login() {
       await this.$store.state.msalInstance
         .loginPopup({})
@@ -103,7 +99,7 @@ export default {
         .catch((error) => {
           console.error(`error during authentication: ${error}`);
         });
-      this.showSnackbar(`Logged in as ${this.$store.state.account.username}`);
+      this.$store.commit("showSnackbar", `Logged in as ${this.$store.state.account.username}`);
     },
     async logout() {
       await this.$store.state.msalInstance.logout({}).catch((error) => {
