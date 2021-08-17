@@ -7,32 +7,6 @@
         "%"
     ],
     "items": {
-        "10.0.6.58 - BBB-NEW-2020": [
-            {
-                "name": "TEST DUMMY",
-                "config": {
-                    "pvs": [
-                        "IA-17RaCtrl:IoT-SIMAR-01:RackInternalTemperature-Mon",
-                        "IA-17RaCtrl:IoT-SIMAR-01:RackInternalPressure-Mon",
-                        "IA-17RaCtrl:IoT-SIMAR-01:RackOpen-Mon",
-                        "",
-                        ""
-                    ],
-                    "t_hihi": 40,
-                    "t_hi": 28,
-                    "t_lolo": 10,
-                    "t_lo": 0,
-                    "p_hihi": 1200,
-                    "p_hi": 1000,
-                    "p_lolo": 600,
-                    "p_lo": 700,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5
-                }
-            }
-        ],
         "10.128.117.142 - BBB-SIMAR-IA17-RaCtrl2": [
             {
                 "name": "Room 17, CON Rack",
