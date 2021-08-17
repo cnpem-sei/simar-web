@@ -64,8 +64,10 @@ export default {
     );
 
     this.$store.commit("setInstance", msalInstance);
+
+    console.log(this.$store.state.account);
   },
-  mounted() {
+  async mounted() {
     const accounts = this.$store.state.msalInstance.getAllAccounts();
     if (accounts.length == 0) {
       return;

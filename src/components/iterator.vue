@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-data-iterator
-      :items="items"
+      :items="filterValidItems"
       :items-per-page.sync="itemsPerPage"
       :page.sync="page"
       :search="this.settings.search"
@@ -112,28 +112,30 @@ const parseJSON = async (self) => {
         .then((response) => response.json())
         .then((data) => {
           const pvs = [];
-          self.headers = data.headers;
           self.symbols = data.symbols;
-          for (const item of data.items) {
+          for (const [parent, children] of Object.entries(data.items)) {
+            for(const sensor of children) {
             self.items.push(
               Object.assign(
                 {},
-                item.fields,
-                item.config,
+                sensor.config,
                 {
+                  parent: parent,
+                  name: sensor.name,
                   outlets: {
-                    voltages: ["?", "?", "?", "?", "?", "?", "?", "?"],
+                    voltages: ["220", "?", "?", "?", "?", "?", "?", "?"],
                     currents: ["?", "?", "?", "?", "?", "?", "?", "?"],
                   },
                 },
                 { values: ["?", "?", "?", "?", "?", "?"] }
               )
             );
-            for (let inner_pv of item.config.pvs) {
+            for (let inner_pv of sensor.config.pvs) {
               if (inner_pv !== "") {
                 pvs.push(inner_pv);
               }
             }
+          }
           }
           resolve(pvs);
         });
@@ -164,8 +166,11 @@ export default {
       return Math.ceil(this.items.length / this.itemsPerPage);
     },
     filteredKeys() {
-      return this.settings.keys.filter((key) => key !== "Name");
+      return this.settings.keys.filter(key => key !== "Name");
     },
+    filterValidItems() {
+      return this.items.filter(i => i.values[1] !== "0 hPa")
+    }
   },
   methods: {
     numSort(items, index) {

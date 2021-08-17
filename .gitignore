@@ -22,3 +22,5 @@ pnpm-debug.log*
 *.sw?
 *.key
 *.crt
+
+src/store/index.js
