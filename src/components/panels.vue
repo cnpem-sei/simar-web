@@ -61,7 +61,7 @@ export default {
       )
         return "red";
       if (
-        this.outlets.voltage === "?" &&
+        this.outlets.voltage === "?" ||
         this.outlets.currents[index] === "?"
       )
         return "grey";
