@@ -14,7 +14,7 @@
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-list dense style="column-count: 2">
-          <v-list-item v-for="(key, index) in outlets.voltages" :key="index">
+          <v-list-item v-for="(key, index) in outlets.currents" :key="index">
             <v-list-item-icon style="margin-right: 3px"
               ><v-icon :color="get_color(index)"
                 >mdi-power-plug-outline</v-icon
@@ -24,8 +24,8 @@
             <v-spacer />
             <v-chip small :color="get_color(index)" dark>
               {{
-                `${outlets.voltages[index]} ${
-                  outlets.voltages[index] !== "?" ? "V" : ""
+                `${outlets.voltage} ${
+                  outlets.voltage !== "?" ? "V" : ""
                 } / ${outlets.currents[index]} ${
                   outlets.currents[index] !== "?" ? "A" : ""
                 }`
@@ -49,21 +49,19 @@ export default {
   methods: {
     get_color(index) {
       this.critical =
-        this.outlets.voltages.some((volt) => {
-          return volt !== "?" && (volt > 240 || volt < 200);
-        }) ||
+        (this.outlets.voltage !== "?" && this.outlets.voltage > 240 || this.outlets.voltage < 100) ||
         this.outlets.currents.some((current) => {
           return current !== "?" && current > 20;
         });
 
       if (
-        this.outlets.voltages[index] > 240 ||
-        this.outlets.voltages[index] < 200 ||
+        this.outlets.voltage > 240 ||
+        this.outlets.voltage < 100 ||
         this.outlets.currents[index] > 20
       )
         return "red";
       if (
-        this.outlets.voltages[index] === "?" &&
+        this.outlets.voltage === "?" &&
         this.outlets.currents[index] === "?"
       )
         return "grey";

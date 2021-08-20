@@ -4,7 +4,9 @@
         " hPa",
         "",
         "",
-        "%"
+        "%",
+        "V",
+        "A"
     ],
     "items": {
         "10.128.117.142 - BBB-SIMAR-IA17-RaCtrl2": [
@@ -393,6 +395,34 @@
                         "IA-19RaDiag02:IoT-SIMAR-01:RackOpen-Mon",
                         "",
                         ""
+                    ],
+                    "t_hihi": 40,
+                    "t_hi": 28,
+                    "t_lolo": 10,
+                    "t_lo": 0,
+                    "v_hihi": 1.5,
+                    "v_hi": 1,
+                    "v_lolo": 0.3,
+                    "v_lo": 0.5,
+                    "h_hihi": 100,
+                    "h_hi": 100,
+                    "h_lolo": 0,
+                    "h_lo": 0
+                }
+            }
+        ],
+        "10.0.6.31 - BBB-NEW-2020": [
+            {
+                "name": "Voltage Testing",
+                "config": {
+                    "pvs": [
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "Test:IoT-SIMAR-01:Volt-Mon",
+                        "Test:IoT-SIMAR-01:Current-Mon"
                     ],
                     "t_hihi": 40,
                     "t_hi": 28,

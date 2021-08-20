@@ -20,7 +20,7 @@ module.exports = {
       key: fs.readFileSync('./sim.key'),
       cert: fs.readFileSync('./sim.crt'),
     },
-    port: 8085, // CHANGE YOUR PORT HERE!
+    port: 8085,
     https: true,
     hotOnly: false,
   },

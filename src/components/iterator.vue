@@ -123,7 +123,7 @@ const parseJSON = async (self) => {
                   parent: parent,
                   name: sensor.name,
                   outlets: {
-                    voltages: ["220", "?", "?", "?", "?", "?", "?", "?"],
+                    voltage: "?",
                     currents: ["?", "?", "?", "?", "?", "?", "?", "?"],
                   },
                 },
@@ -247,6 +247,10 @@ export default {
           pv_index,
           e.detail.value == 0 ? "No" : "Yes"
         );
+      } else if(pv_index === 5) {
+        this.items[index].outlets.voltage = e.detail.value.toFixed(2);
+      } else if(pv_index > 5) {
+        this.items[index].outlets.currents[pv_index - 6] = e.detail.value.toFixed(2);
       } else {
         this.$set(
           this.items[index].values,

@@ -25,7 +25,7 @@
       </v-card-subtitle>
       <v-divider />
       <v-list dense style="column-count: 3">
-        <v-list-item v-for="(key, index) in item.outlets.voltages" :key="index">
+        <v-list-item v-for="(key, index) in item.outlets.currents" :key="index">
           <v-list-item-content>
             <v-col>
               <v-list-item-title
@@ -34,9 +34,9 @@
                 >{{ index }}</v-list-item-title
               >
               <v-list-item-subtitle style="text-align: center">
-                {{ item.outlets.voltages[index] }}
+                {{ item.outlets.voltage }}
                 {{
-                  item.outlets.voltages[index] !== "?" ? "V" : ""
+                  item.outlets.voltage !== "?" ? "V" : ""
                 }}</v-list-item-subtitle
               >
               <v-list-item-subtitle style="text-align: center">
@@ -93,7 +93,7 @@ export default {
       let command = "";
       const username = this.$store.state.account.username.substring(0, this.$store.state.account.username.indexOf("@"));
 
-      for (let i = 0; i < this.item.outlets.voltages.length; i++) {
+      for (let i = 0; i < this.item.outlets.currents.length; i++) {
         if (this.outlets.includes(i) && !this.prevOutlets.includes(i))
           command += `1:${i}:${username}/`;
         else if (!this.outlets.includes(i) && this.prevOutlets.includes(i))
@@ -124,21 +124,19 @@ export default {
     },
     get_color(index) {
       this.critical =
-        this.item.outlets.voltages.some((volt) => {
-          return volt !== "?" && (volt > 240 || volt < 200);
-        }) ||
+        (this.outlets.voltage !== "?" && this.outlets.voltage > 240 || this.outlets.voltage < 100) ||
         this.item.outlets.currents.some((current) => {
           return current !== "?" && current > 20;
         });
 
       if (
-        this.item.outlets.voltages[index] > 240 ||
-        this.item.outlets.voltages[index] < 200 ||
+        this.item.outlets.voltage > 240 ||
+        this.item.outlets.voltage < 100 ||
         this.item.outlets.currents[index] > 20
       )
         return "red";
       if (
-        this.item.outlets.voltages[index] === "?" &&
+        this.item.outlets.voltage === "?" ||
         this.item.outlets.currents[index] === "?"
       )
         return "grey";
@@ -147,7 +145,8 @@ export default {
   },
   watch: {
     async dialog() {
-      const response = await fetch(
+      let on_outlets = [];
+      let response = await fetch(
         `http://10.0.38.46:7379/HGET/BBB:${this.item.parent.replace(
           " - ",
           ":"
@@ -161,10 +160,24 @@ export default {
         const data = await response.json();
         if (data.HGET !== null) this.status = data.HGET;
       }
-      const on_outlets = [];
 
-      for (let i = 0; i < this.item.outlets.voltages.length; i++)
-        if (this.item.outlets.voltages[i] > 1) on_outlets.push(i);
+      response = await fetch(
+        `http://10.0.38.46:7379/SMEMBERS/SIMAR:${this.item.parent.replace(
+          " - ",
+          ":"
+        )}:Outlets`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.SMEMBERS !== null) on_outlets = data.SMEMBERS.map(parseInt);
+        else on_outlets = [];
+      } else {
+        on_outlets = [];
+      }
 
       this.outlets = this.prevOutlets = on_outlets;
     },

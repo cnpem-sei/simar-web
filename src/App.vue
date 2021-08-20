@@ -64,8 +64,6 @@ export default {
     );
 
     this.$store.commit("setInstance", msalInstance);
-
-    console.log(this.$store.state.account);
   },
   async mounted() {
     const accounts = this.$store.state.msalInstance.getAllAccounts();
@@ -99,7 +97,7 @@ export default {
           this.$store.commit("setAccount", accounts[0]);
         })
         .catch((error) => {
-          console.error(`error during authentication: ${error}`);
+          console.error(`Error during authentication: ${error}`);
         });
       this.$store.commit("showSnackbar", `Logged in as ${this.$store.state.account.username}`);
     },
