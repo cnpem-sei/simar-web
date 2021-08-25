@@ -24,6 +24,11 @@
         {{ item.parent }}
       </v-card-subtitle>
       <v-divider />
+      <v-list>
+        <range name="Temperature" v-bind:item="item"/>
+        <range name="Humidity" v-bind:item="item"/>
+        <range name="Voltage" v-bind:item="item"/>
+      </v-list>
       <v-list dense style="column-count: 3">
         <v-list-item v-for="(key, index) in item.outlets.currents" :key="index">
           <v-list-item-content>
@@ -73,7 +78,10 @@
 </template>
 
 <script>
+import range from "./range"
+
 export default {
+  components: {range},
   props: ["item"],
   data: function () {
     return {
@@ -91,7 +99,10 @@ export default {
       });
 
       let command = "";
-      const username = this.$store.state.account.username.substring(0, this.$store.state.account.username.indexOf("@"));
+      const username = this.$store.state.account.username.substring(
+        0,
+        this.$store.state.account.username.indexOf("@")
+      );
 
       for (let i = 0; i < this.item.outlets.currents.length; i++) {
         if (this.outlets.includes(i) && !this.prevOutlets.includes(i))
@@ -124,7 +135,8 @@ export default {
     },
     get_color(index) {
       this.critical =
-        (this.outlets.voltage !== "?" && this.outlets.voltage > 240 || this.outlets.voltage < 100) ||
+        (this.outlets.voltage !== "?" && this.outlets.voltage > 240) ||
+        this.outlets.voltage < 100 ||
         this.item.outlets.currents.some((current) => {
           return current !== "?" && current > 20;
         });

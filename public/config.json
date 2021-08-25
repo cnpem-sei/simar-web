@@ -20,18 +20,12 @@
                         "",
                         ""
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "p_hihi": 1200,
-                    "p_hi": 1000,
-                    "p_lolo": 600,
-                    "p_lo": 700,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5
+                    "v_hi": 300,
+                    "v_lo": 100,
+                    "h_hi": 100,
+                    "h_lo": 0
                 }
             }
         ],
@@ -48,18 +42,12 @@
                         "",
                         ""
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "p_hihi": 1200,
-                    "p_hi": 1000,
-                    "p_lolo": 600,
-                    "p_lo": 700,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5
+                    "v_hi": 300,
+                    "v_lo": 100,
+                    "h_hi": 100,
+                    "h_lo": 0
                 }
             }
         ],
@@ -74,18 +62,12 @@
                         "",
                         ""
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "p_hihi": 1200,
-                    "p_hi": 1000,
-                    "p_lolo": 600,
-                    "p_lo": 700,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5
+                    "v_hi": 300,
+                    "v_lo": 100,
+                    "h_hi": 100,
+                    "h_lo": 0
                 }
             }
         ],
@@ -102,17 +84,11 @@
                         "",
                         ""
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             }
@@ -128,17 +104,11 @@
                         "",
                         "IA-20RaEPP:IoT-SIMAR-01:RackInternalHumidity-Mon"
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             },
@@ -152,17 +122,11 @@
                         "",
                         "IA-20RaPS01:IoT-SIMAR-01:RackInternalHumidity-Mon"
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             },
@@ -176,17 +140,11 @@
                         "",
                         "IA-20RaCtrl:IoT-SIMAR-01:RackInternalHumidity-Mon"
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             },
@@ -200,17 +158,11 @@
                         "",
                         "IA-20RaPS02:IoT-SIMAR-01:RackInternalHumidity-Mon"
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             },
@@ -224,17 +176,11 @@
                         "",
                         "IA-20RaVAC:IoT-SIMAR-01:RackInternalHumidity-Mon"
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             }
@@ -250,17 +196,11 @@
                         "",
                         "SI-18M1:IoT-SIMAR-01:Humidity-Mon"
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             }
@@ -276,17 +216,11 @@
                         "",
                         "IA-20RaBPM:IoT-SIMAR-01:RackInternalHumidity-Mon"
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             },
@@ -300,17 +234,11 @@
                         "",
                         "IA-20RaBPMTL:IoT-SIMAR-01:RackInternalHumidity-Mon"
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             },
@@ -324,17 +252,11 @@
                         "",
                         ""
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             },
@@ -348,17 +270,11 @@
                         "",
                         ""
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             },
@@ -372,17 +288,11 @@
                         "",
                         ""
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             },
@@ -396,17 +306,11 @@
                         "",
                         ""
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             }
@@ -424,17 +328,11 @@
                         "Test:IoT-SIMAR-01:Volt-Mon",
                         "Test:IoT-SIMAR-01:Current-Mon"
                     ],
-                    "t_hihi": 40,
                     "t_hi": 28,
-                    "t_lolo": 10,
                     "t_lo": 0,
-                    "v_hihi": 1.5,
-                    "v_hi": 1,
-                    "v_lolo": 0.3,
-                    "v_lo": 0.5,
-                    "h_hihi": 100,
+                    "v_hi": 300,
+                    "v_lo": 100,
                     "h_hi": 100,
-                    "h_lolo": 0,
                     "h_lo": 0
                 }
             }

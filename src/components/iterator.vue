@@ -78,33 +78,6 @@
 import * as e2w from "../assets/epics2web.js";
 import iteratorcard from "./iteratorcard.vue";
 
-const getUrl = () => {
-  let host = "10.0.38.42";
-  if (window.location.host === "vpn.cnpem.br") {
-    // If using WEB VPN
-    // Capture IPv4 address
-    const ipRegExp =
-      /https?\/((?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])))\//;
-    const match = ipRegExp.exec(window.location.href);
-    if (match && match.length > 1) {
-      host = match[1];
-    }
-  } else {
-    host = window.location.host;
-  }
-
-  if (
-    host.includes("0.0.0.0") ||
-    host.includes("localhost") ||
-    host.includes("10.0.38.50") ||
-    host.includes("10.0.6.70")
-  ) {
-    host = "10.0.38.42";
-    console.log("__`o##o>__ DEBUG SERVER. Setting host to 10.0.38.42");
-  }
-  return host;
-};
-
 const parseJSON = async (self) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -114,28 +87,28 @@ const parseJSON = async (self) => {
           const pvs = [];
           self.symbols = data.symbols;
           for (const [parent, children] of Object.entries(data.items)) {
-            for(const sensor of children) {
-            self.items.push(
-              Object.assign(
-                {},
-                sensor.config,
-                {
-                  parent: parent,
-                  name: sensor.name,
-                  outlets: {
-                    voltage: "?",
-                    currents: ["?", "?", "?", "?", "?", "?", "?", "?"],
+            for (const sensor of children) {
+              self.items.push(
+                Object.assign(
+                  {},
+                  sensor.config,
+                  {
+                    parent: parent,
+                    name: sensor.name,
+                    outlets: {
+                      voltage: "?",
+                      currents: ["?", "?", "?", "?", "?", "?", "?", "?"],
+                    },
                   },
-                },
-                { values: ["?", "?", "?", "?", "?", "?"] }
-              )
-            );
-            for (let inner_pv of sensor.config.pvs) {
-              if (inner_pv !== "") {
-                pvs.push(inner_pv);
+                  { values: ["?", "?", "?", "?", "?", "?"] }
+                )
+              );
+              for (let inner_pv of sensor.config.pvs) {
+                if (inner_pv !== "") {
+                  pvs.push(inner_pv);
+                }
               }
             }
-          }
           }
           resolve(pvs);
         });
@@ -158,7 +131,6 @@ export default {
       symbols: {},
       edit_fan: false,
       con: undefined,
-      url: "",
     };
   },
   computed: {
@@ -166,11 +138,11 @@ export default {
       return Math.ceil(this.items.length / this.itemsPerPage);
     },
     filteredKeys() {
-      return this.settings.keys.filter(key => key !== "Name");
+      return this.settings.keys.filter((key) => key !== "Name");
     },
     filterValidItems() {
-      return this.items.filter(i => i.values[1] !== "0 hPa")
-    }
+      return this.items.filter((i) => i.values[1] !== "0 hPa");
+    },
   },
   methods: {
     numSort(items, index) {
@@ -247,10 +219,11 @@ export default {
           pv_index,
           e.detail.value == 0 ? "No" : "Yes"
         );
-      } else if(pv_index === 5) {
+      } else if (pv_index === 5) {
         this.items[index].outlets.voltage = e.detail.value.toFixed(2);
-      } else if(pv_index > 5) {
-        this.items[index].outlets.currents[pv_index - 6] = e.detail.value.toFixed(2);
+      } else if (pv_index > 5) {
+        this.items[index].outlets.currents[pv_index - 6] =
+          e.detail.value.toFixed(2);
       } else {
         this.$set(
           this.items[index].values,
@@ -272,13 +245,36 @@ export default {
     },
   },
   created() {
-    this.url = getUrl();
-
-    var options = { url: "ws://" + this.url + "/epics2web/monitor" };
+    var options = { url: "ws://" + this.$store.state.url + "/epics2web/monitor" };
     this.con = new e2w.jlab.epics2web.ClientConnection(options);
 
     this.con.onopen = this.openPVs;
     this.con.onupdate = this.onUpdate;
+  },
+  mounted() {
+    let host = "10.0.38.46";
+    if (window.location.host === "vpn.cnpem.br") {
+      // If using WEB VPN
+      // Capture IPv4 address
+      const ipRegExp =
+        /https?\/((?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])))\//;
+      const match = ipRegExp.exec(window.location.href);
+      if (match && match.length > 1) {
+        host = match[1];
+      }
+    } else {
+      host = window.location.host;
+      if (
+        host.includes("0.0.0.0") ||
+        host.includes("localhost") ||
+        host.includes("10.0.38.50") ||
+        host.includes("10.0.6.70")
+      ) {
+        console.log("__`o##o>__ DEBUG SERVER. Setting host to 10.0.38.46");
+      } else {
+        this.$store.commit("setUrl", host);
+      }
+    }
   },
 };
 </script>

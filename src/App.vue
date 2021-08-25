@@ -55,8 +55,6 @@ export default {
       pvs: {},
     },
     account: undefined,
-    snackbar_text: "",
-    snackbar: false,
   }),
   async created() {
     const msalInstance = new PublicClientApplication(
