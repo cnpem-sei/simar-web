@@ -19,7 +19,8 @@ const store = new Vuex.Store({
         msalInstance: "",
         account: undefined,
         message: "",
-        snackbar: false
+        snackbar: false,
+        url: "10.0.38.46"
     },
     mutations: {
         setAccessToken(state, token) {
@@ -37,7 +38,10 @@ const store = new Vuex.Store({
         },
         hideSnackbar(state) {
             state.snackbar = false;
-        }
+        },
+        setUrl(state, url) {
+            state.url = url;
+        },
     }
 });
 
