@@ -142,8 +142,8 @@ export default {
         });
 
       if (
-        this.item.outlets.voltage > 240 ||
-        this.item.outlets.voltage < 100 ||
+        this.item.outlets.voltage > this.item.v_hi ||
+        this.item.outlets.voltage < this.item.v_lo ||
         this.item.outlets.currents[index] > 20
       )
         return "red";
@@ -170,7 +170,7 @@ export default {
 
       if (response.ok) {
         const data = await response.json();
-        if (data.HGET !== null) this.status = data.HGET;
+        this.status = data.HGET;
       }
 
       response = await fetch(

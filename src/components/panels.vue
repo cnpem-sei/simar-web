@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  props: ["outlets"],
+  props: ["outlets", "limits"],
   data: function () {
     return {
       critical: false,
@@ -49,22 +49,24 @@ export default {
   methods: {
     get_color(index) {
       this.critical =
-        (this.outlets.voltage !== "?" && this.outlets.voltage > 240 || this.outlets.voltage < 100) ||
+        (this.outlets.voltage !== "?" && this.outlets.voltage > this.limits.hi || this.outlets.voltage < this.limits.lo) ||
         this.outlets.currents.some((current) => {
           return current !== "?" && current > 20;
         });
 
       if (
-        this.outlets.voltage > 240 ||
-        this.outlets.voltage < 100 ||
-        this.outlets.currents[index] > 20
-      )
-        return "red";
-      if (
         this.outlets.voltage === "?" ||
         this.outlets.currents[index] === "?"
       )
         return "grey";
+
+      if (
+        this.outlets.voltage > this.limits.hi ||
+        this.outlets.voltage < this.limits.lo ||
+        this.outlets.currents[index] > 20
+      )
+        return "red";
+      
       return "green";
     },
   },

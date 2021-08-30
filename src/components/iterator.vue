@@ -198,9 +198,7 @@ export default {
             m_type = type_index.substring(12, 13).toLowerCase();
 
           if (pv !== "") {
-            c[m_type + "_hihi"] = c[m_type + "_hihi"];
             c[m_type + "_hi"] = c[m_type + "_hi"];
-            c[m_type + "_lolo"] = c[m_type + "_lolo"];
             c[m_type + "_lo"] = c[m_type + "_lo"];
           }
         }
