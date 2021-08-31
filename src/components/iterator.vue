@@ -147,64 +147,37 @@ export default {
   methods: {
     numSort(items, index) {
       items.sort((a, b) => {
-        if (index[0] === "Name") {
-          if (!this.settings.sortDesc) return a.name > b.name;
-          else return b.name > a.name;
-        }
+        if (index[0] === "Name")
+          return this.settings.sortDesc ? b.name > a.name : a.name > b.name;
 
         const pv_index = this.settings.keys.indexOf(index[0]);
-        let c = pv_index === "Humidity-Mon" ? "%" : " ";
+        const end_char = pv_index === "Humidity-Mon" ? "%" : " ";
+        let is_first = false;
 
         if (pv_index !== "RackOpen-Mon") {
-          if (!this.settings.sortDesc)
-            return (
-              parseFloat(
-                a.values[pv_index].substring(0, a.values[pv_index].indexOf(c))
-              ) >
-              parseFloat(
-                b.values[pv_index].substring(0, b.values[pv_index].indexOf(c))
+          is_first =
+            parseFloat(
+              a.values[pv_index].substring(
+                0,
+                a.values[pv_index].indexOf(end_char)
+              )
+            ) >
+            parseFloat(
+              b.values[pv_index].substring(
+                0,
+                b.values[pv_index].indexOf(end_char)
               )
             );
-          else
-            return (
-              parseFloat(
-                b.values[pv_index].substring(0, b.values[pv_index].indexOf(c))
-              ) >
-              parseFloat(
-                a.values[pv_index].substring(0, a.values[pv_index].indexOf(c))
-              )
-            );
+          return this.settings.sortDesc ? !is_first : is_first;
         } else {
-          if (!this.settings.sortDesc)
-            return a.values[pv_index] > b.values[pv_index];
-          else return b.values[pv_index] > a.values[pv_index];
+          is_first = a.values[pv_index] > b.values[pv_index];
         }
+        return this.settings.sortDesc ? !is_first : is_first;
       });
       return items;
     },
     async openPVs() {
-      let pvs = await parseJSON(this);
-
-      for (let c of this.items) {
-        for (const pv of c.pvs) {
-          const type_index = pv.substring(pv.lastIndexOf(":") + 1);
-          let m_type = type_index.substring(0, 1).toLowerCase();
-
-          if (type_index.includes("RackOpen")) continue;
-
-          if (type_index.includes("Corridor"))
-            m_type = type_index.substring(9, 10).toLowerCase();
-          else if (pv.includes("Rack"))
-            m_type = type_index.substring(12, 13).toLowerCase();
-
-          if (pv !== "") {
-            c[m_type + "_hi"] = c[m_type + "_hi"];
-            c[m_type + "_lo"] = c[m_type + "_lo"];
-          }
-        }
-      }
-
-      this.con.monitorPvs(pvs);
+      this.con.monitorPvs(await parseJSON(this));
     },
     onUpdate(e) {
       const pv = e.detail.pv;
@@ -212,17 +185,21 @@ export default {
       const pv_index = this.items[index].pvs.indexOf(e.detail.pv);
 
       if (pv.includes("RackOpen-Mon")) {
+        // Rack door status
         this.$set(
           this.items[index].values,
           pv_index,
           e.detail.value == 0 ? "No" : "Yes"
         );
       } else if (pv_index === 5) {
+        // Voltage value, since voltage is fifth
         this.items[index].outlets.voltage = e.detail.value.toFixed(2);
       } else if (pv_index > 5) {
+        // One of 8 possible current values, current values are available from the sixth PV onwards
         this.items[index].outlets.currents[pv_index - 6] =
           e.detail.value.toFixed(2);
       } else {
+        // Other PVs
         this.$set(
           this.items[index].values,
           pv_index,
@@ -243,7 +220,9 @@ export default {
     },
   },
   created() {
-    var options = { url: "ws://" + this.$store.state.url + "/epics2web/monitor" };
+    var options = {
+      url: "ws://" + this.$store.state.url + "/epics2web/monitor",
+    };
     this.con = new e2w.jlab.epics2web.ClientConnection(options);
 
     this.con.onopen = this.openPVs;
