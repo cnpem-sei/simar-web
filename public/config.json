@@ -374,8 +374,8 @@
                 "name": "CA, Ambient Temperature",
                 "config": {
                     "pvs": [
-                        "CA-RaCtrl:CO-SIMAR-01:Temp-Mon",
-                        "CA-RaCtrl:CO-SIMAR-01:Pressure-Mon",
+                        "CA:CO-SIMAR-01:AmbientTemp-Mon",
+                        "CA:CO-SIMAR-01:AmbientPressure-Mon",
                         "",
                         "",
                         ""

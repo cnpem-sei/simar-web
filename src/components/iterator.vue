@@ -192,11 +192,10 @@ export default {
 
           if (type_index.includes("RackOpen")) continue;
 
-          if (type_index.includes("Corridor"))
-            m_type = type_index.substring(9, 10).toLowerCase();
-          else if (pv.includes("Rack"))
-            m_type = type_index.substring(12, 13).toLowerCase();
-
+          if (pv.includes("RackInternal"))
+            m_type = type_index.charAt(13).toLowerCase();
+          else if (pv.includes("Ambient")) {
+            m_type = type_index.charAt(7).toLowerCase(); console.log(m_type);}
           if (pv !== "") {
             c[m_type + "_hi"] = c[m_type + "_hi"];
             c[m_type + "_lo"] = c[m_type + "_lo"];
