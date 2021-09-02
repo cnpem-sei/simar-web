@@ -112,10 +112,9 @@ export default {
       }
 
       const response = await fetch(
-        `http://${this.$store.state.url}:7379/RPUSH/SIMAR:${this.item.parent.replace(
-          " - ",
-          ":"
-        )}/${command}`,
+        `http://${
+          this.$store.state.url
+        }:7379/RPUSH/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`,
         {
           method: "GET",
           headers: {
@@ -160,35 +159,34 @@ export default {
     async dialog() {
       let on_outlets = [];
       let response = await fetch(
-        `http://${this.$store.state.url}:7379/HGET/BBB:${this.item.parent.replace(
-          " - ",
-          ":"
-        )}/state_string`,
+        `http://${
+          this.$store.state.url
+        }:7379/HGET/BBB:${this.item.parent.replace(" - ", ":")}/state_string`,
         {
           method: "GET",
         }
       );
 
       if (response.ok) {
-        const data = await response.json();
+        let data = await response.json();
         this.status = data.HGET;
-      }
 
-      response = await fetch(
-        `http://${this.$store.state.url}:7379/SMEMBERS/SIMAR:${this.item.parent.replace(
-          " - ",
-          ":"
-        )}:Outlets`,
-        {
-          method: "GET",
+        response = await fetch(
+          `http://${
+            this.$store.state.url
+          }:7379/SMEMBERS/SIMAR:${this.item.parent.replace(
+            " - ",
+            ":"
+          )}:Outlets`,
+          {
+            method: "GET",
+          }
+        );
+
+        if (response.ok && data.SMEMBERS !== null) {
+          data = await response.json();
+          on_outlets = data.SMEMBERS.map(parseInt);
         }
-      );
-
-      if (response.ok && data.SMEMBERS !== null) {
-        const data = await response.json();
-        on_outlets = data.SMEMBERS.map(parseInt);
-      } else {
-        on_outlets = [];
       }
 
       this.outlets = this.prevOutlets = on_outlets;

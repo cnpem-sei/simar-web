@@ -177,27 +177,7 @@ export default {
       return items;
     },
     async openPVs() {
-      let pvs = await parseJSON(this);
-
-      for (let c of this.items) {
-        for (const pv of c.pvs) {
-          const type_index = pv.substring(pv.lastIndexOf(":") + 1);
-          let m_type = type_index.substring(0, 1).toLowerCase();
-
-          if (type_index.includes("RackOpen")) continue;
-
-          if (pv.includes("RackInternal"))
-            m_type = type_index.charAt(13).toLowerCase();
-          else if (pv.includes("Ambient")) {
-            m_type = type_index.charAt(7).toLowerCase(); console.log(m_type);}
-          if (pv !== "") {
-            c[m_type + "_hi"] = c[m_type + "_hi"];
-            c[m_type + "_lo"] = c[m_type + "_lo"];
-          }
-        }
-      }
-
-      this.con.monitorPvs(pvs);
+      this.con.monitorPvs(await parseJSON(this));
     },
     onUpdate(e) {
       const pv = e.detail.pv;
