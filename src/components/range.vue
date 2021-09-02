@@ -55,13 +55,8 @@ export default {
   },
   mounted() {
     const type = this.name.charAt(0).toLowerCase();
-
-    console.log(type);
-
     this.lo = `${type}_lo`;
     this.hi = `${type}_hi`;
-
-    console.log(this.lo);
 
     switch (type) {
       case "v":
