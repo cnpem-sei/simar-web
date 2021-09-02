@@ -22,7 +22,10 @@
         </v-chip>
       </v-list-item>
     </v-list>
-    <panels v-bind:outlets="item.outlets" v-bind:limits="{lo: item.v_lo, hi: item.v_hi}" />
+    <panels
+      v-bind:outlets="item.outlets"
+      v-bind:limits="{ lo: item.v_lo, hi: item.v_hi }"
+    />
   </v-card>
 </template>
 
@@ -49,7 +52,10 @@ export default {
       if (value === "?") return "gray";
 
       const m_type = key.charAt(0).toLowerCase();
-      const f_value = m_type !== "h" ? parseFloat(value.substring(0, value.indexOf(" "))) : parseFloat(value.substring(0, value.indexOf("%")));
+      const f_value =
+        m_type !== "h"
+          ? parseFloat(value.substring(0, value.indexOf(" ")))
+          : parseFloat(value.substring(0, value.indexOf("%")));
 
       switch (key) {
         case "Rack open":
@@ -58,8 +64,8 @@ export default {
             : "orange";
         default:
           if (
-            f_value > value_raw[m_type + "_hi"]*1.2 ||
-            f_value < value_raw[m_type + "_lo"]*0.8
+            f_value > value_raw[m_type + "_hi"] * 1.2 ||
+            f_value < value_raw[m_type + "_lo"] * 0.8
           )
             return "red";
           else if (
@@ -74,5 +80,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

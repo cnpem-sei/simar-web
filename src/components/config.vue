@@ -25,9 +25,9 @@
       </v-card-subtitle>
       <v-divider />
       <v-list>
-        <range name="Temperature" v-bind:item="item"/>
-        <range name="Humidity" v-bind:item="item"/>
-        <range name="Voltage" v-bind:item="item"/>
+        <range name="Temperature" v-bind:item="item" />
+        <range name="Humidity" v-bind:item="item" />
+        <range name="Voltage" v-bind:item="item" />
       </v-list>
       <v-list dense style="column-count: 3">
         <v-list-item v-for="(key, index) in item.outlets.currents" :key="index">
@@ -78,10 +78,10 @@
 </template>
 
 <script>
-import range from "./range"
+import range from "./range";
 
 export default {
-  components: {range},
+  components: { range },
   props: ["item"],
   data: function () {
     return {
@@ -112,7 +112,7 @@ export default {
       }
 
       const response = await fetch(
-        `http://10.0.38.46:7379/RPUSH/SIMAR:${this.item.parent.replace(
+        `http://${this.$store.state.url}:7379/RPUSH/SIMAR:${this.item.parent.replace(
           " - ",
           ":"
         )}/${command}`,
@@ -134,6 +134,7 @@ export default {
       this.dialog = false;
     },
     get_color(index) {
+      // If at least one voltage/current value is critical, display a warning icon
       this.critical =
         (this.outlets.voltage !== "?" && this.outlets.voltage > 240) ||
         this.outlets.voltage < 100 ||
@@ -159,7 +160,7 @@ export default {
     async dialog() {
       let on_outlets = [];
       let response = await fetch(
-        `http://10.0.38.46:7379/HGET/BBB:${this.item.parent.replace(
+        `http://${this.$store.state.url}:7379/HGET/BBB:${this.item.parent.replace(
           " - ",
           ":"
         )}/state_string`,
@@ -174,7 +175,7 @@ export default {
       }
 
       response = await fetch(
-        `http://10.0.38.46:7379/SMEMBERS/SIMAR:${this.item.parent.replace(
+        `http://${this.$store.state.url}:7379/SMEMBERS/SIMAR:${this.item.parent.replace(
           " - ",
           ":"
         )}:Outlets`,
@@ -183,10 +184,9 @@ export default {
         }
       );
 
-      if (response.ok) {
+      if (response.ok && data.SMEMBERS !== null) {
         const data = await response.json();
-        if (data.SMEMBERS !== null) on_outlets = data.SMEMBERS.map(parseInt);
-        else on_outlets = [];
+        on_outlets = data.SMEMBERS.map(parseInt);
       } else {
         on_outlets = [];
       }

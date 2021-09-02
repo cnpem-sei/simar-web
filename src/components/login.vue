@@ -50,11 +50,3 @@
     </v-menu>
   </v-col>
 </template>
-
-<script>
-export default {
-  data: function () {
-    return {};
-  },
-};
-</script>

@@ -39,7 +39,7 @@ export default {
       lo: "",
       hi: "",
       min: -100,
-      max: 80
+      max: 80,
     };
   },
   computed: {
@@ -63,13 +63,13 @@ export default {
 
     console.log(this.lo);
 
-    switch(type) {
-        case "v":
-            this.max = 1000;
-            break;
-        case "h":
-            this.max = 100;
-            break;
+    switch (type) {
+      case "v":
+        this.max = 1000;
+        break;
+      case "h":
+        this.max = 100;
+        break;
     }
   },
 };

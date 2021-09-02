@@ -24,11 +24,9 @@
             <v-spacer />
             <v-chip small :color="get_color(index)" dark>
               {{
-                `${outlets.voltage} ${
-                  outlets.voltage !== "?" ? "V" : ""
-                } / ${outlets.currents[index]} ${
-                  outlets.currents[index] !== "?" ? "A" : ""
-                }`
+                `${outlets.voltage} ${outlets.voltage !== "?" ? "V" : ""} / ${
+                  outlets.currents[index]
+                } ${outlets.currents[index] !== "?" ? "A" : ""}`
               }}
             </v-chip>
           </v-list-item>
@@ -48,16 +46,16 @@ export default {
   },
   methods: {
     get_color(index) {
+      // If at least one voltage/current value is critical, display a warning icon
       this.critical =
-        (this.outlets.voltage !== "?" && this.outlets.voltage > this.limits.hi || this.outlets.voltage < this.limits.lo) ||
+        (this.outlets.voltage !== "?" &&
+          this.outlets.voltage > this.limits.hi) ||
+        this.outlets.voltage < this.limits.lo ||
         this.outlets.currents.some((current) => {
           return current !== "?" && current > 20;
         });
 
-      if (
-        this.outlets.voltage === "?" ||
-        this.outlets.currents[index] === "?"
-      )
+      if (this.outlets.voltage === "?" || this.outlets.currents[index] === "?")
         return "grey";
 
       if (
@@ -66,7 +64,7 @@ export default {
         this.outlets.currents[index] > 20
       )
         return "red";
-      
+
       return "green";
     },
   },
