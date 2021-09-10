@@ -92,7 +92,7 @@ export default {
     };
   },
   methods: {
-    async send_command(cmd) {
+    async send_command(cmd, token="") {
       return fetch(
         `https://${this.$store.state.url}/archiver-generic-backend/bypass?${this.$store.state.url}:7379/${cmd}`,
         {
@@ -123,7 +123,7 @@ export default {
       }
 
       const response = await this.send_command(
-        `RPUSH/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`
+        `RPUSH/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`, token
       );
 
       if (response.ok) {
