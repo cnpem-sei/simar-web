@@ -92,6 +92,17 @@ export default {
     };
   },
   methods: {
+    async send_command(cmd) {
+      return fetch(
+        `https://${this.$store.state.url}/archiver-generic-backend/bypass?${this.$store.state.url}:7379/${cmd}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token.accessToken}`,
+          },
+        }
+      );
+    },
     async apply_changes() {
       const token = await this.$store.state.msalInstance.acquireTokenSilent({
         scopes: ["User.Read"],
@@ -111,16 +122,8 @@ export default {
           command += `0:${i}:${username}/`;
       }
 
-      const response = await fetch(
-        `http://${
-          this.$store.state.url
-        }:7379/RPUSH/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token.accessToken}`,
-          },
-        }
+      const response = await this.send_command(
+        `RPUSH/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`
       );
 
       if (response.ok) {
@@ -158,29 +161,16 @@ export default {
   watch: {
     async dialog() {
       let on_outlets = [];
-      let response = await fetch(
-        `http://${
-          this.$store.state.url
-        }:7379/HGET/BBB:${this.item.parent.replace(" - ", ":")}/state_string`,
-        {
-          method: "GET",
-        }
+      let response = await this.send_command(
+        `HGET/BBB:${this.item.parent.replace(" - ", ":")}/state_string`
       );
 
       if (response.ok) {
         let data = await response.json();
         this.status = data.HGET;
 
-        response = await fetch(
-          `http://${
-            this.$store.state.url
-          }:7379/SMEMBERS/SIMAR:${this.item.parent.replace(
-            " - ",
-            ":"
-          )}:Outlets`,
-          {
-            method: "GET",
-          }
+        response = await this.send_command(
+          `SMEMBERS/SIMAR:${this.item.parent.replace(" - ", ":")}:Outlets`
         );
 
         if (response.ok && data.SMEMBERS !== null) {
