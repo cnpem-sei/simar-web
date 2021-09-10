@@ -221,7 +221,7 @@ export default {
   },
   created() {
     var options = {
-      url: "ws://" + this.$store.state.url + "/epics2web/monitor",
+      url: "wss://" + this.$store.state.url + "/epics2web/monitor",
     };
     this.con = new e2w.jlab.epics2web.ClientConnection(options);
 
