@@ -92,17 +92,6 @@ export default {
     };
   },
   methods: {
-    async send_command(cmd, token="") {
-      return fetch(
-        `https://${this.$store.state.url}/archiver-generic-backend/bypass?${this.$store.state.url}:7379/${cmd}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token.accessToken}`,
-          },
-        }
-      );
-    },
     async apply_changes() {
       const token = await this.$store.state.msalInstance.acquireTokenSilent({
         scopes: ["User.Read"],
@@ -122,6 +111,9 @@ export default {
           command += `0:${i}:${username}/`;
       }
 
+      const pv_prefix = this.item.pvs[0].substring(0, this.item.pvs[0].lastIndexOf(":"));
+      await this.send_command(`HMSET/SIMAR:${pv_prefix}:Limits/h_hi/${this.item.h_hi}/h_lo/${this.item.h_lo}/t_hi/${this.item.t_hi}/t_lo/${this.item.t_lo}/v_hi/${this.item.v_hi}/v_lo/${this.item.v_lo}`);
+      
       const response = await this.send_command(
         `RPUSH/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`, token
       );
@@ -161,22 +153,18 @@ export default {
   watch: {
     async dialog() {
       let on_outlets = [];
-      let response = await this.send_command(
+      let data = await this.send_command(
         `HGET/BBB:${this.item.parent.replace(" - ", ":")}/state_string`
       );
 
-      if (response.ok) {
-        let data = await response.json();
+      if (data) {
         this.status = data.HGET;
 
-        response = await this.send_command(
+        data = await this.send_command(
           `SMEMBERS/SIMAR:${this.item.parent.replace(" - ", ":")}:Outlets`
         );
 
-        if (response.ok && data.SMEMBERS !== null) {
-          data = await response.json();
-          on_outlets = data.SMEMBERS.map(parseInt);
-        }
+        if (data.SMEMBERS !== null) on_outlets = data.SMEMBERS.map(parseInt);
       }
 
       this.outlets = this.prevOutlets = on_outlets;
