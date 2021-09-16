@@ -25,7 +25,7 @@
         single-line
         type="number"
         style="width: 60px; margin-left: 10px"
-        @change="$set(item, hi, $event)"
+        @change="$set(item, hi, $event);"
       ></v-text-field>
     </template>
   </v-range-slider>
@@ -50,6 +50,7 @@ export default {
       set(input) {
         this.item[this.lo] = input[0];
         this.item[this.hi] = input[1];
+        this.$emit("changed");
       },
     },
   },

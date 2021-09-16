@@ -25,9 +25,9 @@
       </v-card-subtitle>
       <v-divider />
       <v-list>
-        <range name="Temperature" v-bind:item="item" />
-        <range name="Humidity" v-bind:item="item" />
-        <range name="Voltage" v-bind:item="item" />
+        <range name="Temperature" v-bind:item="item" @changed="limitsChanged = true"/>
+        <range name="Humidity" v-bind:item="item" @changed="limitsChanged = true"/>
+        <range name="Voltage" v-bind:item="item" @changed="limitsChanged = true"/>
       </v-list>
       <v-list dense style="column-count: 3">
         <v-list-item v-for="(key, index) in item.outlets.currents" :key="index">
@@ -59,7 +59,7 @@
       </v-list>
       <v-card-actions>
         <v-spacer />
-        <v-btn color="grey darken-1" text @click="dialog = false">
+        <v-btn color="grey darken-1" text @click="dialog=false">
           Close
         </v-btn>
         <v-btn
@@ -67,7 +67,7 @@
           text
           @click="apply_changes"
           :disabled="
-            $store.state.account === undefined || prevOutlets === outlets
+            $store.state.account === undefined || (prevOutlets === outlets && !limitsChanged)
           "
         >
           Apply
@@ -89,6 +89,7 @@ export default {
       status: "Connected",
       prevOutlets: [],
       outlets: [],
+      limitsChanged: false,
     };
   },
   methods: {
@@ -118,13 +119,14 @@ export default {
         `RPUSH/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`, token
       );
 
-      if (response.ok) {
+      if (response.RPUSH > 0) {
         this.$store.commit(
           "showSnackbar",
           `Successfully applied settings to ${this.item.parent}!`
         );
       }
 
+      this.limitsChanged = false;
       this.dialog = false;
     },
     get_color(index) {
