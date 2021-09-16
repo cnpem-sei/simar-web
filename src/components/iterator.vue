@@ -150,7 +150,7 @@ export default {
         if (index[0] === "Name")
           return this.settings.sortDesc ? b.name > a.name : a.name > b.name;
 
-        const pv_index = this.settings.keys.indexOf(index[0])-1;
+        const pv_index = this.settings.keys.indexOf(index[0]) - 1;
         const end_char = pv_index === 5 ? "%" : " ";
         let is_first = false;
 
@@ -178,21 +178,31 @@ export default {
     },
     async openPVs() {
       this.con.monitorPvs(await parseJSON(this));
-      const pv_prefixes = this.items.map(i => i.pvs[0].substring(0, i.pvs[0].lastIndexOf(":")));
+      const pv_prefixes = this.items.map((i) =>
+        i.pvs[0].substring(0, i.pvs[0].lastIndexOf(":"))
+      );
       let indexes = [];
 
       let sensors = await this.send_command("KEYS/SIMAR:*:Limits");
 
-      let command = escape(`EVALSHA/82281378dbb9b4ab512a34823ed9722c0743394e/${sensors.KEYS.length}/`);
+      let command = escape(
+        `EVALSHA/82281378dbb9b4ab512a34823ed9722c0743394e/${sensors.KEYS.length}/`
+      );
       for (let key of sensors.KEYS) {
-          command += `${key}/`;
-          indexes.push(pv_prefixes.indexOf(key.substring(key.indexOf(":")+1, key.lastIndexOf(":"))));
+        command += `${key}/`;
+        indexes.push(
+          pv_prefixes.indexOf(
+            key.substring(key.indexOf(":") + 1, key.lastIndexOf(":"))
+          )
+        );
       }
 
       sensors = await this.send_command(command);
 
-      for(let i = 0; i < sensors.EVALSHA.length; i++) {
-          for(let j = 0; j < sensors.EVALSHA[i].length; j += 2) this.items[indexes[i]][sensors.EVALSHA[i][j]] = sensors.EVALSHA[i][j+1];
+      for (let i = 0; i < sensors.EVALSHA.length; i++) {
+        for (let j = 0; j < sensors.EVALSHA[i].length; j += 2)
+          this.items[indexes[i]][sensors.EVALSHA[i][j]] =
+            sensors.EVALSHA[i][j + 1];
       }
     },
     onUpdate(e) {

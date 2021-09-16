@@ -25,7 +25,7 @@
         single-line
         type="number"
         style="width: 60px; margin-left: 10px"
-        @change="$set(item, hi, $event);"
+        @change="$set(item, hi, $event)"
       ></v-text-field>
     </template>
   </v-range-slider>

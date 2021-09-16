@@ -25,9 +25,21 @@
       </v-card-subtitle>
       <v-divider />
       <v-list>
-        <range name="Temperature" v-bind:item="item" @changed="limitsChanged = true"/>
-        <range name="Humidity" v-bind:item="item" @changed="limitsChanged = true"/>
-        <range name="Voltage" v-bind:item="item" @changed="limitsChanged = true"/>
+        <range
+          name="Temperature"
+          v-bind:item="item"
+          @changed="limitsChanged = true"
+        />
+        <range
+          name="Humidity"
+          v-bind:item="item"
+          @changed="limitsChanged = true"
+        />
+        <range
+          name="Voltage"
+          v-bind:item="item"
+          @changed="limitsChanged = true"
+        />
       </v-list>
       <v-list dense style="column-count: 3">
         <v-list-item v-for="(key, index) in item.outlets.currents" :key="index">
@@ -59,7 +71,7 @@
       </v-list>
       <v-card-actions>
         <v-spacer />
-        <v-btn color="grey darken-1" text @click="dialog=false">
+        <v-btn color="grey darken-1" text @click="dialog = false">
           Close
         </v-btn>
         <v-btn
@@ -67,7 +79,8 @@
           text
           @click="apply_changes"
           :disabled="
-            $store.state.account === undefined || (prevOutlets === outlets && !limitsChanged)
+            $store.state.account === undefined ||
+            (prevOutlets === outlets && !limitsChanged)
           "
         >
           Apply
@@ -112,11 +125,17 @@ export default {
           command += `0:${i}:${username}/`;
       }
 
-      const pv_prefix = this.item.pvs[0].substring(0, this.item.pvs[0].lastIndexOf(":"));
-      await this.send_command(`HMSET/SIMAR:${pv_prefix}:Limits/h_hi/${this.item.h_hi}/h_lo/${this.item.h_lo}/t_hi/${this.item.t_hi}/t_lo/${this.item.t_lo}/v_hi/${this.item.v_hi}/v_lo/${this.item.v_lo}`);
-      
+      const pv_prefix = this.item.pvs[0].substring(
+        0,
+        this.item.pvs[0].lastIndexOf(":")
+      );
+      await this.send_command(
+        `HMSET/SIMAR:${pv_prefix}:Limits/h_hi/${this.item.h_hi}/h_lo/${this.item.h_lo}/t_hi/${this.item.t_hi}/t_lo/${this.item.t_lo}/v_hi/${this.item.v_hi}/v_lo/${this.item.v_lo}`
+      );
+
       const response = await this.send_command(
-        `RPUSH/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`, token
+        `RPUSH/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`,
+        token
       );
 
       if (response.RPUSH > 0) {
