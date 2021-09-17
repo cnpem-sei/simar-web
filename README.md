@@ -1,9 +1,5 @@
 # SIMAR Front end - EPICS
 
-[![pipeline status](https://gitlab.cnpem.br/IoT/simar-vue/badges/master/pipeline.svg)](https://gitlab.cnpem.br/IoT/simar-vue/commits/master) [![coverage report](https://gitlab.cnpem.br/IoT/simar-vue/badges/master/coverage.svg)](https://gitlab.cnpem.br/IoT/simar-vue/commits/master)
-
-
-
 ![Screencap](readme-data/screencap.png)
 
 ## Project setup
