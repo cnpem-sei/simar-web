@@ -7,8 +7,8 @@ const store = new Vuex.Store({
   state: {
     msalConfig: {
       auth: {
-        clientId: "",
-        authority: "",
+        clientId: process.env.VUE_APP_ID,
+        authority: process.env.VUE_APP_AUTH,
       },
       cache: {
         cacheLocation: "localStorage",
