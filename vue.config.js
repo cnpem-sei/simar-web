@@ -9,19 +9,18 @@ module.exports = {
     config
       .plugin('html')
       .tap(args => {
-        args[0].title = "SIMAR - EPICS Variant";
+        args[0].title = "SIMAR";
         return args;
       })
   },
   devServer: {
     open: process.platform === 'darwin',
     host: '0.0.0.0',
-    https: {
+    https: process.env.NODE_ENV !== "production" ? {
       key: fs.readFileSync('./sim.key'),
       cert: fs.readFileSync('./sim.crt'),
-    },
+    } : undefined,
     port: 8085,
-    https: true,
     hotOnly: false,
   },
 }

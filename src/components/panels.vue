@@ -22,7 +22,7 @@
             >
             <v-list-item-content>{{ index }}</v-list-item-content>
             <v-spacer />
-            <v-chip small :color="get_color(index)" dark>
+            <v-chip small :color="get_color(index)" text-color="white">
               {{
                 `${outlets.voltage} ${outlets.voltage !== "?" ? "V" : ""} / ${
                   outlets.currents[index]
@@ -31,6 +31,14 @@
             </v-chip>
           </v-list-item>
         </v-list>
+        <v-divider />
+        <v-row style="padding: 0 16px; margin: 10px 0 0 0">
+          <p style="margin: 0">Voltage glitches last minute</p>
+          <v-spacer />
+          <v-chip small :color="get_glitch_color()" text-color="white">{{
+            outlets.glitches
+          }}</v-chip>
+        </v-row>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -53,10 +61,11 @@ export default {
         this.outlets.voltage < this.limits.lo ||
         this.outlets.currents.some((current) => {
           return current !== "?" && current > 20;
-        });
+        }) ||
+        this.outlets.glitches > 2;
 
       if (this.outlets.voltage === "?" || this.outlets.currents[index] === "?")
-        return "grey";
+        return "gray";
 
       if (
         this.outlets.voltage > this.limits.hi ||
@@ -65,6 +74,11 @@ export default {
       )
         return "red";
 
+      return "green";
+    },
+    get_glitch_color() {
+      if (this.outlets.glitches === "?") return "gray";
+      if (this.outlets.glitches > 2) return "red";
       return "green";
     },
   },
