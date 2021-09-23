@@ -25,6 +25,8 @@
               v-bind:item="item"
               v-bind:keys="settings.keys"
               v-bind:filteredKeys="filteredKeys"
+              v-on="$listeners"
+              @changed="item_changed(e, item)"
             />
           </v-col>
         </v-row>
@@ -146,6 +148,10 @@ export default {
     },
   },
   methods: {
+    item_changed(e, item) {
+      item[0] = e[0];
+      item[1] = e[1];
+    },
     numSort(items, index) {
       items.sort((a, b) => {
         if (index[0] === "Name")

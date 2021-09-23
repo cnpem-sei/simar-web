@@ -2,9 +2,7 @@ var fs = require('fs');
 
 module.exports = {
   publicPath: '',
-  transpileDependencies: [
-    'vuetify'
-  ],
+
   chainWebpack: config => {
     config
       .plugin('html')

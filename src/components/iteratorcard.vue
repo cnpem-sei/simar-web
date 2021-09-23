@@ -3,7 +3,7 @@
     <v-card-title class="subheading font-weight-bold">
       {{ item.name }}
       <v-spacer></v-spacer>
-      <config v-bind:item="item" v-on="$listeners" />
+      <config v-bind:item="item"/>
     </v-card-title>
 
     <v-divider></v-divider>
@@ -79,5 +79,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

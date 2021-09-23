@@ -48,9 +48,7 @@ export default {
         return [this.item[this.lo], this.item[this.hi]];
       },
       set(input) {
-        this.item[this.lo] = input[0];
-        this.item[this.hi] = input[1];
-        this.$emit("changed");
+        this.$emit("changed", [input[0], input[1]]);
       },
     },
   },

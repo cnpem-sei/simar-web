@@ -11,13 +11,13 @@
         wiki
       </v-btn>
       <v-btn
-        href="https://gitlab.cnpem.br/IoT/simar-vue"
+        href="https://github.com/cnpem-iot/simar-frontend"
         color="white"
         text
         rounded
         class="my-2"
       >
-        gitlab
+        git
       </v-btn>
       <v-btn
         href="mailto:guilherme.freitas@cnpem.br"

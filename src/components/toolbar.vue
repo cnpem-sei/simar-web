@@ -22,7 +22,7 @@
           flat
           solo-inverted
           hide-details
-          v-model="settings.sortBy"
+          v-model="sort_by"
           :items="this.settings.keys"
           prepend-inner-icon="mdi-sort"
           label="Sort by"
@@ -91,6 +91,7 @@ export default {
       filter: {},
       dropdown: false,
       logged: true,
+      sort_by: this.settings.sortBy
     };
   },
 };
