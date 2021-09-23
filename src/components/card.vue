@@ -2,21 +2,20 @@
   <v-card>
     <v-card-title class="subheading font-weight-bold">
       {{ item.name }}
-      <v-spacer></v-spacer>
-      <config v-bind:item="item"/>
+      <v-spacer/>
+      <config v-bind:item="item" />
     </v-card-title>
 
     <v-divider></v-divider>
 
     <v-list dense>
-      <v-list-item v-for="(key, index) in filteredKeys" :key="index">
+      <v-list-item v-for="(key, index) in filtered_keys" :key="index">
         <v-list-item-content> {{ key }}: </v-list-item-content>
         <v-chip
-          v-if="key != 'Fan speed' || !edit_fan"
           class="align-end"
           :color="get_pv_color(item, key)"
           text-color="white"
-          :href="`https://10.0.38.42/archiver-viewer/?pv=${item.pvs[index]}`"
+          :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs[index]}`"
         >
           {{ item.values[index] }}
         </v-chip>
@@ -30,14 +29,13 @@
 </template>
 
 <script>
-import panels from "./panels.vue";
-import config from "./config.vue";
+import panels from "./panels";
+import config from "./config";
 
 export default {
-  props: ["items", "item", "filteredKeys", "keys"],
+  props: ["items", "item", "filtered_keys", "keys"],
   data: function () {
     return {
-      edit_fan: false,
       dialog: false,
     };
   },

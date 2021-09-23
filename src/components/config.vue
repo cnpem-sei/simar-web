@@ -28,17 +28,29 @@
         <range
           name="Temperature"
           v-bind:item="item"
-          @changed="limitsChanged = true"
+          @change="
+            (e) => {
+              range.t = e;
+            }
+          "
         />
         <range
           name="Humidity"
           v-bind:item="item"
-          @changed="limitsChanged = true"
+          @change="
+            (e) => {
+              range.h = e;
+            }
+          "
         />
         <range
           name="Voltage"
           v-bind:item="item"
-          @changed="limitsChanged = true"
+          @change="
+            (e) => {
+              range.v = e;
+            }
+          "
         />
       </v-list>
       <v-list dense style="column-count: 3">
@@ -74,18 +86,15 @@
         <v-btn color="grey darken-1" text @click="dialog = false">
           Close
         </v-btn>
-        <v-btn
-          color="blue darken-1"
-          text
-          @click="apply_changes"
-          :disabled="
-            $store.state.account === undefined ||
-            (prevOutlets === outlets && !limitsChanged)
-          "
-        >
-          Apply
-        </v-btn>
+        <v-btn color="blue darken-1" text @click="apply_changes"> Apply </v-btn>
       </v-card-actions>
+      <v-progress-linear
+        :active="load_prog !== 0"
+        :value="load_prog"
+        absolute
+        bottom
+        color="blue accent-4"
+      ></v-progress-linear>
     </v-card>
   </v-dialog>
 </template>
@@ -102,7 +111,8 @@ export default {
       status: "Connected",
       prevOutlets: [],
       outlets: [],
-      limitsChanged: false,
+      range: { h: [0, 0], t: [0, 0], v: [0, 0] },
+      load_prog: 0,
     };
   },
   methods: {
@@ -118,6 +128,8 @@ export default {
         this.$store.state.account.username.indexOf("@")
       );
 
+      this.load_prog = 33;
+
       for (let i = 0; i < this.item.outlets.currents.length; i++) {
         if (this.outlets.includes(i) && !this.prevOutlets.includes(i))
           command += `1:${i}:${username}/`;
@@ -130,8 +142,10 @@ export default {
         this.item.pvs[0].lastIndexOf(":")
       );
       await this.send_command(
-        `HMSET/SIMAR:${pv_prefix}:Limits/h_hi/${this.item.h_hi}/h_lo/${this.item.h_lo}/t_hi/${this.item.t_hi}/t_lo/${this.item.t_lo}/v_hi/${this.item.v_hi}/v_lo/${this.item.v_lo}`
+        `HMSET/SIMAR:${pv_prefix}:Limits/h_hi/${this.range.h[1]}/h_lo/${this.range.h[0]}/t_hi/${this.range.t[1]}/t_lo/${this.range.t[0]}/v_hi/${this.range.v[1]}/v_lo/${this.range.v[0]}`
       );
+
+      this.load_prog = 80;
 
       const response = await this.send_command(
         `RPUSH/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`,
@@ -145,29 +159,22 @@ export default {
         );
       }
 
-      this.limitsChanged = false;
       this.dialog = false;
+      this.load_prog = 0;
     },
     get_color(index) {
-      // If at least one voltage/current value is critical, display a warning icon
-      this.critical =
-        (this.outlets.voltage !== "?" && this.outlets.voltage > 240) ||
-        this.outlets.voltage < 100 ||
-        this.item.outlets.currents.some((current) => {
-          return current !== "?" && current > 20;
-        });
-
+      if (
+        this.item.outlets.voltage === "?" ||
+        this.item.outlets.currents[index] === "?"
+      )
+        return "grey";
       if (
         this.item.outlets.voltage > this.item.v_hi ||
         this.item.outlets.voltage < this.item.v_lo ||
         this.item.outlets.currents[index] > 20
       )
         return "red";
-      if (
-        this.item.outlets.voltage === "?" ||
-        this.item.outlets.currents[index] === "?"
-      )
-        return "grey";
+
       return "green";
     },
   },

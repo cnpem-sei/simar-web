@@ -2,13 +2,10 @@
   <v-app>
     <v-main fluid>
       <toolbar
-        @sort="updateSort"
-        @desc="updateDesc"
-        @search="updateSearch"
-        @logout="logout"
-        @login="login"
+        @sort="update_sort"
+        @desc="update_desc"
+        @search="update_search"
         v-bind:settings="settings"
-        v-bind:account="account"
       />
       <iterator v-bind:settings="settings" />
     </v-main>
@@ -27,13 +24,12 @@
 </template>
 
 <script>
-import { PublicClientApplication } from "@azure/msal-browser";
 import iterator from "./components/iterator";
 import toolbar from "./components/toolbar";
 import ft from "./components/footer";
 
 export default {
-  name: "App",
+  name: "SIMAR",
   components: {
     toolbar,
     iterator,
@@ -41,8 +37,8 @@ export default {
   },
   data: () => ({
     settings: {
-      sortDesc: false,
-      sortBy: "Name",
+      sort_desc: false,
+      sort_by: "Name",
       search: "",
       keys: [
         "Name",
@@ -54,55 +50,17 @@ export default {
       ],
       pvs: {},
     },
-    account: undefined,
   }),
-  async created() {
-    const msalInstance = new PublicClientApplication(
-      this.$store.state.msalConfig
-    );
-
-    this.$store.commit("setInstance", msalInstance);
-  },
-  async mounted() {
-    const accounts = this.$store.state.msalInstance.getAllAccounts();
-    if (accounts.length == 0) {
-      return;
-    }
-    accounts[0].initials = this.getInitials(accounts[0]);
-    this.$store.commit("setAccount", accounts[0]);
-  },
 
   methods: {
-    updateSearch: function (value) {
+    update_search: function (value) {
       this.settings.search = value;
     },
-    updateDesc: function (value) {
-      this.settings.sortDesc = value;
+    update_desc: function (value) {
+      this.settings.sort_desc = value;
     },
-    updateSort: function (value) {
-      this.settings.sortBy = value;
-    },
-
-    getInitials(account) {
-      return account.name.split(" ")[0].substring(0, 1);
-    },
-    async login() {
-      await this.$store.state.msalInstance
-        .loginPopup({})
-        .then(() => {
-          const accounts = this.$store.state.msalInstance.getAllAccounts();
-          accounts[0].initials = this.getInitials(accounts[0]);
-          this.$store.commit("setAccount", accounts[0]);
-        })
-        .catch((error) => {
-          console.error(`Error during authentication: ${error}`);
-        });
-      this.$store.commit("showSnackbar", `Logged in as ${this.$store.state.account.username}`);
-    },
-    async logout() {
-      await this.$store.state.msalInstance.logout({}).catch((error) => {
-        console.error(error);
-      });
+    update_sort: function (value) {
+      this.settings.sort_by = value;
     },
   },
 };

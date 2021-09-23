@@ -71,28 +71,6 @@
                 }
             }
         ],
-        "10.15.0.254 - SIMAR-EXT-R0": [
-            {
-                "name": "External",
-                "config": {
-                    "pvs": [
-                        "B-15RaCtrl:CO-SIMAR-01:Temp-Mon",
-                        "B-15RaCtrl:CO-SIMAR-01:Pressure-Mon",
-                        "",
-                        "",
-                        "B-15RaCtrl:CO-SIMAR-01:Humidity-Mon",
-                        "",
-                        ""
-                    ],
-                    "t_hi": 28,
-                    "t_lo": 0,
-                    "v_hi": 300,
-                    "v_lo": 100,
-                    "h_hi": 100,
-                    "h_lo": 0
-                }
-            }
-        ],
         "10.128.120.142 - BBB-SIMAR-IA20-RaCtrl2": [
             {
                 "name": "Room 20, EPP-2 Rack",
@@ -377,6 +355,28 @@
                         "CA:CO-SIMAR-01:AmbientTemp-Mon",
                         "CA:CO-SIMAR-01:AmbientPressure-Mon",
                         "",
+                        "",
+                        ""
+                    ],
+                    "t_hi": 28,
+                    "t_lo": 0,
+                    "v_hi": 300,
+                    "v_lo": 100,
+                    "h_hi": 100,
+                    "h_lo": 0
+                }
+            }
+        ],
+        "10.15.0.254 - SIMAR-EXT-R0": [
+            {
+                "name": "External",
+                "config": {
+                    "pvs": [
+                        "B-15RaCtrl:CO-SIMAR-01:Temp-Mon",
+                        "B-15RaCtrl:CO-SIMAR-01:Pressure-Mon",
+                        "",
+                        "",
+                        "B-15RaCtrl:CO-SIMAR-01:Humidity-Mon",
                         "",
                         ""
                     ],

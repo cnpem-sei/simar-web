@@ -16,7 +16,7 @@
         label="Search"
       ></v-text-field>
       <template v-if="$vuetify.breakpoint.mdAndUp">
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-select
           v-on:change="$emit('sort', $event)"
           flat
@@ -27,7 +27,7 @@
           prepend-inner-icon="mdi-sort"
           label="Sort by"
         ></v-select>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn-toggle v-on:change="$emit('desc', $event)" mandatory>
           <v-btn large depressed color="blue" :value="false" align="start">
             <v-icon>mdi-trending-up</v-icon>
@@ -37,8 +37,7 @@
           </v-btn>
         </v-btn-toggle>
       </template>
-
-      <v-spacer></v-spacer>
+      <v-spacer />
       <login style="flex-grow: 0" v-on="$listeners"></login>
     </v-toolbar>
     <v-toolbar
@@ -56,12 +55,12 @@
         prepend-inner-icon="mdi-magnify"
         label="Sort by"
       ></v-select>
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-btn
         large
         depressed
         color="blue"
-        v-show="!this.settings.sortDesc"
+        v-show="!this.settings.sort_desc"
         v-on:click="$emit('desc', true)"
       >
         <v-icon>mdi-trending-down</v-icon>
@@ -70,7 +69,7 @@
         large
         depressed
         color="blue"
-        v-show="this.settings.sortDesc"
+        v-show="this.settings.sort_desc"
         align="start"
         v-on:click="$emit('desc', false)"
       >
@@ -85,13 +84,13 @@ import login from "./login";
 
 export default {
   components: { login },
-  props: ["settings", "account"],
+  props: ["settings"],
   data() {
     return {
       filter: {},
       dropdown: false,
       logged: true,
-      sort_by: this.settings.sortBy
+      sort_by: this.settings.sort_by,
     };
   },
 };

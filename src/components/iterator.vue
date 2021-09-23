@@ -1,13 +1,13 @@
 <template>
   <v-container fluid>
     <v-data-iterator
-      :items="filterValidItems"
-      :items-per-page.sync="itemsPerPage"
+      :items="filter_valid"
+      :items-per-page.sync="items_per_page"
       :page.sync="page"
       :search="this.settings.search"
-      :sort-by="this.settings.sortBy"
-      :sort-desc="this.settings.sortDesc"
-      :custom-sort="numSort"
+      :sort-by="this.settings.sort_by"
+      :sort-desc="this.settings.sort_desc"
+      :custom-sort="num_sort"
       hide-default-footer
     >
       <template v-slot:default="props">
@@ -20,20 +20,18 @@
             md="4"
             lg="3"
           >
-            <iteratorcard
+            <card
               :key="item.name"
               v-bind:item="item"
               v-bind:keys="settings.keys"
-              v-bind:filteredKeys="filteredKeys"
-              v-on="$listeners"
-              @changed="item_changed(e, item)"
+              v-bind:filtered_keys="filtered_keys"
             />
           </v-col>
         </v-row>
       </template>
       <template v-slot:footer>
         <v-row class="mt-2 no-margin" align="center" justify="center">
-          <span class="white--text">Items per page</span>
+          <span class="text-button white--text">Items per page</span>
           <v-menu offset-y>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -44,7 +42,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                {{ itemsPerPage }}
+                {{ items_per_page }}
                 <v-icon>mdi-chevron-down</v-icon>
               </v-btn>
             </template>
@@ -52,22 +50,70 @@
               <v-list-item
                 v-for="(number, index) in [8, 12, 16, 20]"
                 :key="index"
-                @click="updateItemsPerPage(number)"
+                @click="items_per_page = number"
               >
                 <v-list-item-title>{{ number }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
 
-          <v-spacer></v-spacer>
+          <v-spacer />
 
-          <span class="mr-4 white--text">
-            Page {{ page }} of {{ numberOfPages }}
+          <v-layout
+            v-if="items.length"
+            align-center
+            justify-center
+            class="hidden-sm-and-down"
+          >
+            <div class="text-button amb-val">Ambient</div>
+            <v-btn
+              plain
+              class="amb-val"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${
+                items.at(-1).pvs[0]
+              }`"
+              ><v-icon dark>mdi-thermometer</v-icon
+              >{{ items.at(-1).values[0] }}</v-btn
+            >
+            <v-btn
+              plain
+              class="amb-val"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${
+                items.at(-1).pvs[1]
+              }`"
+              ><v-icon dark>mdi-gauge</v-icon
+              >{{ items.at(-1).values[1] }}</v-btn
+            >
+            <v-btn
+              plain
+              class="amb-val"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${
+                items.at(-1).pvs[4]
+              }`"
+              ><v-icon dark>mdi-water-percent</v-icon
+              >{{ items.at(-1).values[4] }}</v-btn
+            >
+          </v-layout>
+
+          <v-spacer />
+
+          <span class="text-button mr-4 white--text">
+            Page {{ page }} of {{ number_pages }}
           </span>
-          <v-btn dark color="blue darken-3" class="mr-1" @click="formerPage">
+          <v-btn
+            dark
+            color="blue darken-3"
+            class="mr-1"
+            @click="if (page - 1 >= 1) page -= 1;"
+          >
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-btn dark color="blue darken-3" class="ml-1" @click="nextPage">
+          <v-btn
+            dark
+            color="blue darken-3"
+            class="ml-1"
+            @click="if (page + 1 <= number_pages) page += 1;"
+          >
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
         </v-row>
@@ -78,9 +124,9 @@
 
 <script>
 import * as e2w from "../assets/epics2web.js";
-import iteratorcard from "./iteratorcard.vue";
+import card from "./card";
 
-const parseJSON = async (self) => {
+const parse_json = async (self) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       fetch("config.json")
@@ -101,6 +147,7 @@ const parseJSON = async (self) => {
                       glitches: "?",
                       voltage: "?",
                       currents: ["?", "?", "?", "?", "?", "?", "?", "?"],
+                      pf: "?",
                     },
                   },
                   { values: ["?", "?", "?", "?", "?", "?"] }
@@ -121,41 +168,36 @@ const parseJSON = async (self) => {
 
 export default {
   components: {
-    iteratorcard,
+    card,
   },
   props: ["settings"],
   data() {
     return {
       filter: {},
       page: 1,
-      itemsPerPage: 8,
+      items_per_page: 8,
       headers: [],
       items: [],
       symbols: {},
-      edit_fan: false,
       con: undefined,
     };
   },
   computed: {
-    numberOfPages() {
-      return Math.ceil(this.items.length / this.itemsPerPage);
+    number_pages() {
+      return Math.ceil(this.items.length / this.items_per_page);
     },
-    filteredKeys() {
+    filtered_keys() {
       return this.settings.keys.filter((key) => key !== "Name");
     },
-    filterValidItems() {
+    filter_valid() {
       return this.items.filter((i) => i.values[1] !== "0 hPa");
     },
   },
   methods: {
-    item_changed(e, item) {
-      item[0] = e[0];
-      item[1] = e[1];
-    },
-    numSort(items, index) {
+    num_sort(items, index) {
       items.sort((a, b) => {
         if (index[0] === "Name")
-          return this.settings.sortDesc ? b.name > a.name : a.name > b.name;
+          return this.settings.sort_desc ? b.name > a.name : a.name > b.name;
 
         const pv_index = this.settings.keys.indexOf(index[0]) - 1;
         const end_char = pv_index === 5 ? "%" : " ";
@@ -175,23 +217,21 @@ export default {
                 b.values[pv_index].indexOf(end_char)
               )
             );
-          return this.settings.sortDesc ? !is_first : is_first;
+          return this.settings.sort_desc ? !is_first : is_first;
         } else {
           is_first = a.values[pv_index] > b.values[pv_index];
         }
-        return this.settings.sortDesc ? !is_first : is_first;
+        return this.settings.sort_desc ? !is_first : is_first;
       });
       return items;
     },
-    async openPVs() {
-      this.con.monitorPvs(await parseJSON(this));
+    async open_pvs() {
+      this.con.monitorPvs(await parse_json(this));
       const pv_prefixes = this.items.map((i) =>
         i.pvs[0].substring(0, i.pvs[0].lastIndexOf(":"))
       );
       let indexes = [];
-
       let sensors = await this.send_command("KEYS/SIMAR:*:Limits");
-
       let command = escape(
         `EVALSHA/82281378dbb9b4ab512a34823ed9722c0743394e/${sensors.KEYS.length}/`
       );
@@ -212,7 +252,7 @@ export default {
             sensors.EVALSHA[i][j + 1];
       }
     },
-    onUpdate(e) {
+    on_update(e) {
       const pv = e.detail.pv;
       const index = this.items.findIndex((i) => i.pvs.includes(pv));
       const pv_index = this.items[index].pvs.indexOf(e.detail.pv);
@@ -243,15 +283,6 @@ export default {
 
       this.$forceUpdate();
     },
-    nextPage() {
-      if (this.page + 1 <= this.numberOfPages) this.page += 1;
-    },
-    formerPage() {
-      if (this.page - 1 >= 1) this.page -= 1;
-    },
-    updateItemsPerPage(number) {
-      this.itemsPerPage = number;
-    },
   },
   created() {
     var options = {
@@ -259,8 +290,8 @@ export default {
     };
     this.con = new e2w.jlab.epics2web.ClientConnection(options);
 
-    this.con.onopen = this.openPVs;
-    this.con.onupdate = this.onUpdate;
+    this.con.onopen = this.open_pvs;
+    this.con.onupdate = this.on_update;
   },
   mounted() {
     let host = "10.0.38.46";
@@ -301,5 +332,14 @@ export default {
 
 div:first-child .v-data-iterator {
   color: white;
+}
+
+.amb-val {
+  color: white;
+  padding: 0 16px;
+}
+
+.amb-val i {
+  padding-right: 5px;
 }
 </style>

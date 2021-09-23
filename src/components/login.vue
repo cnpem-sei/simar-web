@@ -27,9 +27,7 @@
             <h3>{{ $store.state.account.name }}</h3>
             <p class="text-caption mt-1">{{ $store.state.account.username }}</p>
             <v-divider class="my-3"></v-divider>
-            <v-btn @click="$emit('logout')" depressed rounded text>
-              Disconnect
-            </v-btn>
+            <v-btn @click="logout" depressed rounded text> Disconnect </v-btn>
           </div>
         </v-list-item-content>
       </v-card>
@@ -43,10 +41,59 @@
       offset-y
     >
       <template v-slot:activator="{ on }">
-        <v-btn @click="$emit('login')" icon x-large v-on="on">
+        <v-btn @click="login" icon x-large v-on="on">
           <v-icon>mdi-login</v-icon>
         </v-btn>
       </template>
     </v-menu>
   </v-col>
 </template>
+
+<script>
+import { PublicClientApplication } from "@azure/msal-browser";
+
+function getInitials(account) {
+  return account.name.split(" ")[0].substring(0, 1);
+}
+
+export default {
+  async created() {
+    const msalInstance = new PublicClientApplication(
+      this.$store.state.msalConfig
+    );
+
+    this.$store.commit("setInstance", msalInstance);
+  },
+  async mounted() {
+    const accounts = this.$store.state.msalInstance.getAllAccounts();
+    if (accounts.length == 0) {
+      return;
+    }
+    accounts[0].initials = getInitials(accounts[0]);
+    this.$store.commit("setAccount", accounts[0]);
+  },
+  methods: {
+    async login() {
+      await this.$store.state.msalInstance
+        .loginPopup({})
+        .then(() => {
+          const accounts = this.$store.state.msalInstance.getAllAccounts();
+          accounts[0].initials = getInitials(accounts[0]);
+          this.$store.commit("setAccount", accounts[0]);
+        })
+        .catch((error) => {
+          console.error(`Error during authentication: ${error}`);
+        });
+      this.$store.commit(
+        "showSnackbar",
+        `Logged in as ${this.$store.state.account.username}`
+      );
+    },
+    async logout() {
+      await this.$store.state.msalInstance.logout({}).catch((error) => {
+        console.error(error);
+      });
+    },
+  },
+};
+</script>
