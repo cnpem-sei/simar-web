@@ -132,9 +132,9 @@ export default {
 
       for (let i = 0; i < this.item.outlets.currents.length; i++) {
         if (this.outlets.includes(i) && !this.prevOutlets.includes(i))
-          command += `1:${i}:${username}/`;
+          command += `${i}/1:${username}/`;
         else if (!this.outlets.includes(i) && this.prevOutlets.includes(i))
-          command += `0:${i}:${username}/`;
+          command += `${i}/0:${username}/`;
       }
 
       const pv_prefix = this.item.pvs[0].substring(
@@ -148,7 +148,7 @@ export default {
       this.load_prog = 80;
 
       const response = await this.send_command(
-        `RPUSH/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`,
+        `HMSET/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`,
         token
       );
 
