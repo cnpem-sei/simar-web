@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" max-width="600px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon small fab color="grey" v-bind="attrs" v-on="on"
+      <v-btn icon small fab color="grey" v-bind="attrs" v-on="on" :disabled="$store.state.account === undefined"
         ><v-icon dark>mdi-cog</v-icon></v-btn
       >
     </template>
