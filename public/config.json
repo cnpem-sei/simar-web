@@ -372,11 +372,11 @@
                 "name": "External",
                 "config": {
                     "pvs": [
-                        "B-15RaCtrl:CO-SIMAR-01:Temp-Mon",
-                        "B-15RaCtrl:CO-SIMAR-01:Pressure-Mon",
+                        "B-15:CO-SIMAR-01:Temp-Mon",
+                        "B-15:CO-SIMAR-01:Pressure-Mon",
                         "",
                         "",
-                        "B-15RaCtrl:CO-SIMAR-01:Humidity-Mon",
+                        "B-15:CO-SIMAR-01:Humidity-Mon",
                         "",
                         ""
                     ],
