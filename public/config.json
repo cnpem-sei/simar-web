@@ -388,6 +388,28 @@
                     "h_lo": 0
                 }
             }
+        ],
+        "10.128.161.141 - BBB-SIMAR-RF": [
+            {
+                "name": "RF, Ambient Temperature",
+                "config": {
+                    "pvs": [
+                        "RF:CO-SIMAR-01:Temp-Mon",
+                        "RF:CO-SIMAR-01:Pressure-Mon",
+                        "",
+                        "",
+                        "RF:CO-SIMAR-01:Humidity-Mon",
+                        "",
+                        ""
+                    ],
+                    "t_hi": 28,
+                    "t_lo": 0,
+                    "v_hi": 300,
+                    "v_lo": 100,
+                    "h_hi": 100,
+                    "h_lo": 0
+                }
+            }
         ]
     }
 }
