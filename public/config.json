@@ -394,11 +394,11 @@
                 "name": "RF, Ambient Temperature",
                 "config": {
                     "pvs": [
-                        "RF:CO-SIMAR-01:Temp-Mon",
-                        "RF:CO-SIMAR-01:Pressure-Mon",
+                        "RA-RaCtrl:CO-SIMAR-01:AmbientTemp-Mon",
+                        "RA-RaCtrl:CO-SIMAR-01:AmbientPressure-Mon",
                         "",
                         "",
-                        "RF:CO-SIMAR-01:Humidity-Mon",
+                        "RA-RaCtrl:CO-SIMAR-01:AmbientHumidity-Mon",
                         "",
                         ""
                     ],
