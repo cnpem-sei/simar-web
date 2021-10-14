@@ -41,7 +41,7 @@
       offset-y
     >
       <template v-slot:activator="{ on }">
-        <v-btn @click="login" icon x-large v-on="on">
+        <v-btn :disabled="!$store.state.msalConfig.auth.authority" @click="login" icon x-large v-on="on">
           <v-icon>mdi-login</v-icon>
         </v-btn>
       </template>
