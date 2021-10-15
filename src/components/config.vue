@@ -132,9 +132,9 @@ export default {
 
       for (let i = 0; i < this.item.outlets.currents.length; i++) {
         if (this.outlets.includes(i) && !this.prevOutlets.includes(i))
-          command += `${i}/1:${username}/`;
+          command += `/${i}/1:${username}`;
         else if (!this.outlets.includes(i) && this.prevOutlets.includes(i))
-          command += `${i}/0:${username}/`;
+          command += `/${i}/0:${username}`;
       }
 
       const pv_prefix = this.item.pvs[0].substring(
@@ -142,22 +142,20 @@ export default {
         this.item.pvs[0].lastIndexOf(":")
       );
       await this.send_command(
-        `HMSET/SIMAR:${pv_prefix}:Limits/h_hi/${this.range.h[1]}/h_lo/${this.range.h[0]}/t_hi/${this.range.t[1]}/t_lo/${this.range.t[0]}/v_hi/${this.range.v[1]}/v_lo/${this.range.v[0]}`
+        `HSET/SIMAR:${pv_prefix}:Limits/h_hi/${this.range.h[1]}/h_lo/${this.range.h[0]}/t_hi/${this.range.t[1]}/t_lo/${this.range.t[0]}/v_hi/${this.range.v[1]}/v_lo/${this.range.v[0]}`
       );
 
       this.load_prog = 80;
 
-      const response = await this.send_command(
-        `HMSET/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`,
+      await this.send_command(
+        `HSET/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`,
         token
       );
 
-      if (response.RPUSH > 0) {
-        this.$store.commit(
-          "showSnackbar",
-          `Successfully applied settings to ${this.item.parent}!`
-        );
-      }
+      this.$store.commit(
+        "showSnackbar",
+        `Successfully applied settings to ${this.item.parent}!`
+      );
 
       this.dialog = false;
       this.load_prog = 0;
