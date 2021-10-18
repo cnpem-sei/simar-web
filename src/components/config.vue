@@ -1,7 +1,14 @@
 <template>
   <v-dialog v-model="dialog" max-width="600px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon small fab color="grey" v-bind="attrs" v-on="on" :disabled="$store.state.account === undefined"
+      <v-btn
+        icon
+        small
+        fab
+        color="grey"
+        v-bind="attrs"
+        v-on="on"
+        :disabled="$store.state.account === undefined"
         ><v-icon dark>mdi-cog</v-icon></v-btn
       >
     </template>
@@ -82,6 +89,11 @@
         </v-list-item>
       </v-list>
       <v-card-actions>
+        <v-checkbox
+          v-model="autotemp"
+          label="Stabilize Temperatures"
+          color="green"
+        />
         <v-spacer />
         <v-btn color="grey darken-1" text @click="dialog = false">
           Close
@@ -111,8 +123,10 @@ export default {
       status: "Connected",
       prevOutlets: [],
       outlets: [],
+      autotemp: false,
       range: { h: [0, 0], t: [0, 0], v: [0, 0] },
       load_prog: 0,
+      parent_name: "",
     };
   },
   methods: {
@@ -132,9 +146,9 @@ export default {
 
       for (let i = 0; i < this.item.outlets.currents.length; i++) {
         if (this.outlets.includes(i) && !this.prevOutlets.includes(i))
-          command += `${i}/1:${username}/`;
+          command += `/${i}/1:${username}`;
         else if (!this.outlets.includes(i) && this.prevOutlets.includes(i))
-          command += `${i}/0:${username}/`;
+          command += `/${i}/0:${username}`;
       }
 
       const pv_prefix = this.item.pvs[0].substring(
@@ -142,22 +156,21 @@ export default {
         this.item.pvs[0].lastIndexOf(":")
       );
       await this.send_command(
-        `HMSET/SIMAR:${pv_prefix}:Limits/h_hi/${this.range.h[1]}/h_lo/${this.range.h[0]}/t_hi/${this.range.t[1]}/t_lo/${this.range.t[0]}/v_hi/${this.range.v[1]}/v_lo/${this.range.v[0]}`
+        `HSET/SIMAR:${pv_prefix}:Limits/h_hi/${this.range.h[1]}/h_lo/${this.range.h[0]}/t_hi/${this.range.t[1]}/t_lo/${this.range.t[0]}/v_hi/${this.range.v[1]}/v_lo/${this.range.v[0]}`,
+        token
       );
 
       this.load_prog = 80;
 
-      const response = await this.send_command(
-        `HMSET/SIMAR:${this.item.parent.replace(" - ", ":")}/${command}`,
+      await this.send_command(
+        `HSET/SIMAR:${this.parent_name}${command}`,
         token
       );
 
-      if (response.RPUSH > 0) {
-        this.$store.commit(
-          "showSnackbar",
-          `Successfully applied settings to ${this.item.parent}!`
-        );
-      }
+      this.$store.commit(
+        "showSnackbar",
+        `Successfully applied settings to ${this.item.parent}!`
+      );
 
       this.dialog = false;
       this.load_prog = 0;
@@ -181,20 +194,23 @@ export default {
   watch: {
     async dialog() {
       let on_outlets = [];
+      this.parent_name = this.item.parent.replace(" - ", ":");
       let data = await this.send_command(
-        `HGET/BBB:${this.item.parent.replace(" - ", ":")}/state_string`
+        `HGET/BBB:${this.parent_name}/state_string`
       );
 
       if (data) {
         this.status = data.HGET;
 
-        data = await this.send_command(
-          `SMEMBERS/SIMAR:${this.item.parent.replace(" - ", ":")}:Outlets`
-        );
+        data = await this.send_command(`HGETALL/SIMAR:${this.parent_name}-RB`);
 
-        if (data.SMEMBERS !== null) on_outlets = data.SMEMBERS.map(parseInt);
+        for (let i = 0; i < data.HGETALL.length; i += 2) {
+          if (data.HGETALL[i + 1] === "1") on_outlets.push(i);
+        }
       }
-
+      data = await this.send_command(
+        `HGET/SIMAR:${this.parent_name}/AT:${this.item.outlets.number}`
+      );
       this.outlets = this.prevOutlets = on_outlets;
     },
   },

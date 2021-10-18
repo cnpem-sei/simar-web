@@ -135,6 +135,7 @@ const parse_json = async (self) => {
           const pvs = [];
           self.symbols = data.symbols;
           for (const [parent, children] of Object.entries(data.items)) {
+            let i = 0;
             for (const sensor of children) {
               self.items.push(
                 Object.assign(
@@ -144,6 +145,7 @@ const parse_json = async (self) => {
                     parent: parent,
                     name: sensor.name,
                     outlets: {
+                      number: i++,
                       glitches: "?",
                       voltage: "?",
                       currents: ["?", "?", "?", "?", "?", "?", "?", "?"],
