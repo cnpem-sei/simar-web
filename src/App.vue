@@ -50,7 +50,6 @@ export default {
         "Temperature",
         "Pressure",
         "Rack Open",
-        "Fan Speed",
         "Humidity",
       ],
       pvs: {},

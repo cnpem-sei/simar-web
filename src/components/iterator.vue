@@ -25,7 +25,7 @@
               v-bind:item="item"
               v-bind:keys="settings.keys"
               v-bind:filtered_keys="filtered_keys"
-              @update-sub="update_sub()"
+              @update-sub="update_sub(item, $event)"
             />
           </v-col>
         </v-row>
@@ -127,36 +127,35 @@ const EMPTY_PVS = {
     value: "?",
     hi_limit: 30,
     lo_limit: 10,
+    subscribed: false,
   },
   Pressure: {
     name: "",
     value: "?",
     hi_limit: 1000,
     lo_limit: 800,
+    subscribed: false,
   },
   "Rack Open": {
     name: "",
     value: "?",
     hi_limit: "",
     lo_limit: "",
+    subscribed: false,
   },
   Humidity: {
     name: "",
     value: "?",
     hi_limit: 70,
     lo_limit: 30,
-  },
-  "Fan Speed": {
-    name: "",
-    value: "?",
-    hi_limit: 70,
-    lo_limit: 30,
+    subscribed: false,
   },
   Voltage: {
     name: "",
     value: "?",
     hi_limit: 90,
     lo_limit: 340,
+    subscribed: false,
   },
 };
 
@@ -264,9 +263,10 @@ export default {
       });
       return items;
     },
-    async update_sub() {
+    async get_all_subs() {
+      console.log("b");
       const response = await fetch(
-        "http://127.0.0.1:5000/simar/api/get_subscriptions",
+        "https://127.0.0.1:5000/simar/api/get_subscriptions",
         {
           headers: {
             Authorization: `Bearer ${await this.get_token()}`,
@@ -284,9 +284,12 @@ export default {
         }
       }
     },
+    async update_sub(item, key) {
+      item.pvs[key].subscribed = !item.pvs[key].subscribed;
+    },
     async open_pvs() {
       this.con.monitorPvs(await parse_json(this));
-      await this.update_sub();
+      await this.get_all_subs();
       const pv_prefixes = this.items.map((i) =>
         i.pvs.Temperature.name.substring(
           0,
@@ -337,7 +340,6 @@ export default {
       this.$forceUpdate();
     },
   },
-
   created() {
     var options = {
       url: "wss://" + this.$store.state.url + "/epics2web/monitor",

@@ -16,12 +16,12 @@
           <span>
             <v-slide-x-reverse-transition>
               <notify
-                v-if="
+                v-show="
                   (hover || item.pvs[key].subscribed) &&
                   item.pvs[key].value !== '?'
                 "
                 v-bind:pv="item.pvs[key]"
-                @update-sub="$emit('update-sub')"
+                @update-sub="$emit('update-sub', key)"
               />
             </v-slide-x-reverse-transition>
             <v-chip

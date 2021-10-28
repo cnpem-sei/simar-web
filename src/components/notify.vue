@@ -26,10 +26,11 @@ export default {
   },
   methods: {
     async toggle_subscribe() {
-      if (!this.pv.subscribed) await this.subscribe();
-      else await this.unsubscribe();
+      let response;
+      if (!this.pv.subscribed) response = await this.subscribe();
+      else response = await this.unsubscribe();
 
-      this.$emit("update-sub");
+      if (response === 200) this.$emit("update-sub");
     },
     async subscribe() {
       if ("granted" === (await Notification.requestPermission())) {
@@ -44,34 +45,44 @@ export default {
           });
         }
 
-        await fetch(`http://127.0.0.1:5000/simar/api/subscribe`, {
+        const response = await fetch(
+          `https://127.0.0.1:5000/simar/api/subscribe`,
+          {
+            method: "post",
+            headers: {
+              Authorization: `Bearer ${await this.get_token()}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              pvs: {
+                name: this.pv.name,
+                hi_limit: this.pv.hi_limit,
+                lo_limit: this.pv.lo_limit,
+              },
+              sub: subscription,
+            }),
+          }
+        );
+
+        return response.status;
+      }
+      return false;
+    },
+    async unsubscribe() {
+      const response = await fetch(
+        `https://127.0.0.1:5000/simar/api/unsubscribe`,
+        {
           method: "post",
           headers: {
             Authorization: `Bearer ${await this.get_token()}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            pvs: {
-              name: this.pv.name,
-              hi_limit: this.pv.hi_limit,
-              lo_limit: this.pv.lo_limit,
-            },
-            sub: subscription,
+            pvs: this.pv.name,
           }),
-        });
-      }
-    },
-    async unsubscribe() {
-      await fetch(`http://127.0.0.1:5000/simar/api/unsubscribe`, {
-        method: "post",
-        headers: {
-          Authorization: `Bearer ${await this.get_token()}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          pv: this.pv.name,
-        }),
-      });
+        }
+      );
+      return response.status;
     },
   },
 };
