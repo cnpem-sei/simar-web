@@ -112,7 +112,7 @@ export default {
       if (subscription) {
         await subscription.unsubscribe();
 
-        await fetch(`http://127.0.0.1:5000/simar/api/unsubscribe_all`, {
+        await fetch(`https://127.0.0.1:5000/simar/api/unsubscribe_all`, {
           method: "delete",
           headers: {
             Authorization: `Bearer ${await this.get_token()}`,
