@@ -131,11 +131,6 @@ export default {
   },
   methods: {
     async apply_changes() {
-      const token = await this.$store.state.msalInstance.acquireTokenSilent({
-        scopes: ["User.Read"],
-        account: this.$store.state.account,
-      });
-
       let command = "";
       const username = this.$store.state.account.username.substring(
         0,
@@ -151,21 +146,18 @@ export default {
           command += `/${i}/0:${username}`;
       }
 
-      const pv_prefix = this.item.pvs[0].substring(
+      const pv_prefix = this.item.pvs.Temperature.name.substring(
         0,
-        this.item.pvs[0].lastIndexOf(":")
+        this.item.pvs.Temperature.name.lastIndexOf(":")
       );
       await this.send_command(
         `HSET/SIMAR:${pv_prefix}:Limits/h_hi/${this.range.h[1]}/h_lo/${this.range.h[0]}/t_hi/${this.range.t[1]}/t_lo/${this.range.t[0]}/v_hi/${this.range.v[1]}/v_lo/${this.range.v[0]}`,
-        token
+        true
       );
 
       this.load_prog = 80;
 
-      await this.send_command(
-        `HSET/SIMAR:${this.parent_name}${command}`,
-        token
-      );
+      await this.send_command(`HSET/SIMAR:${this.parent_name}${command}`, true);
 
       this.$store.commit(
         "showSnackbar",

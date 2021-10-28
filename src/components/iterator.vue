@@ -25,6 +25,7 @@
               v-bind:item="item"
               v-bind:keys="settings.keys"
               v-bind:filtered_keys="filtered_keys"
+              @update-sub="update_sub()"
             />
           </v-col>
         </v-row>
@@ -69,29 +70,23 @@
             <v-btn
               plain
               class="amb-val"
-              :href="`https://${$store.state.url}/archiver-viewer/?pv=${
-                items.at(-1).pvs[0]
-              }`"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=`"
               ><v-icon dark>mdi-thermometer</v-icon
-              >{{ items.at(-1).values[0] }}</v-btn
+              >{{ items.at(-1).pvs.Temperature.value }}</v-btn
             >
             <v-btn
               plain
               class="amb-val"
-              :href="`https://${$store.state.url}/archiver-viewer/?pv=${
-                items.at(-1).pvs[1]
-              }`"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=`"
               ><v-icon dark>mdi-gauge</v-icon
-              >{{ items.at(-1).values[1] }}</v-btn
+              >{{ items.at(-1).pvs.Pressure.value }}</v-btn
             >
             <v-btn
               plain
               class="amb-val"
-              :href="`https://${$store.state.url}/archiver-viewer/?pv=${
-                items.at(-1).pvs[4]
-              }`"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=`"
               ><v-icon dark>mdi-water-percent</v-icon
-              >{{ items.at(-1).values[4] }}</v-btn
+              >{{ items.at(-1).pvs.Humidity.value }}</v-btn
             >
           </v-layout>
 
@@ -126,47 +121,110 @@
 import * as e2w from "../assets/epics2web.js";
 import card from "./card";
 
-const parse_json = async (self) => {
+const EMPTY_PVS = {
+  Temperature: {
+    name: "",
+    value: "?",
+    hi_limit: 30,
+    lo_limit: 10,
+  },
+  Pressure: {
+    name: "",
+    value: "?",
+    hi_limit: 1000,
+    lo_limit: 800,
+  },
+  "Rack Open": {
+    name: "",
+    value: "?",
+    hi_limit: "",
+    lo_limit: "",
+  },
+  Humidity: {
+    name: "",
+    value: "?",
+    hi_limit: 70,
+    lo_limit: 30,
+  },
+  "Fan Speed": {
+    name: "",
+    value: "?",
+    hi_limit: 70,
+    lo_limit: 30,
+  },
+  Voltage: {
+    name: "",
+    value: "?",
+    hi_limit: 90,
+    lo_limit: 340,
+  },
+};
+
+const SYMBOLS = {
+  Temperature: " C",
+  Humidity: "%",
+  Pressure: " hPa",
+  "Fan Speed": "RPM",
+};
+
+const SHORTHAND_TYPES = {
+  t: "Temperature",
+  h: "Humidity",
+  p: "Pressure",
+  v: "Voltage",
+};
+
+async function parse_json(self) {
   return new Promise((resolve) => {
-    setTimeout(() => {
-      fetch("config.json")
-        .then((response) => response.json())
-        .then((data) => {
-          const pvs = [];
-          self.symbols = data.symbols;
-          for (const [parent, children] of Object.entries(data.items)) {
-            let i = 0;
-            for (const sensor of children) {
-              self.items.push(
-                Object.assign(
-                  {},
-                  sensor.config,
-                  {
-                    parent: parent,
-                    name: sensor.name,
-                    outlets: {
-                      number: i++,
-                      glitches: "?",
-                      voltage: "?",
-                      currents: ["?", "?", "?", "?", "?", "?", "?", "?"],
-                      pf: "?",
-                    },
-                  },
-                  { values: ["?", "?", "?", "?", "?", "?"] }
-                )
-              );
-              for (let inner_pv of sensor.config.pvs) {
-                if (inner_pv !== "") {
-                  pvs.push(inner_pv);
-                }
-              }
-            }
-          }
-          resolve(pvs);
-        });
+    setTimeout(async () => {
+      const response = await fetch("config.json");
+      const data = await response.json();
+      let pvs = [];
+      self.symbols = data.symbols;
+      for (const [parent, children] of Object.entries(data.items)) {
+        let i = 0;
+        for (const sensor of children) {
+          const pv_names = Object.keys(sensor.pvs).map(
+            (t) => sensor.pvs[t].name
+          );
+
+          self.items.push({
+            parent: parent,
+            name: sensor.name,
+            pvs: fill_template(sensor.pvs),
+            pv_names: pv_names,
+            outlets: {
+              number: i++,
+              glitches: "?",
+              currents: ["?", "?", "?", "?", "?", "?", "?", "?"],
+              pf: "?",
+            },
+          });
+          pvs = pvs.concat(pv_names);
+        }
+      }
+      resolve(pvs);
     }, 100);
   });
-};
+}
+
+function get_type(pv) {
+  const pv_type = pv.split(":")[2];
+  if (pv_type.includes("Temp")) return "Temperature";
+  if (pv_type.includes("Pressure")) return "Pressure";
+  if (pv_type.includes("Humidity")) return "Humidity";
+  if (pv_type.includes("RackOpen")) return "Rack Open";
+}
+
+function fill_template(pvs) {
+  let filled = JSON.parse(JSON.stringify(EMPTY_PVS)); // Deep copy needs to be made
+
+  for (let type_key of Object.keys(pvs)) {
+    filled[type_key].name = pvs[type_key].name;
+  }
+
+  return filled;
+}
 
 export default {
   components: {
@@ -192,7 +250,7 @@ export default {
       return this.settings.keys.filter((key) => key !== "Name");
     },
     filter_valid() {
-      return this.items.filter((i) => i.values[1] !== "0 hPa");
+      return this.items.filter((i) => i.pvs.Pressure.value !== "0 hPa");
     },
   },
   methods: {
@@ -201,36 +259,39 @@ export default {
         if (index[0] === "Name")
           return this.settings.sort_desc ? b.name > a.name : a.name > b.name;
 
-        const pv_index = this.settings.keys.indexOf(index[0]) - 1;
-        const end_char = pv_index === 5 ? "%" : " ";
-        let is_first = false;
-
-        if (pv_index !== 2) {
-          is_first =
-            parseFloat(
-              a.values[pv_index].substring(
-                0,
-                a.values[pv_index].indexOf(end_char)
-              )
-            ) >
-            parseFloat(
-              b.values[pv_index].substring(
-                0,
-                b.values[pv_index].indexOf(end_char)
-              )
-            );
-          return this.settings.sort_desc ? !is_first : is_first;
-        } else {
-          is_first = a.values[pv_index] > b.values[pv_index];
-        }
+        const is_first = a.pvs[index[0]].value > b.pvs[index[0]].value;
         return this.settings.sort_desc ? !is_first : is_first;
       });
       return items;
     },
+    async update_sub() {
+      const response = await fetch(
+        "http://127.0.0.1:5000/simar/api/get_subscriptions",
+        {
+          headers: {
+            Authorization: `Bearer ${await this.get_token()}`,
+          },
+        }
+      );
+
+      const subbed = await response.json();
+
+      for (let i in this.items) {
+        for (let pv of Object.keys(this.items[i].pvs)) {
+          this.items[i].pvs[pv].subscribed = subbed.includes(
+            this.items[i].pvs[pv].name
+          );
+        }
+      }
+    },
     async open_pvs() {
       this.con.monitorPvs(await parse_json(this));
+      await this.update_sub();
       const pv_prefixes = this.items.map((i) =>
-        i.pvs[0].substring(0, i.pvs[0].lastIndexOf(":"))
+        i.pvs.Temperature.name.substring(
+          0,
+          i.pvs.Temperature.name.lastIndexOf(":")
+        )
       );
       let indexes = [];
       let sensors = await this.send_command("KEYS/SIMAR:*:Limits");
@@ -249,43 +310,34 @@ export default {
       sensors = await this.send_command(command);
 
       for (let i = 0; i < sensors.EVALSHA.length; i++) {
-        for (let j = 0; j < sensors.EVALSHA[i].length; j += 2)
-          this.items[indexes[i]][sensors.EVALSHA[i][j]] =
+        for (let j = 0; j < sensors.EVALSHA[i].length; j += 2) {
+          const type_key = SHORTHAND_TYPES[sensors.EVALSHA[i][j].charAt(0)];
+          const type_limit = sensors.EVALSHA[i][j].substring(2, 4) + "_limit";
+
+          this.items[indexes[i]].pvs[type_key][type_limit] =
             sensors.EVALSHA[i][j + 1];
+        }
       }
     },
     on_update(e) {
-      const pv = e.detail.pv;
-      const index = this.items.findIndex((i) => i.pvs.includes(pv));
-      const pv_index = this.items[index].pvs.indexOf(e.detail.pv);
+      const index = this.items.findIndex((i) =>
+        i.pv_names.includes(e.detail.pv)
+      );
+      const pv_type = get_type(e.detail.pv);
 
-      if (pv.includes("RackOpen-Mon")) {
+      if (get_type(e.detail.pv) === "Rack Open") {
         // Rack door status
-        this.$set(
-          this.items[index].values,
-          pv_index,
-          e.detail.value == 0 ? "No" : "Yes"
-        );
-      } else if (pv_index === 5 || pv_index === 6) {
-        // Voltage value, since voltage is fifth
-        this.items[index].outlets[pv_index === 5 ? "voltage" : "glitches"] =
-          e.detail.value.toFixed(2);
-      } else if (pv_index > 6) {
-        // One of 8 possible current values, current values are available from the sixth PV onwards
-        this.items[index].outlets.currents[pv_index - 6] =
-          e.detail.value.toFixed(2);
+        this.items[index].pvs[pv_type].value =
+          e.detail.value === 0 ? "No" : "Yes";
       } else {
-        // Other PVs
-        this.$set(
-          this.items[index].values,
-          pv_index,
-          e.detail.value.toFixed(2) + this.symbols[pv_index]
-        );
+        this.items[index].pvs[pv_type].value =
+          e.detail.value.toFixed(2) + SYMBOLS[pv_type];
       }
 
       this.$forceUpdate();
     },
   },
+
   created() {
     var options = {
       url: "wss://" + this.$store.state.url + "/epics2web/monitor",
@@ -295,7 +347,7 @@ export default {
     this.con.onopen = this.open_pvs;
     this.con.onupdate = this.on_update;
   },
-  mounted() {
+  async mounted() {
     let host = "10.0.38.46";
     if (window.location.host === "vpn.cnpem.br") {
       // If using WEB VPN
@@ -319,6 +371,9 @@ export default {
         this.$store.commit("setUrl", host);
       }
     }
+
+    const serviceWorker = await navigator.serviceWorker.register("/sw.js");
+    this.$store.commit("setSw", serviceWorker);
   },
 };
 </script>

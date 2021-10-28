@@ -27,7 +27,12 @@
             <h3>{{ $store.state.account.name }}</h3>
             <p class="text-caption mt-1">{{ $store.state.account.username }}</p>
             <v-divider class="my-3"></v-divider>
-            <v-btn @click="logout" depressed rounded text> Disconnect </v-btn>
+            <v-btn @click="unsubscribe_all" depressed text>
+              <v-icon style="margin-right: 10px">mdi-bell-off-outline</v-icon
+              >Unsubscribe to all</v-btn
+            >
+            <v-divider class="my-3"></v-divider>
+            <v-btn @click="logout" depressed text> Disconnect </v-btn>
           </div>
         </v-list-item-content>
       </v-card>
@@ -41,7 +46,13 @@
       offset-y
     >
       <template v-slot:activator="{ on }">
-        <v-btn :disabled="!$store.state.msalConfig.auth.authority" @click="login" icon x-large v-on="on">
+        <v-btn
+          :disabled="!$store.state.msalConfig.auth.authority"
+          @click="login"
+          icon
+          x-large
+          v-on="on"
+        >
           <v-icon>mdi-login</v-icon>
         </v-btn>
       </template>
@@ -93,6 +104,22 @@ export default {
       await this.$store.state.msalInstance.logout({}).catch((error) => {
         console.error(error);
       });
+    },
+    async unsubscribe_all() {
+      const subscription =
+        await this.$store.state.sw.pushManager.getSubscription();
+
+      if (subscription) {
+        await subscription.unsubscribe();
+
+        await fetch(`http://127.0.0.1:5000/simar/api/unsubscribe_all`, {
+          method: "delete",
+          headers: {
+            Authorization: `Bearer ${await this.get_token()}`,
+            "Content-Type": "application/json",
+          },
+        });
+      }
     },
   },
 };

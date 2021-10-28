@@ -45,7 +45,7 @@ export default {
   computed: {
     range: {
       get() {
-        return [this.item[this.lo], this.item[this.hi]];
+        return [this.lo, this.hi];
       },
       set(input) {
         this.range[0] = input[0];
@@ -56,15 +56,14 @@ export default {
     },
   },
   mounted() {
-    const type = this.name.charAt(0).toLowerCase();
-    this.lo = `${type}_lo`;
-    this.hi = `${type}_hi`;
+    this.lo = this.item.pvs[this.name].lo_limit;
+    this.hi = this.item.pvs[this.name].hi_limit;
 
-    switch (type) {
-      case "v":
+    switch (this.name) {
+      case "Voltage":
         this.max = 1000;
         break;
-      case "h":
+      case "Humidity":
         this.max = 100;
         break;
     }

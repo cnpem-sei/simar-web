@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title class="subheading font-weight-bold">
       {{ item.name }}
-      <v-spacer/>
+      <v-spacer />
       <config v-bind:item="item" />
     </v-card-title>
 
@@ -11,14 +11,29 @@
     <v-list dense>
       <v-list-item v-for="(key, index) in filtered_keys" :key="index">
         <v-list-item-content> {{ key }}: </v-list-item-content>
-        <v-chip
-          class="align-end"
-          :color="get_pv_color(item, key)"
-          text-color="white"
-          :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs[index]}`"
-        >
-          {{ item.values[index] }}
-        </v-chip>
+
+        <v-hover v-slot:default="{ hover }">
+          <span>
+            <v-slide-x-reverse-transition>
+              <notify
+                v-if="
+                  (hover || item.pvs[key].subscribed) &&
+                  item.pvs[key].value !== '?'
+                "
+                v-bind:pv="item.pvs[key]"
+                @update-sub="$emit('update-sub')"
+              />
+            </v-slide-x-reverse-transition>
+            <v-chip
+              class="align-end"
+              :color="get_pv_color(item, key)"
+              text-color="white"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs[key].name}`"
+            >
+              {{ item.pvs[key].value }}
+            </v-chip>
+          </span>
+        </v-hover>
       </v-list-item>
     </v-list>
     <panels
@@ -31,6 +46,7 @@
 <script>
 import panels from "./panels";
 import config from "./config";
+import notify from "./notify";
 
 export default {
   props: ["items", "item", "filtered_keys", "keys"],
@@ -42,10 +58,11 @@ export default {
   components: {
     panels,
     config,
+    notify,
   },
   methods: {
-    get_pv_color(value_raw, key) {
-      const value = value_raw.values[this.keys.indexOf(key) - 1];
+    get_pv_color(item, key) {
+      const value = item.pvs[key].value;
 
       if (value === "?") return "gray";
 
@@ -56,19 +73,17 @@ export default {
           : parseFloat(value.substring(0, value.indexOf("%")));
 
       switch (key) {
-        case "Rack open":
-          return value_raw.values[this.keys.indexOf("Rack open") - 1] === "No"
-            ? "green"
-            : "orange";
+        case "Rack Open":
+          return value === "No" ? "green" : "orange";
         default:
           if (
-            f_value > value_raw[m_type + "_hi"] * 1.2 ||
-            f_value < value_raw[m_type + "_lo"] * 0.8
+            f_value > item.pvs[key].hi_limit * 1.2 ||
+            f_value < item.pvs[key].lo_limit * 0.8
           )
             return "red";
           else if (
-            f_value > value_raw[m_type + "_hi"] ||
-            f_value < value_raw[m_type + "_lo"]
+            f_value > item.pvs[key].hi_limit ||
+            f_value < item.pvs[key].lo_limit
           )
             return "orange";
           else return "green";

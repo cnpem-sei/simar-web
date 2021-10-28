@@ -11,11 +11,16 @@
     </v-main>
     <ft />
 
-    <v-snackbar v-model="$store.state.snackbar" timeout="4000" color="white" light>
+    <v-snackbar
+      v-model="$store.state.snackbar"
+      timeout="4000"
+      color="white"
+      light
+    >
       {{ $store.state.message }}
 
       <template v-slot:action="{ attrs }">
-        <v-btn icon text v-bind="attrs" @click="$store.commit('hideSnackbar');">
+        <v-btn icon text v-bind="attrs" @click="$store.commit('hideSnackbar')">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </template>
@@ -44,8 +49,8 @@ export default {
         "Name",
         "Temperature",
         "Pressure",
-        "Rack open",
-        "Fan speed",
+        "Rack Open",
+        "Fan Speed",
         "Humidity",
       ],
       pvs: {},

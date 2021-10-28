@@ -14,6 +14,7 @@ const store = new Vuex.Store({
         cacheLocation: "localStorage",
       },
     },
+    sw: undefined,
     accessToken: "",
     msalInstance: "",
     account: undefined,
@@ -40,6 +41,9 @@ const store = new Vuex.Store({
     },
     setUrl(state, url) {
       state.url = url;
+    },
+    setSw(state, sw) {
+      state.sw = sw;
     },
   },
 });
