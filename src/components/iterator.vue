@@ -264,7 +264,6 @@ export default {
       return items;
     },
     async get_all_subs() {
-      console.log("b");
       const response = await fetch(
         "https://127.0.0.1:5000/simar/api/get_subscriptions",
         {
@@ -283,6 +282,7 @@ export default {
           );
         }
       }
+      this.$forceUpdate();
     },
     async update_sub(item, key) {
       item.pvs[key].subscribed = !item.pvs[key].subscribed;
