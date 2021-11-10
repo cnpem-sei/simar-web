@@ -331,6 +331,19 @@
                 }
             }
         ],
+        "10.0.6.56 - BBB-NEW-2021": [
+            {
+                "name": "CONS, Controls Rack",
+                "pvs": {
+                    "Voltage": {
+                        "name": "CO-RaCtrl:CO-SIMAR-01:Voltage-Mon"
+                    },
+                    "Current": {
+                        "name": "CO-RaCtrl:CO-SIMAR-01:Current-Mon"
+                    }
+                }
+            }
+        ],
         "10.15.0.254 - SIMAR-EXT-R0": [
             {
                 "name": "External",

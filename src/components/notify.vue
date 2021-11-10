@@ -46,7 +46,7 @@ export default {
         }
 
         const response = await fetch(
-          `https://127.0.0.1:5000/simar/api/subscribe`,
+          `http://10.0.6.70:1337/simar/api/subscribe`,
           {
             method: "post",
             headers: {
@@ -70,7 +70,7 @@ export default {
     },
     async unsubscribe() {
       const response = await fetch(
-        `https://127.0.0.1:5000/simar/api/unsubscribe`,
+        `http://10.0.6.70:1337/simar/api/unsubscribe`,
         {
           method: "post",
           headers: {

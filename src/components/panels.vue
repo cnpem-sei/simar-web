@@ -14,7 +14,10 @@
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-list dense style="column-count: 2">
-          <v-list-item v-for="(key, index) in outlets.currents" :key="index">
+          <v-list-item
+            v-for="(key, index) in item.outlets.currents"
+            :key="index"
+          >
             <v-list-item-icon style="margin-right: 3px"
               ><v-icon :color="get_color(index)"
                 >mdi-power-plug-outline</v-icon
@@ -24,9 +27,7 @@
             <v-spacer />
             <v-chip small :color="get_color(index)" text-color="white">
               {{
-                `${outlets.voltage} ${outlets.voltage !== "?" ? "V" : ""} / ${
-                  outlets.currents[index]
-                } ${outlets.currents[index] !== "?" ? "A" : ""}`
+                `${item.pvs.Voltage.value} / ${item.outlets.currents[index]}`
               }}
             </v-chip>
           </v-list-item>
@@ -36,14 +37,14 @@
           <p style="margin: 0">Voltage Glitches Last Minute</p>
           <v-spacer />
           <v-chip small :color="get_glitch_color()" text-color="white">{{
-            outlets.glitches
+            item.outlets.glitches
           }}</v-chip>
         </v-row>
         <v-row style="padding: 0 28px">
           <p>Power Factor</p>
           <v-spacer />
           <v-chip small :color="get_glitch_color()" text-color="white">{{
-            outlets.pf
+            item.outlets.pf
           }}</v-chip>
         </v-row>
       </v-expansion-panel-content>
@@ -53,7 +54,7 @@
 
 <script>
 export default {
-  props: ["outlets", "limits"],
+  props: ["item", "limits"],
   data: function () {
     return {
       critical: false,
@@ -63,29 +64,32 @@ export default {
     get_color(index) {
       // If at least one voltage/current value is critical, display a warning icon
       this.critical =
-        (this.outlets.voltage !== "?" &&
-          this.outlets.voltage > this.limits.hi) ||
-        this.outlets.voltage < this.limits.lo ||
-        this.outlets.currents.some((current) => {
+        (this.item.pvs.Voltage.value !== "?" &&
+          this.item.pvs.Voltage.value > this.limits.hi) ||
+        this.item.pvs.Voltage.value < this.limits.lo ||
+        this.item.outlets.currents.some((current) => {
           return current !== "?" && current > 20;
         }) ||
-        this.outlets.glitches > 2;
+        this.item.outlets.glitches > 2;
 
-      if (this.outlets.voltage === "?" || this.outlets.currents[index] === "?")
+      if (
+        this.item.pvs.Voltage.value === "?" ||
+        this.item.outlets.currents[index] === "?"
+      )
         return "gray";
 
       if (
-        this.outlets.voltage > this.limits.hi ||
-        this.outlets.voltage < this.limits.lo ||
-        this.outlets.currents[index] > 20
+        this.item.pvs.Voltage.value > this.limits.hi ||
+        this.item.pvs.Voltage.value < this.limits.lo ||
+        this.item.outlets.currents[index] > 20
       )
         return "red";
 
       return "green";
     },
     get_glitch_color() {
-      if (this.outlets.glitches === "?") return "gray";
-      if (this.outlets.glitches > 2) return "red";
+      if (this.item.outlets.glitches === "?") return "gray";
+      if (this.item.outlets.glitches > 2) return "red";
       return "green";
     },
   },

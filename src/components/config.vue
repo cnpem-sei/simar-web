@@ -70,16 +70,10 @@
                 >{{ index }}</v-list-item-title
               >
               <v-list-item-subtitle style="text-align: center">
-                {{ item.outlets.voltage }}
-                {{
-                  item.outlets.voltage !== "?" ? "V" : ""
-                }}</v-list-item-subtitle
+                {{ item.pvs.Voltage.value }}</v-list-item-subtitle
               >
               <v-list-item-subtitle style="text-align: center">
-                {{ item.outlets.currents[index] }}
-                {{
-                  item.outlets.currents[index] !== "?" ? "A" : ""
-                }}</v-list-item-subtitle
+                {{ item.outlets.currents[index] }}</v-list-item-subtitle
               >
             </v-col>
             <v-col>
@@ -194,10 +188,12 @@ export default {
       if (data) {
         this.status = data.HGET;
 
-        data = await this.send_command(`HGETALL/SIMAR:${this.parent_name}-RB`);
+        data = await this.send_command(`HGETALL/SIMAR:${this.parent_name}:RB`);
 
-        for (let i = 0; i < data.HGETALL.length; i += 2) {
-          if (data.HGETALL[i + 1] === "1") on_outlets.push(i);
+        console.log(data.HGETALL);
+
+        for (let i = 0; i < 7; i += 2) {
+          if (data.HGETALL[i] === "1") on_outlets.push(i);
         }
       }
       data = await this.send_command(

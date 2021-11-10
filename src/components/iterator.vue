@@ -157,6 +157,13 @@ const EMPTY_PVS = {
     lo_limit: 340,
     subscribed: false,
   },
+  Current: {
+    name: "",
+    value: "?",
+    hi_limit: 0,
+    lo_limit: 20,
+    subscribed: false,
+  },
 };
 
 const SYMBOLS = {
@@ -164,6 +171,8 @@ const SYMBOLS = {
   Humidity: "%",
   Pressure: " hPa",
   "Fan Speed": "RPM",
+  Voltage: " V",
+  Current: " A",
 };
 
 const SHORTHAND_TYPES = {
@@ -213,6 +222,8 @@ function get_type(pv) {
   if (pv_type.includes("Pressure")) return "Pressure";
   if (pv_type.includes("Humidity")) return "Humidity";
   if (pv_type.includes("RackOpen")) return "Rack Open";
+  if (pv_type.includes("Voltage")) return "Voltage";
+  if (pv_type.includes("Current")) return "Current";
 }
 
 function fill_template(pvs) {
@@ -265,7 +276,7 @@ export default {
     },
     async get_all_subs() {
       const response = await fetch(
-        "https://127.0.0.1:5000/simar/api/get_subscriptions",
+        "http://10.0.6.70:1337/simar/api/get_subscriptions",
         {
           headers: {
             Authorization: `Bearer ${await this.get_token()}`,
@@ -328,10 +339,13 @@ export default {
       );
       const pv_type = get_type(e.detail.pv);
 
-      if (get_type(e.detail.pv) === "Rack Open") {
+      if (pv_type === "Rack Open") {
         // Rack door status
         this.items[index].pvs[pv_type].value =
           e.detail.value === 0 ? "No" : "Yes";
+      } else if (pv_type === "Current") {
+        this.items[index].outlets.currents[0] =
+          e.detail.value.toFixed(2) + SYMBOLS[pv_type];
       } else {
         this.items[index].pvs[pv_type].value =
           e.detail.value.toFixed(2) + SYMBOLS[pv_type];

@@ -37,7 +37,7 @@
       </v-list-item>
     </v-list>
     <panels
-      v-bind:outlets="item.outlets"
+      v-bind:item="item"
       v-bind:limits="{ lo: item.v_lo, hi: item.v_hi }"
     />
   </v-card>
