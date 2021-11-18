@@ -118,69 +118,9 @@
 </template>
 
 <script>
+import * as consts from "../assets/constants.js";
 import * as e2w from "../assets/epics2web.js";
 import card from "./card";
-
-const EMPTY_PVS = {
-  Temperature: {
-    name: "",
-    value: "?",
-    hi_limit: 30,
-    lo_limit: 10,
-    subscribed: false,
-  },
-  Pressure: {
-    name: "",
-    value: "?",
-    hi_limit: 1000,
-    lo_limit: 800,
-    subscribed: false,
-  },
-  "Rack Open": {
-    name: "",
-    value: "?",
-    hi_limit: "",
-    lo_limit: "",
-    subscribed: false,
-  },
-  Humidity: {
-    name: "",
-    value: "?",
-    hi_limit: 70,
-    lo_limit: 30,
-    subscribed: false,
-  },
-  Voltage: {
-    name: "",
-    value: "?",
-    hi_limit: 90,
-    lo_limit: 340,
-    subscribed: false,
-  },
-  Current: {
-    name: "",
-    value: "?",
-    hi_limit: 0,
-    lo_limit: 20,
-    subscribed: false,
-  },
-};
-
-const SYMBOLS = {
-  Temperature: " C",
-  Humidity: "%",
-  Pressure: " hPa",
-  "Fan Speed": "RPM",
-  Voltage: " V",
-  Current: " A",
-};
-
-const SHORTHAND_TYPES = {
-  t: "Temperature",
-  h: "Humidity",
-  p: "Pressure",
-  v: "Voltage",
-};
 
 async function parse_json(self) {
   return new Promise((resolve) => {
@@ -190,23 +130,37 @@ async function parse_json(self) {
       let pvs = [];
       self.symbols = data.symbols;
       for (const [parent, children] of Object.entries(data.items)) {
-        let i = 0;
         for (const sensor of children) {
-          const pv_names = Object.keys(sensor.pvs).map(
-            (t) => sensor.pvs[t].name
-          );
+          let pv_names = [];
+
+          for (let pv of Object.keys(sensor.pvs)) {
+            if (pv !== "Current") {
+              pv_names.push(sensor.pvs[pv].name);
+            }
+          }
+
+          if (sensor.pvs.Current) {
+            const current_pv_names = [];
+
+            const current_name = sensor.pvs.Current.name;
+            const current_pos = current_name.indexOf("Current") + 7;
+
+            for (let i = 1; i < 8; i++) {
+              current_pv_names.push(
+                current_name.substring(0, current_pos) +
+                  i +
+                  current_name.substring(current_pos)
+              );
+            }
+
+            pv_names = pv_names.concat(current_pv_names);
+          }
 
           self.items.push({
             parent: parent,
             name: sensor.name,
             pvs: fill_template(sensor.pvs),
             pv_names: pv_names,
-            outlets: {
-              number: i++,
-              glitches: "?",
-              currents: ["?", "?", "?", "?", "?", "?", "?", "?"],
-              pf: "?",
-            },
           });
           pvs = pvs.concat(pv_names);
         }
@@ -227,7 +181,7 @@ function get_type(pv) {
 }
 
 function fill_template(pvs) {
-  let filled = JSON.parse(JSON.stringify(EMPTY_PVS)); // Deep copy needs to be made
+  let filled = JSON.parse(JSON.stringify(consts.EMPTY_PVS)); // Deep copy needs to be made
 
   for (let type_key of Object.keys(pvs)) {
     filled[type_key].name = pvs[type_key].name;
@@ -325,7 +279,8 @@ export default {
 
       for (let i = 0; i < sensors.EVALSHA.length; i++) {
         for (let j = 0; j < sensors.EVALSHA[i].length; j += 2) {
-          const type_key = SHORTHAND_TYPES[sensors.EVALSHA[i][j].charAt(0)];
+          const type_key =
+            consts.SHORTHAND_TYPES[sensors.EVALSHA[i][j].charAt(0)];
           const type_limit = sensors.EVALSHA[i][j].substring(2, 4) + "_limit";
 
           this.items[indexes[i]].pvs[type_key][type_limit] =
@@ -344,11 +299,12 @@ export default {
         this.items[index].pvs[pv_type].value =
           e.detail.value === 0 ? "No" : "Yes";
       } else if (pv_type === "Current") {
-        this.items[index].outlets.currents[0] =
-          e.detail.value.toFixed(2) + SYMBOLS[pv_type];
+        this.items[index].pvs.Current.values[
+          parseInt(e.detail.pv.charAt(e.detail.pv.indexOf("Current") + 7)) - 1
+        ] = e.detail.value.toFixed(2) + consts.SYMBOLS[pv_type];
       } else {
         this.items[index].pvs[pv_type].value =
-          e.detail.value.toFixed(2) + SYMBOLS[pv_type];
+          e.detail.value.toFixed(2) + consts.SYMBOLS[pv_type];
       }
 
       this.$forceUpdate();

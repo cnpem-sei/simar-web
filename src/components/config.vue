@@ -61,19 +61,22 @@
         />
       </v-list>
       <v-list dense style="column-count: 3">
-        <v-list-item v-for="(key, index) in item.outlets.currents" :key="index">
+        <v-list-item
+          v-for="(key, index) in item.pvs.Current.values"
+          :key="index"
+        >
           <v-list-item-content>
             <v-col>
               <v-list-item-title
                 ><v-icon :color="get_color(index)"
                   >mdi-power-plug-outline</v-icon
-                >{{ index }}</v-list-item-title
+                >{{ index + 1 }}</v-list-item-title
               >
               <v-list-item-subtitle style="text-align: center">
                 {{ item.pvs.Voltage.value }}</v-list-item-subtitle
               >
               <v-list-item-subtitle style="text-align: center">
-                {{ item.outlets.currents[index] }}</v-list-item-subtitle
+                {{ item.pvs.Current.values[index] }}</v-list-item-subtitle
               >
             </v-col>
             <v-col>
@@ -133,7 +136,7 @@ export default {
 
       this.load_prog = 33;
 
-      for (let i = 0; i < this.item.outlets.currents.length; i++) {
+      for (let i = 0; i < this.item.pvs.Current.values.length; i++) {
         if (this.outlets.includes(i) && !this.prevOutlets.includes(i))
           command += `/${i}/1:${username}`;
         else if (!this.outlets.includes(i) && this.prevOutlets.includes(i))
@@ -163,14 +166,14 @@ export default {
     },
     get_color(index) {
       if (
-        this.item.outlets.voltage === "?" ||
-        this.item.outlets.currents[index] === "?"
+        this.item.pvs.Voltage.value === "?" ||
+        this.item.pvs.Current.values[index] === "?"
       )
         return "grey";
       if (
-        this.item.outlets.voltage > this.item.v_hi ||
-        this.item.outlets.voltage < this.item.v_lo ||
-        this.item.outlets.currents[index] > 20
+        this.item.pvs.Voltage.value > this.item.v_hi ||
+        this.item.pvs.Voltage.value < this.item.v_lo ||
+        this.item.pvs.Current.values[index] > 20
       )
         return "red";
 
@@ -189,8 +192,6 @@ export default {
         this.status = data.HGET;
 
         data = await this.send_command(`HGETALL/SIMAR:${this.parent_name}:RB`);
-
-        console.log(data.HGETALL);
 
         for (let i = 0; i < 7; i += 2) {
           if (data.HGETALL[i] === "1") on_outlets.push(i);
