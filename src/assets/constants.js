@@ -54,6 +54,13 @@ export const EMPTY_PVS = {
         hi_limit: 0.1,
         lo_limit: 0.9,
         subscribed: false,
+    },
+    Frequency: {
+        name: "",
+        value: "?",
+        hi_limit: 70,
+        lo_limit: 50,
+        subscribed: false,
     }
 };
 
@@ -64,6 +71,9 @@ export const SYMBOLS = {
     "Fan Speed": "RPM",
     Voltage: " V",
     Current: " A",
+    Frequency: " Hz",
+    PFactor: "",
+    Glitches: ""
 };
 
 export const SHORTHAND_TYPES = {

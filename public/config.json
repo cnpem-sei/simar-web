@@ -340,6 +340,15 @@
                     },
                     "Current": {
                         "name": "CO-RaCtrl:CO-SIMAR-01:Current-Mon"
+                    },
+                    "Frequency": {
+                        "name": "CO-RaCtrl:CO-SIMAR-01:Frequency-Mon"
+                    },
+                    "PFactor": {
+                        "name": "CO-RaCtrl:CO-SIMAR-01:Pfactor-Mon"
+                    },
+                    "Glitches": {
+                        "name": "CO-RaCtrl:CO-SIMAR-01:Glitch-Mon"
                     }
                 }
             }

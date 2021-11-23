@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px">
+  <v-dialog v-model="dialog" max-width="700px">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         icon
@@ -66,22 +66,29 @@
           :key="index"
         >
           <v-list-item-content>
-            <v-col>
-              <v-list-item-title
-                ><v-icon :color="get_color(index)"
-                  >mdi-power-plug-outline</v-icon
-                >{{ index + 1 }}</v-list-item-title
-              >
-              <v-list-item-subtitle style="text-align: center">
-                {{ item.pvs.Voltage.value }}</v-list-item-subtitle
-              >
-              <v-list-item-subtitle style="text-align: center">
-                {{ item.pvs.Current.values[index] }}</v-list-item-subtitle
-              >
-            </v-col>
-            <v-col>
-              <v-switch v-model="outlets" :value="index" color="green" inset />
-            </v-col>
+            <v-row>
+              <v-col>
+                <v-list-item-title
+                  ><v-icon :color="get_color(index)"
+                    >mdi-power-plug-outline</v-icon
+                  >{{ index }}</v-list-item-title
+                >
+                <v-list-item-subtitle style="text-align: center">
+                  {{ item.pvs.Voltage.value }}</v-list-item-subtitle
+                >
+                <v-list-item-subtitle style="text-align: center">
+                  {{ item.pvs.Current.values[index] }}</v-list-item-subtitle
+                >
+              </v-col>
+              <v-col>
+                <v-switch
+                  v-model="outlets"
+                  :value="index"
+                  color="green"
+                  inset
+                />
+              </v-col>
+            </v-row>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -197,9 +204,6 @@ export default {
           if (data.HGETALL[i] === "1") on_outlets.push(i);
         }
       }
-      data = await this.send_command(
-        `HGET/SIMAR:${this.parent_name}/AT:${this.item.outlets.number}`
-      );
       this.outlets = this.prevOutlets = on_outlets;
     },
   },

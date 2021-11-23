@@ -33,20 +33,29 @@
           </v-list-item>
         </v-list>
         <v-divider />
-        <v-row style="padding: 0 16px; margin: 10px 0 0 0">
-          <p style="margin: 0">Voltage Glitches Last Minute</p>
-          <v-spacer />
-          <v-chip small :color="get_glitch_color()" text-color="white">{{
-            item.pvs.Glitches.value
-          }}</v-chip>
-        </v-row>
-        <v-row style="padding: 0 28px">
-          <p>Power Factor</p>
-          <v-spacer />
-          <v-chip small :color="get_glitch_color()" text-color="white">{{
-            item.pvs.PFactor.value
-          }}</v-chip>
-        </v-row>
+        <v-col style="margin: 12px 0 0 0">
+          <v-row>
+            <p>Voltage Glitches Last Minute</p>
+            <v-spacer />
+            <v-chip small :color="get_glitch_color()" text-color="white">{{
+              item.pvs.Glitches.value
+            }}</v-chip>
+          </v-row>
+          <v-row>
+            <p>Power Factor</p>
+            <v-spacer />
+            <v-chip small :color="get_glitch_color()" text-color="white">{{
+              item.pvs.PFactor.value
+            }}</v-chip>
+          </v-row>
+          <v-row>
+            <p>Frequency</p>
+            <v-spacer />
+            <v-chip small :color="get_glitch_color()" text-color="white">{{
+              item.pvs.Frequency.value
+            }}</v-chip>
+          </v-row>
+        </v-col>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
