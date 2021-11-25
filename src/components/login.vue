@@ -86,7 +86,7 @@ export default {
   methods: {
     async login() {
       await this.$store.state.msalInstance
-        .loginPopup({})
+        .loginPopup({ scopes: ["User.Read"] })
         .then(() => {
           const accounts = this.$store.state.msalInstance.getAllAccounts();
           accounts[0].initials = getInitials(accounts[0]);
