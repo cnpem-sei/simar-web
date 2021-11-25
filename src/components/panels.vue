@@ -44,7 +44,7 @@
         <v-divider />
         <v-col style="margin: 12px 0 0 0">
           <v-row>
-            <p>Voltage Glitches Last 5 Seconds</p>
+            <p>Glitches Last 5 Seconds</p>
             <v-spacer />
             <v-chip
               small
