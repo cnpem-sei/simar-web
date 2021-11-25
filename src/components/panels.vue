@@ -26,7 +26,15 @@
             >
             <v-list-item-content>{{ index }}</v-list-item-content>
             <v-spacer />
-            <v-chip style="font-size: 10px" small :color="get_color(index)" text-color="white">
+            <v-chip
+              :href="`http://10.0.38.42/${$store.state.url}/?pv=${
+                item.pvs.Voltage.name
+              }&pv=${get_current_pv(item.pvs.Current.name, index)}`"
+              style="font-size: 10px"
+              small
+              :color="get_color(index)"
+              text-color="white"
+            >
               {{
                 `${item.pvs.Voltage.value} / ${item.pvs.Current.values[index]}`
               }}
@@ -36,25 +44,37 @@
         <v-divider />
         <v-col style="margin: 12px 0 0 0">
           <v-row>
-            <p>Voltage Glitches Last Minute</p>
+            <p>Voltage Glitches Last 5 Seconds</p>
             <v-spacer />
-            <v-chip small :color="get_glitch_color()" text-color="white">{{
-              item.pvs.Glitches.value
-            }}</v-chip>
+            <v-chip
+              small
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.Glitches.name}`"
+              :color="get_glitch_color()"
+              text-color="white"
+              >{{ item.pvs.Glitches.value }}</v-chip
+            >
           </v-row>
           <v-row>
             <p>Power Factor</p>
             <v-spacer />
-            <v-chip small :color="get_glitch_color()" text-color="white">{{
-              item.pvs.PFactor.value
-            }}</v-chip>
+            <v-chip
+              small
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.PFactor.name}`"
+              :color="get_glitch_color()"
+              text-color="white"
+              >{{ item.pvs.PFactor.value }}</v-chip
+            >
           </v-row>
           <v-row>
             <p>Frequency</p>
             <v-spacer />
-            <v-chip small :color="get_glitch_color()" text-color="white">{{
-              item.pvs.Frequency.value
-            }}</v-chip>
+            <v-chip
+              small
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.Frequency.name}`"
+              :color="get_glitch_color()"
+              text-color="white"
+              >{{ item.pvs.Frequency.value }}</v-chip
+            >
           </v-row>
         </v-col>
       </v-expansion-panel-content>
@@ -101,6 +121,12 @@ export default {
       if (this.item.pvs.Glitches === "?") return "gray";
       if (this.item.pvs.Glitches > 2) return "red";
       return "green";
+    },
+    get_current_pv(name, index) {
+      const current_pos = name.indexOf("Current") + 7;
+      return (
+        name.substring(0, current_pos) + index + name.substring(current_pos)
+      );
     },
   },
 };
