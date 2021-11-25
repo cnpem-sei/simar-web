@@ -17,6 +17,7 @@
           <v-list-item
             v-for="(key, index) in item.pvs.Current.values"
             :key="index"
+            style="padding: 2px"
           >
             <v-list-item-icon style="margin-right: 3px"
               ><v-icon :color="get_color(index)"
@@ -25,7 +26,7 @@
             >
             <v-list-item-content>{{ index }}</v-list-item-content>
             <v-spacer />
-            <v-chip small :color="get_color(index)" text-color="white">
+            <v-chip style="font-size: 10px" small :color="get_color(index)" text-color="white">
               {{
                 `${item.pvs.Voltage.value} / ${item.pvs.Current.values[index]}`
               }}
