@@ -7,7 +7,7 @@
         style="padding: 2px 16px; font-size: 16px"
         :disable-icon-rotate="critical"
       >
-        Voltage
+        Power
         <template v-slot:actions v-if="critical">
           <v-icon color="error"> mdi-alert-circle </v-icon>
         </template>
@@ -19,7 +19,9 @@
             :key="index"
             style="padding: 2px"
           >
-            <v-list-item-icon style="margin-right: 3px"
+            <v-list-item-icon
+              v-if="$vuetify.breakpoint.width > 1540"
+              style="margin-right: 3px"
               ><v-icon :color="get_color(index)"
                 >mdi-power-plug-outline</v-icon
               ></v-list-item-icon
