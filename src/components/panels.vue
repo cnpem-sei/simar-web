@@ -29,7 +29,7 @@
             <v-list-item-content>{{ index }}</v-list-item-content>
             <v-spacer />
             <v-chip
-              :href="`http://10.0.38.42/${$store.state.url}/?pv=${
+              :href="`http://${$store.state.url}/archiver-viewer/?pv=${
                 item.pvs.Voltage.name
               }&pv=${get_current_pv(item.pvs.Current.name, index)}`"
               style="font-size: 10px"

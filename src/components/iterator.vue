@@ -303,7 +303,7 @@ export default {
           e.detail.value === 0 ? "No" : "Yes";
       } else if (pv_type === "Current") {
         this.items[index].pvs.Current.values[
-          parseInt(e.detail.pv.charAt(e.detail.pv.indexOf("Current") + 7)) - 1
+          parseInt(e.detail.pv.charAt(e.detail.pv.indexOf("Current") + 7))
         ] = e.detail.value.toFixed(2) + consts.SYMBOLS[pv_type];
       } else {
         this.items[index].pvs[pv_type].value =
