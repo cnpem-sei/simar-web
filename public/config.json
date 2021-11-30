@@ -279,14 +279,6 @@
                     "Rack Open": {
                         "name": "CA-RaCtrl:CO-SIMAR-01:RackOpen-Mon"
                     }
-                },
-                "limits": {
-                    "t_hi": 28,
-                    "t_lo": 0,
-                    "v_hi": 300,
-                    "v_lo": 100,
-                    "h_hi": 100,
-                    "h_lo": 0
                 }
             },
             {
@@ -304,7 +296,7 @@
                 }
             },
             {
-                "name": "CA, Ambient Temperature",
+                "name": "CA, Ambient",
                 "pvs": {
                     "Temperature": {
                         "name": "CA:CO-SIMAR-01:AmbientTemp-Mon"
@@ -349,6 +341,47 @@
                     },
                     "Glitches": {
                         "name": "CO-RaCtrl:CO-SIMAR-01:Glitch-Mon"
+                    },
+                    "Temperature": {
+                        "name": "CO-RaCtrl:CO-SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "CO-RaCtrl:CO-SIMAR-01:RackInternalPressure-Mon"
+                    }                
+                }
+            }
+        ],
+        "10.128.132.141 - BBB-SIMAR-PA-RaPSD04-1": [
+            {
+                "name": "PA, Power Supply Rack 3 (upper)",
+                "pvs": {
+                    "Temperature": {
+                        "name": "PA-RaPSD03:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "PA-RaPSD03:SIMAR-01:RackInternalPressure-Mon"
+                    }
+                }
+            },
+                {
+                "name": "PA, Power Supply Rack 3 (lower)",
+                "pvs": {
+                    "Temperature": {
+                        "name": "PA-RaPSD03:SIMAR-02:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "PA-RaPSD03:SIMAR-02:RackInternalPressure-Mon"
+                    }
+                }
+            },
+            {
+                "name": "PA, Ambient",
+                "pvs": {
+                    "Temperature": {
+                        "name": "PA-RaPSD03:SIMAR-01:AmbientTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "PA-RaPSD03:SIMAR-01:AmbientPressure-Mon"
                     }
                 }
             }

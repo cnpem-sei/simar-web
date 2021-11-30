@@ -37,7 +37,7 @@
           v-bind:item="item"
           @change="
             (e) => {
-              range.t = e;
+              range.Temperature = e;
             }
           "
         />
@@ -46,7 +46,7 @@
           v-bind:item="item"
           @change="
             (e) => {
-              range.h = e;
+              range.Humidity = e;
             }
           "
         />
@@ -55,7 +55,16 @@
           v-bind:item="item"
           @change="
             (e) => {
-              range.v = e;
+              range.Voltage = e;
+            }
+          "
+        />
+        <range
+          name="Pressure"
+          v-bind:item="item"
+          @change="
+            (e) => {
+              range.Pressure = e;
             }
           "
         />
@@ -128,7 +137,12 @@ export default {
       prevOutlets: [],
       outlets: [],
       autotemp: false,
-      range: { h: [0, 0], t: [0, 0], v: [0, 0] },
+      range: {
+        Humidity: [0, 0],
+        Temperature: [0, 0],
+        Pressure: [0, 0],
+        Voltage: [0, 0],
+      },
       load_prog: 0,
       parent_name: "",
     };
@@ -150,14 +164,34 @@ export default {
           command += `/${i}/0:${username}`;
       }
 
-      const pv_prefix = this.item.pvs.Temperature.name.substring(
-        0,
-        this.item.pvs.Temperature.name.lastIndexOf(":")
-      );
-      await this.send_command(
-        `HSET/SIMAR:${pv_prefix}:Limits/h_hi/${this.range.h[1]}/h_lo/${this.range.h[0]}/t_hi/${this.range.t[1]}/t_lo/${this.range.t[0]}/v_hi/${this.range.v[1]}/v_lo/${this.range.v[0]}`,
-        true
-      );
+      const pvs_to_change = [];
+
+      for (let pv of Object.keys(this.item.pvs)) {
+        if (!this.item.pvs[pv].name) continue;
+        if (
+          this.range[pv] !== undefined &&
+          this.range[pv][0] !== this.range[pv][1] &&
+          (this.range[pv][0] !== this.item.pvs[pv].lo_limit ||
+            this.range[pv][1] !== this.item.pvs[pv].hi_limit)
+        ) {
+          pvs_to_change.push({
+            name: this.item.pvs[pv].name,
+            lo_limit: this.range[pv][0],
+            hi_limit: this.range[pv][1],
+          });
+        }
+      }
+
+      await fetch("http://10.0.6.70:1337/simar/api/set_limits", {
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${await this.get_token()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ pvs: pvs_to_change }),
+      });
+
+      this.$emit("update-limit", pvs_to_change);
 
       this.load_prog = 80;
 

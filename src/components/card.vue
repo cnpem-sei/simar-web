@@ -3,7 +3,14 @@
     <v-card-title class="subheading font-weight-bold">
       {{ item.name }}
       <v-spacer />
-      <config v-bind:item="item" />
+      <config
+        v-bind:item="item"
+        @update-limit="
+          (e) => {
+            $emit('update-limit', e);
+          }
+        "
+      />
     </v-card-title>
 
     <v-divider></v-divider>

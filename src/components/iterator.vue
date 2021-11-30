@@ -26,6 +26,7 @@
               v-bind:keys="settings.keys"
               v-bind:filtered_keys="filtered_keys"
               @update-sub="update_sub(item, $event)"
+              @update-limit="update_limit(item, $event)"
             />
           </v-col>
         </v-row>
@@ -123,6 +124,13 @@ import * as e2w from "../assets/epics2web.js";
 import card from "./card";
 
 async function parse_json(self) {
+  let pv_info = [];
+
+  try {
+    pv_info = await self.get_pv_info();
+  } catch {
+    console.warn("Notifications are not available");
+  }
   return new Promise((resolve) => {
     setTimeout(async () => {
       const response = await fetch("config.json");
@@ -136,6 +144,13 @@ async function parse_json(self) {
           for (let pv of Object.keys(sensor.pvs)) {
             if (pv !== "Current") {
               pv_names.push(sensor.pvs[pv].name);
+            }
+            const i = pv_info.findIndex((i) => i.name === sensor.pvs[pv].name);
+
+            if (i > -1) {
+              sensor.pvs[pv].subscribed = pv_info[i].subbed;
+              sensor.pvs[pv].hi_limit = pv_info[i].hi_limit;
+              sensor.pvs[pv].lo_limit = pv_info[i].lo_limit;
             }
           }
 
@@ -187,7 +202,8 @@ function fill_template(pvs) {
   let filled = JSON.parse(JSON.stringify(consts.EMPTY_PVS)); // Deep copy needs to be made
 
   for (let type_key of Object.keys(pvs)) {
-    filled[type_key].name = pvs[type_key].name;
+    for (let value of Object.keys(pvs[type_key]))
+      filled[type_key][value] = pvs[type_key][value];
   }
 
   return filled;
@@ -231,64 +247,25 @@ export default {
       });
       return items;
     },
-    async get_all_subs() {
-      const response = await fetch(
-        "http://10.0.6.70:1337/simar/api/get_subscriptions",
-        {
-          headers: {
-            Authorization: `Bearer ${await this.get_token()}`,
-          },
-        }
-      );
+    async get_pv_info() {
+      const response = await fetch("http://10.0.6.70:1337/simar/api/get_pvs", {
+        headers: {
+          Authorization: `Bearer ${await this.get_token()}`,
+        },
+      });
 
-      const subbed = await response.json();
-
-      for (let i in this.items) {
-        for (let pv of Object.keys(this.items[i].pvs)) {
-          this.items[i].pvs[pv].subscribed = subbed.includes(
-            this.items[i].pvs[pv].name
-          );
-        }
-      }
-      this.$forceUpdate();
+      return await response.json();
     },
     async update_sub(item, key) {
       item.pvs[key].subscribed = !item.pvs[key].subscribed;
     },
-    async open_pvs() {
-      this.con.monitorPvs(await parse_json(this));
-      await this.get_all_subs();
-      const pv_prefixes = this.items.map((i) =>
-        i.pvs.Temperature.name.substring(
-          0,
-          i.pvs.Temperature.name.lastIndexOf(":")
-        )
-      );
-      let indexes = [];
-      let sensors = await this.send_command("KEYS/SIMAR:*:Limits");
-      let command = escape(
-        `EVALSHA/82281378dbb9b4ab512a34823ed9722c0743394e/${sensors.KEYS.length}/`
-      );
-      for (let key of sensors.KEYS) {
-        command += `${key}/`;
-        indexes.push(
-          pv_prefixes.indexOf(
-            key.substring(key.indexOf(":") + 1, key.lastIndexOf(":"))
-          )
+    async update_limit(item, pvs) {
+      for (let pv of pvs) {
+        const pv_type = Object.keys(item.pvs).find(
+          (k) => item.pvs[k].name === pv.name
         );
-      }
-
-      sensors = await this.send_command(command);
-
-      for (let i = 0; i < sensors.EVALSHA.length; i++) {
-        for (let j = 0; j < sensors.EVALSHA[i].length; j += 2) {
-          const type_key =
-            consts.SHORTHAND_TYPES[sensors.EVALSHA[i][j].charAt(0)];
-          const type_limit = sensors.EVALSHA[i][j].substring(2, 4) + "_limit";
-
-          this.items[indexes[i]].pvs[type_key][type_limit] =
-            sensors.EVALSHA[i][j + 1];
-        }
+        item.pvs[pv_type].hi_limit = pv.hi_limit;
+        item.pvs[pv_type].lo_limit = pv.lo_limit;
       }
     },
     on_update(e) {
@@ -313,13 +290,13 @@ export default {
       this.$forceUpdate();
     },
   },
-  created() {
+  async created() {
     var options = {
       url: "wss://" + this.$store.state.url + "/epics2web/monitor",
     };
     this.con = new e2w.jlab.epics2web.ClientConnection(options);
 
-    this.con.onopen = this.open_pvs;
+    this.con.onopen = this.con.monitorPvs(await parse_json(this));
     this.con.onupdate = this.on_update;
   },
   async mounted() {

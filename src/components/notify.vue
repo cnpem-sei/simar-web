@@ -54,11 +54,13 @@ export default {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              pvs: {
-                name: this.pv.name,
-                hi_limit: this.pv.hi_limit,
-                lo_limit: this.pv.lo_limit,
-              },
+              pvs: [
+                {
+                  name: this.pv.name,
+                  hi_limit: this.pv.hi_limit,
+                  lo_limit: this.pv.lo_limit,
+                },
+              ],
               sub: subscription,
             }),
           }
@@ -78,7 +80,7 @@ export default {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            pvs: this.pv.name,
+            pvs: [this.pv.name],
           }),
         }
       );

@@ -30,8 +30,8 @@ export const EMPTY_PVS = {
     Voltage: {
         name: "",
         value: "?",
-        hi_limit: 90,
-        lo_limit: 340,
+        hi_limit: 340,
+        lo_limit: 90,
         subscribed: false,
     },
     Current: {

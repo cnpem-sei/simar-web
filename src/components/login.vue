@@ -61,28 +61,11 @@
 </template>
 
 <script>
-import { PublicClientApplication } from "@azure/msal-browser";
-
 function getInitials(account) {
   return account.name.split(" ")[0].substring(0, 1);
 }
 
 export default {
-  async created() {
-    const msalInstance = new PublicClientApplication(
-      this.$store.state.msalConfig
-    );
-
-    this.$store.commit("setInstance", msalInstance);
-  },
-  async mounted() {
-    const accounts = this.$store.state.msalInstance.getAllAccounts();
-    if (accounts.length == 0) {
-      return;
-    }
-    accounts[0].initials = getInitials(accounts[0]);
-    this.$store.commit("setAccount", accounts[0]);
-  },
   methods: {
     async login() {
       await this.$store.state.msalInstance
