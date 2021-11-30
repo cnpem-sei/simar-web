@@ -378,10 +378,10 @@
                 "name": "PA, Ambient",
                 "pvs": {
                     "Temperature": {
-                        "name": "PA-RaPSD03:SIMAR-01:AmbientTemp-Mon"
+                        "name": "PA:SIMAR-01:AmbientTemp-Mon"
                     },
                     "Pressure": {
-                        "name": "PA-RaPSD03:SIMAR-01:AmbientPressure-Mon"
+                        "name": "PA:SIMAR-01:AmbientPressure-Mon"
                     }
                 }
             }
