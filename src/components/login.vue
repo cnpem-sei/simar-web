@@ -32,6 +32,8 @@
               >Unsubscribe to all</v-btn
             >
             <v-divider class="my-3"></v-divider>
+            <telegram />
+            <v-divider class="my-3"></v-divider>
             <v-btn @click="logout" depressed text> Disconnect </v-btn>
           </div>
         </v-list-item-content>
@@ -61,11 +63,13 @@
 </template>
 
 <script>
+import telegram from "./telegram.vue";
 function getInitials(account) {
   return account.name.split(" ")[0].substring(0, 1);
 }
 
 export default {
+  components: { telegram },
   methods: {
     async login() {
       await this.$store.state.msalInstance
