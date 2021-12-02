@@ -234,7 +234,7 @@ export default {
 
         data = await this.send_command(`HGETALL/SIMAR:${this.parent_name}:RB`);
 
-        for (let i = 0; i < 7; i += 2) {
+        for (let i = 0; i < 7; i++) {
           if (data.HGETALL[i] === "1") on_outlets.push(i);
         }
       }
