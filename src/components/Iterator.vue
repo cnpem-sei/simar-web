@@ -20,7 +20,7 @@
             md="4"
             lg="3"
           >
-            <card
+            <Card
               :key="item.name"
               v-bind:item="item"
               v-bind:keys="settings.keys"
@@ -121,7 +121,7 @@
 <script>
 import * as consts from "../assets/constants.js";
 import * as e2w from "../assets/epics2web.js";
-import card from "./card";
+import Card from "./Card";
 
 async function parse_json(self) {
   let pv_info = [];
@@ -209,7 +209,7 @@ function fill_template(pvs) {
 
 export default {
   components: {
-    card,
+    Card,
   },
   props: ["settings"],
   data() {

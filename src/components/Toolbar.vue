@@ -38,7 +38,7 @@
         </v-btn-toggle>
       </template>
       <v-spacer />
-      <login style="flex-grow: 0" v-on="$listeners"></login>
+      <Login style="flex-grow: 0" v-on="$listeners"></login>
     </v-toolbar>
     <v-toolbar
       v-if="dropdown && $vuetify.breakpoint.smAndDown"
@@ -80,10 +80,10 @@
 </template>
 
 <script>
-import login from "./login";
+import Login from "./Login";
 
 export default {
-  components: { login },
+  components: { Login },
   props: ["settings"],
   data() {
     return {

@@ -32,7 +32,7 @@
       </v-card-subtitle>
       <v-divider />
       <v-list>
-        <range
+        <Range
           name="Temperature"
           v-bind:item="item"
           @change="
@@ -41,7 +41,7 @@
             }
           "
         />
-        <range
+        <Range
           name="Humidity"
           v-bind:item="item"
           @change="
@@ -50,7 +50,7 @@
             }
           "
         />
-        <range
+        <Range
           name="Voltage"
           v-bind:item="item"
           @change="
@@ -59,7 +59,7 @@
             }
           "
         />
-        <range
+        <Range
           name="Pressure"
           v-bind:item="item"
           @change="
@@ -90,7 +90,7 @@
                 >
               </v-col>
               <v-col>
-                <v-switch
+                <v-switch 
                   v-model="outlets"
                   :value="index"
                   color="green"
@@ -125,10 +125,10 @@
 </template>
 
 <script>
-import range from "./range";
+import Range from "./Range";
 
 export default {
-  components: { range },
+  components: { Range },
   props: ["item"],
   data: function () {
     return {

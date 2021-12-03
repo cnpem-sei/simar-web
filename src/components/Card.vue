@@ -3,7 +3,7 @@
     <v-card-title class="subheading font-weight-bold">
       {{ item.name }}
       <v-spacer />
-      <config
+      <Config
         v-bind:item="item"
         @update-limit="
           (e) => {
@@ -22,9 +22,9 @@
         <v-hover v-slot:default="{ hover }">
           <span>
             <v-slide-x-reverse-transition>
-              <notify
+              <Notify
                 v-show="
-                  (hover || item.pvs[key].subscribed) &&
+                  (hover || item.pvs[key].subscribed || $vuetify.breakpoint.mobile) &&
                   item.pvs[key].value !== '?'
                 "
                 v-bind:pv="item.pvs[key]"
@@ -43,7 +43,7 @@
         </v-hover>
       </v-list-item>
     </v-list>
-    <panels
+    <Panels
       v-bind:item="item"
       v-bind:limits="{ lo: item.v_lo, hi: item.v_hi }"
     />
@@ -51,9 +51,9 @@
 </template>
 
 <script>
-import panels from "./panels";
-import config from "./config";
-import notify from "./notify";
+import Panels from "./Panels";
+import Config from "./Config";
+import Notify from "./Notify";
 
 export default {
   props: ["items", "item", "filtered_keys", "keys"],
@@ -63,9 +63,9 @@ export default {
     };
   },
   components: {
-    panels,
-    config,
-    notify,
+    Panels,
+    Config,
+    Notify,
   },
   methods: {
     get_pv_color(item, key) {

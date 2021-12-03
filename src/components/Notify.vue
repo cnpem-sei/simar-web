@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon small fab color="grey" @click="toggle_subscribe"
+  <v-btn icon small fab :color="this.pv.subscribed ? 'green' : 'grey'" @click="toggle_subscribe"
     ><v-icon>mdi-bell</v-icon></v-btn
   >
 </template>
@@ -19,11 +19,7 @@ function b64_uint8(base64String) {
 }
 
 export default {
-  components: {},
   props: ["pv"],
-  data: function () {
-    return {};
-  },
   methods: {
     async toggle_subscribe() {
       let response;
