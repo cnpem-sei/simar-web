@@ -187,15 +187,13 @@ async function parse_json(self) {
 
 function get_type(pv) {
   const pv_type = pv.split(":")[2];
-  if (pv_type.includes("Temp")) return "Temperature";
-  if (pv_type.includes("Pressure")) return "Pressure";
-  if (pv_type.includes("Humidity")) return "Humidity";
-  if (pv_type.includes("RackOpen")) return "Rack Open";
-  if (pv_type.includes("Voltage")) return "Voltage";
-  if (pv_type.includes("Current")) return "Current";
-  if (pv_type.includes("Frequency")) return "Frequency";
-  if (pv_type.includes("Pfactor")) return "PFactor";
-  if (pv_type.includes("Glitch")) return "Glitches";
+  for (const probable_type of Object.keys(consts.EMPTY_PVS)) {
+    if (pv_type.includes(probable_type)) return probable_type;
+    if (pv_type.includes("Temp")) return "Temperature";
+    if (pv_type.includes("RackOpen")) return "Rack Open";
+    if (pv_type.includes("Pfactor")) return "PFactor";
+    if (pv_type.includes("Glitch")) return "Glitches";
+  }
 }
 
 function fill_template(pvs) {

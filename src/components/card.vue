@@ -13,7 +13,7 @@
       />
     </v-card-title>
 
-    <v-divider></v-divider>
+    <v-divider />
 
     <v-list dense>
       <v-list-item v-for="(key, index) in filtered_keys" :key="index">

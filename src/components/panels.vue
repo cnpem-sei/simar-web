@@ -51,7 +51,7 @@
             <v-chip
               small
               :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.Glitches.name}`"
-              :color="get_glitch_color()"
+              :color="get_subvalues_color('Glitches')"
               text-color="white"
               >{{ item.pvs.Glitches.value }}</v-chip
             >
@@ -62,7 +62,7 @@
             <v-chip
               small
               :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.PFactor.name}`"
-              :color="get_glitch_color()"
+              :color="get_subvalues_color('PFactor')"
               text-color="white"
               >{{ item.pvs.PFactor.value }}</v-chip
             >
@@ -73,7 +73,7 @@
             <v-chip
               small
               :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.Frequency.name}`"
-              :color="get_glitch_color()"
+              :color="get_subvalues_color('Frequency')"
               text-color="white"
               >{{ item.pvs.Frequency.value }}</v-chip
             >
@@ -119,9 +119,22 @@ export default {
 
       return "green";
     },
-    get_glitch_color() {
-      if (this.item.pvs.Glitches === "?") return "gray";
-      if (this.item.pvs.Glitches > 2) return "red";
+    get_subvalues_color(type) {
+      const value = this.item.pvs[type].value.substring(
+        0,
+        this.item.pvs[type].value.indexOf(" ")
+      );
+      if (value === "?") return "gray";
+      switch (type) {
+        case "Frequency":
+          if (value < 55 || value > 65) return "red";
+          break;
+        case "PFactor":
+          return "green";
+        case "Glitches":
+          if (value > 2) return "red";
+          break;
+      }
       return "green";
     },
     get_current_pv(name, index) {
