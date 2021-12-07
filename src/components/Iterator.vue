@@ -322,7 +322,7 @@ export default {
       }
     }
 
-    const serviceWorker = await navigator.serviceWorker.register("/sw.js");
+    const serviceWorker = await navigator.serviceWorker.register("./sw.js");
     this.$store.commit("setSw", serviceWorker);
   },
 };
