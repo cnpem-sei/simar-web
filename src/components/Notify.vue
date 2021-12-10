@@ -1,5 +1,10 @@
 <template>
-  <v-btn icon small fab :color="this.pv.subscribed ? 'green' : 'grey'" @click="toggle_subscribe"
+  <v-btn
+    icon
+    small
+    fab
+    :color="this.pv.subscribed ? 'green' : 'grey'"
+    @click="toggle_subscribe"
     ><v-icon>mdi-bell</v-icon></v-btn
   >
 </template>
@@ -30,19 +35,27 @@ export default {
     },
     async subscribe() {
       if ("granted" === (await Notification.requestPermission())) {
-        await this.$store.state.sw.ready;
+        let subscription = {};
+        try {
+          await this.$store.state.sw.ready;
 
-        let subscription =
-          await this.$store.state.sw.pushManager.getSubscription();
-        if (!subscription) {
-          subscription = await this.$store.state.sw.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: b64_uint8(process.env.VUE_APP_PUSH_KEY),
-          });
+          subscription =
+            await this.$store.state.sw.pushManager.getSubscription();
+          if (!subscription) {
+            subscription = await this.$store.state.sw.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: b64_uint8(process.env.VUE_APP_PUSH_KEY),
+            });
+          }
+        } catch {
+          this.$store.commit(
+            "showSnackbar",
+            "A certificate error has occurred and we couldn't set up notifications for your browser. You can enable browser notifications by allowing insecure content in the site's permissions."
+          );
         }
 
         const response = await fetch(
-          `http://10.0.6.70:1337/simar/api/subscribe`,
+          `https://${this.$store.state.url}/simar/api/subscribe`,
           {
             method: "post",
             headers: {
@@ -68,7 +81,7 @@ export default {
     },
     async unsubscribe() {
       const response = await fetch(
-        `http://10.0.6.70:1337/simar/api/unsubscribe`,
+        `https://${this.$store.state.url}/simar/api/unsubscribe`,
         {
           method: "post",
           headers: {

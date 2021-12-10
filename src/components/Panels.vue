@@ -29,13 +29,14 @@
             <v-list-item-content>{{ index }}</v-list-item-content>
             <v-spacer />
             <v-chip
-              :href="`http://${$store.state.url}/archiver-viewer/?pv=${
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${
                 item.pvs.Voltage.name
               }&pv=${get_current_pv(item.pvs.Current.name, index)}`"
               style="font-size: 10px"
               small
               :color="get_color(index)"
               text-color="white"
+              target="_blank"
             >
               {{
                 `${item.pvs.Voltage.value} / ${item.pvs.Current.values[index]}`

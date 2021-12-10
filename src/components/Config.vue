@@ -90,7 +90,7 @@
                 >
               </v-col>
               <v-col>
-                <v-switch 
+                <v-switch
                   v-model="outlets"
                   :value="index"
                   color="green"
@@ -149,20 +149,12 @@ export default {
   },
   methods: {
     async apply_changes() {
-      let command = "";
-      const username = this.$store.state.account.username.substring(
-        0,
-        this.$store.state.account.username.indexOf("@")
-      );
-
       this.load_prog = 33;
 
-      for (let i = 0; i < this.item.pvs.Current.values.length; i++) {
-        if (this.outlets.includes(i) && !this.prevOutlets.includes(i))
-          command += `/${i}/1:${username}`;
-        else if (!this.outlets.includes(i) && this.prevOutlets.includes(i))
-          command += `/${i}/0:${username}`;
-      }
+      const outlets = [];
+
+      for (let i = 0; i < this.item.pvs.Current.values.length; i++)
+        outlets.push(this.outlets.includes(i) ? 1 : 0);
 
       const pvs_to_change = [];
 
@@ -182,7 +174,7 @@ export default {
         }
       }
 
-      await fetch("http://10.0.6.70:1337/simar/api/set_limits", {
+      await fetch(`https://${this.$store.state.url}/simar/api/set_limits`, {
         method: "post",
         headers: {
           Authorization: `Bearer ${await this.get_token()}`,
@@ -195,7 +187,17 @@ export default {
 
       this.load_prog = 80;
 
-      await this.send_command(`HSET/SIMAR:${this.parent_name}${command}`, true);
+      await fetch(
+        `https://${this.$store.state.url}/simar/api/outlets?host=SIMAR:${this.parent_name}`,
+        {
+          method: "post",
+          headers: {
+            Authorization: `Bearer ${await this.get_token()}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ outlets: outlets }),
+        }
+      );
 
       this.$store.commit(
         "showSnackbar",
@@ -232,12 +234,22 @@ export default {
       if (data) {
         this.status = data.HGET;
 
-        data = await this.send_command(`HGETALL/SIMAR:${this.parent_name}:RB`);
+        data = await fetch(
+          `https://${this.$store.state.url}/simar/api/outlets?host=SIMAR:${this.parent_name}`,
+          {
+            method: "get",
+            headers: {
+              Authorization: `Bearer ${await this.get_token()}`,
+            },
+          }
+        );
 
-        for (let i = 0; i < 7; i++) {
-          if (data.HGETALL[i] === "1") on_outlets.push(i);
-        }
+        data = await data.json();
+
+        for (let i in data.outlets)
+          if (data.outlets[i] === 1) on_outlets.push(parseInt(i));
       }
+
       this.outlets = this.prevOutlets = on_outlets;
     },
   },

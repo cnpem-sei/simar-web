@@ -24,7 +24,9 @@
             <v-slide-x-reverse-transition>
               <Notify
                 v-show="
-                  (hover || item.pvs[key].subscribed || $vuetify.breakpoint.mobile) &&
+                  (hover ||
+                    item.pvs[key].subscribed ||
+                    $vuetify.breakpoint.mobile) &&
                   item.pvs[key].value !== '?'
                 "
                 v-bind:pv="item.pvs[key]"
@@ -36,6 +38,7 @@
               :color="get_pv_color(item, key)"
               text-color="white"
               :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs[key].name}`"
+              target="_blank"
             >
               {{ item.pvs[key].value }}
             </v-chip>

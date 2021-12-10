@@ -122,7 +122,7 @@ export default {
     async register() {
       this.can_move = false;
       const response = await fetch(
-        `http://10.0.6.70:1337/simar/api/register_telegram`,
+        `https://${this.$store.state.url}/simar/api/register_telegram`,
         {
           method: "post",
           headers: {

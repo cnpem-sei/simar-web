@@ -246,7 +246,7 @@ export default {
       return items;
     },
     async get_pv_info() {
-      const response = await fetch("http://10.0.6.70:1337/simar/api/get_pvs", {
+      const response = await fetch(`https://${this.$store.state.url}/simar/api/get_pvs`, {
         headers: {
           Authorization: `Bearer ${await this.get_token()}`,
         },
@@ -322,7 +322,7 @@ export default {
       }
     }
 
-    const serviceWorker = await navigator.serviceWorker.register("/sw.js");
+    const serviceWorker = await navigator.serviceWorker.register("./sw.js");
     this.$store.commit("setSw", serviceWorker);
   },
 };

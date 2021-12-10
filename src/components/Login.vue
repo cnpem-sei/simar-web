@@ -100,13 +100,16 @@ export default {
         await subscription.unsubscribe();
       }
 
-      await fetch(`http://10.0.6.70:1337/simar/api/unsubscribe_all`, {
-        method: "delete",
-        headers: {
-          Authorization: `Bearer ${await this.get_token()}`,
-          "Content-Type": "application/json",
-        },
-      });
+      await fetch(
+        `https://${this.$store.state.url}/simar/api/unsubscribe_all`,
+        {
+          method: "delete",
+          headers: {
+            Authorization: `Bearer ${await this.get_token()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
     },
   },
 };
