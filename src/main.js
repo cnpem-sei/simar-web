@@ -8,17 +8,21 @@ Vue.prototype.$msalInstance = {};
 
 Vue.mixin({
   methods: {
-    async send_command(cmd, use_token = false) {
-      let headers = {};
-      if (use_token) headers = { Authorization: `Bearer ${await this.get_token()}` };
+    async send_command(endpoint, body, method = "POST") {
+      let config = {
+        method: method,
+        headers: { Authorization: `Bearer ${await this.get_token()}`, "Content-Type": "application/json" },
+      };
+
+      if (method !== "GET") {
+        config["body"] = JSON.stringify(body);
+      }
+
       const response = await fetch(
-        `https://${this.$store.state.url}/archiver-generic-backend/bypass?${this.$store.state.url}:7379/${cmd}`,
-        {
-          method: "GET",
-          headers: headers,
-        }
+        `https://${this.$store.state.url}/simar/api/${endpoint}`,
+        config,
       );
-      return response.json();
+      return response;
     },
     async get_token() {
       const token = await this.$store.state.msalInstance.acquireTokenSilent({

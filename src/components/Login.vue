@@ -27,9 +27,8 @@
             <h3>{{ $store.state.account.name }}</h3>
             <p class="text-caption mt-1">{{ $store.state.account.username }}</p>
             <v-divider class="my-3"></v-divider>
-            <v-btn @click="unsubscribe_all" depressed text>
-              <v-icon style="margin-right: 10px">mdi-bell-off-outline</v-icon
-              >Unsubscribe to all</v-btn
+            <v-btn @click="unsubscribe_all" depressed text
+              >Reset limits and notifications</v-btn
             >
             <v-divider class="my-3"></v-divider>
             <Telegram />
@@ -55,7 +54,7 @@
           x-large
           v-on="on"
         >
-          <v-icon>mdi-login</v-icon>
+          <v-icon>{{ mdiLogin }}</v-icon>
         </v-btn>
       </template>
     </v-menu>
@@ -64,11 +63,18 @@
 
 <script>
 import Telegram from "./Telegram";
+import { mdiLogin } from "@mdi/js";
+
 function getInitials(account) {
   return account.name.split(" ")[0].substring(0, 1);
 }
 
 export default {
+  data() {
+    return {
+      mdiLogin,
+    };
+  },
   components: { Telegram },
   methods: {
     async login() {
@@ -100,16 +106,7 @@ export default {
         await subscription.unsubscribe();
       }
 
-      await fetch(
-        `https://${this.$store.state.url}/simar/api/unsubscribe_all`,
-        {
-          method: "delete",
-          headers: {
-            Authorization: `Bearer ${await this.get_token()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      this.send_command("unsubscribe_all", {}, "DELETE");
     },
   },
 };

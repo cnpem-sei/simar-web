@@ -3,7 +3,7 @@
     <v-toolbar src="../assets/back.png" dark color="blue darken-3" class="mb-1">
       <template v-if="$vuetify.breakpoint.smAndDown">
         <v-btn icon v-on:click="dropdown = !dropdown">
-          <v-icon>mdi-menu</v-icon>
+          <v-icon>{{ mdiMenu }}</v-icon>
         </v-btn>
       </template>
       <v-text-field
@@ -12,7 +12,7 @@
         flat
         solo-inverted
         hide-details
-        prepend-inner-icon="mdi-magnify"
+        :prepend-inner-icon="mdiMagnify"
         label="Search"
       ></v-text-field>
       <template v-if="$vuetify.breakpoint.mdAndUp">
@@ -24,21 +24,21 @@
           hide-details
           v-model="sort_by"
           :items="this.settings.keys"
-          prepend-inner-icon="mdi-sort"
+          :prepend-inner-icon="mdiSort"
           label="Sort by"
         ></v-select>
         <v-spacer />
         <v-btn-toggle v-on:change="$emit('desc', $event)" mandatory>
           <v-btn large depressed color="blue" :value="false" align="start">
-            <v-icon>mdi-trending-up</v-icon>
+            <v-icon>{{ mdiTrendingUp }}</v-icon>
           </v-btn>
           <v-btn large depressed color="blue" :value="true">
-            <v-icon>mdi-trending-down</v-icon>
+            <v-icon>{{ mdiTrendingDown }}</v-icon>
           </v-btn>
         </v-btn-toggle>
       </template>
       <v-spacer />
-      <Login style="flex-grow: 0" v-on="$listeners"></login>
+      <Login style="flex-grow: 0" v-on="$listeners"></Login>
     </v-toolbar>
     <v-toolbar
       v-if="dropdown && $vuetify.breakpoint.smAndDown"
@@ -52,7 +52,7 @@
         solo-inverted
         hide-details
         :items="this.settings.keys"
-        prepend-inner-icon="mdi-magnify"
+        :prepend-inner-icon="mdiMagnify"
         label="Sort by"
       ></v-select>
       <v-spacer />
@@ -63,7 +63,7 @@
         v-show="!this.settings.sort_desc"
         v-on:click="$emit('desc', true)"
       >
-        <v-icon>mdi-trending-down</v-icon>
+        <v-icon>{{ mdiTrendingDown }}</v-icon>
       </v-btn>
       <v-btn
         large
@@ -73,7 +73,7 @@
         align="start"
         v-on:click="$emit('desc', false)"
       >
-        <v-icon>mdi-trending-up</v-icon>
+        <v-icon>{{ mdiTrendingUp }}</v-icon>
       </v-btn>
     </v-toolbar>
   </v-container>
@@ -81,6 +81,13 @@
 
 <script>
 import Login from "./Login";
+import {
+  mdiTrendingUp,
+  mdiTrendingDown,
+  mdiMagnify,
+  mdiSort,
+  mdiMenu,
+} from "@mdi/js";
 
 export default {
   components: { Login },
@@ -91,6 +98,11 @@ export default {
       dropdown: false,
       logged: true,
       sort_by: this.settings.sort_by,
+      mdiTrendingUp,
+      mdiTrendingDown,
+      mdiMagnify,
+      mdiSort,
+      mdiMenu,
     };
   },
 };

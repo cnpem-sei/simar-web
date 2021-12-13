@@ -5,11 +5,12 @@
     fab
     :color="this.pv.subscribed ? 'green' : 'grey'"
     @click="toggle_subscribe"
-    ><v-icon>mdi-bell</v-icon></v-btn
+    ><v-icon>{{ mdiBell }}</v-icon></v-btn
   >
 </template>
 
 <script>
+import { mdiBell } from "@mdi/js";
 function b64_uint8(base64String) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
@@ -25,6 +26,11 @@ function b64_uint8(base64String) {
 
 export default {
   props: ["pv"],
+  data() {
+    return {
+      mdiBell,
+    };
+  },
   methods: {
     async toggle_subscribe() {
       let response;
@@ -54,46 +60,23 @@ export default {
           );
         }
 
-        const response = await fetch(
-          `https://${this.$store.state.url}/simar/api/subscribe`,
-          {
-            method: "post",
-            headers: {
-              Authorization: `Bearer ${await this.get_token()}`,
-              "Content-Type": "application/json",
+        const pv_data = {
+          pvs: [
+            {
+              name: this.pv.name,
+              hi_limit: this.pv.hi_limit,
+              lo_limit: this.pv.lo_limit,
             },
-            body: JSON.stringify({
-              pvs: [
-                {
-                  name: this.pv.name,
-                  hi_limit: this.pv.hi_limit,
-                  lo_limit: this.pv.lo_limit,
-                },
-              ],
-              sub: subscription,
-            }),
-          }
-        );
+          ],
+          sub: subscription,
+        };
 
-        return response.status;
+        return await this.send_command("subscribe", pv_data).status;
       }
-      return false;
+      return undefined;
     },
     async unsubscribe() {
-      const response = await fetch(
-        `https://${this.$store.state.url}/simar/api/unsubscribe`,
-        {
-          method: "post",
-          headers: {
-            Authorization: `Bearer ${await this.get_token()}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            pvs: [this.pv.name],
-          }),
-        }
-      );
-      return response.status;
+      return this.send_command("unsubscribe", { pvs: [this.pv.name] }).status;
     },
   },
 };

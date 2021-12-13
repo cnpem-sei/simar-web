@@ -45,7 +45,7 @@
                 v-on="on"
               >
                 {{ items_per_page }}
-                <v-icon>mdi-chevron-down</v-icon>
+                <v-icon>{{ mdiChevronDown }}</v-icon>
               </v-btn>
             </template>
             <v-list>
@@ -72,21 +72,21 @@
               plain
               class="amb-val"
               :href="`https://${$store.state.url}/archiver-viewer/?pv=`"
-              ><v-icon dark>mdi-thermometer</v-icon
+              ><v-icon dark>{{ mdiThermometer }}</v-icon
               >{{ items.at(-1).pvs.Temperature.value }}</v-btn
             >
             <v-btn
               plain
               class="amb-val"
               :href="`https://${$store.state.url}/archiver-viewer/?pv=`"
-              ><v-icon dark>mdi-gauge</v-icon
+              ><v-icon dark>{{ mdiGauge }}</v-icon
               >{{ items.at(-1).pvs.Pressure.value }}</v-btn
             >
             <v-btn
               plain
               class="amb-val"
               :href="`https://${$store.state.url}/archiver-viewer/?pv=`"
-              ><v-icon dark>mdi-water-percent</v-icon
+              ><v-icon dark>{{ mdiWaterPercent }}</v-icon
               >{{ items.at(-1).pvs.Humidity.value }}</v-btn
             >
           </v-layout>
@@ -102,7 +102,7 @@
             class="mr-1"
             @click="if (page - 1 >= 1) page -= 1;"
           >
-            <v-icon>mdi-chevron-left</v-icon>
+            <v-icon>{{ mdiChevronLeft }}</v-icon>
           </v-btn>
           <v-btn
             dark
@@ -110,7 +110,7 @@
             class="ml-1"
             @click="if (page + 1 <= number_pages) page += 1;"
           >
-            <v-icon>mdi-chevron-right</v-icon>
+            <v-icon>{{ mdiChevronRight }}</v-icon>
           </v-btn>
         </v-row>
       </template>
@@ -122,6 +122,14 @@
 import * as consts from "../assets/constants.js";
 import * as e2w from "../assets/epics2web.js";
 import Card from "./Card";
+import {
+  mdiChevronRight,
+  mdiChevronLeft,
+  mdiChevronDown,
+  mdiThermometer,
+  mdiWaterPercent,
+  mdiGauge,
+} from "@mdi/js";
 
 async function parse_json(self) {
   let pv_info = [];
@@ -221,6 +229,13 @@ export default {
       items: [],
       symbols: {},
       con: undefined,
+      loading_pv: true,
+      mdiChevronRight,
+      mdiChevronLeft,
+      mdiChevronDown,
+      mdiThermometer,
+      mdiGauge,
+      mdiWaterPercent,
     };
   },
   computed: {
@@ -246,12 +261,7 @@ export default {
       return items;
     },
     async get_pv_info() {
-      const response = await fetch(`https://${this.$store.state.url}/simar/api/get_pvs`, {
-        headers: {
-          Authorization: `Bearer ${await this.get_token()}`,
-        },
-      });
-
+      const response = await this.send_command("get_pvs", {}, "GET");
       return await response.json();
     },
     async update_sub(item, key) {

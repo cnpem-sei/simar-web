@@ -9,7 +9,7 @@
         v-bind="attrs"
         v-on="on"
         :disabled="$store.state.account === undefined"
-        ><v-icon dark>mdi-cog</v-icon></v-btn
+        ><v-icon dark>{{ mdiCog }}</v-icon></v-btn
       >
     </template>
     <v-card>
@@ -20,12 +20,12 @@
           v-if="item.parent.substring(0, 5) === '10.15'"
           style="margin-right: 10px"
           color="grey"
-          >mdi-wifi</v-icon
+          >{{ mdiWifi }}</v-icon
         >
-        <v-icon v-if="status === 'Connected'" color="green"
-          >mdi-lan-connect</v-icon
-        >
-        <v-icon v-else color="red">mdi-lan-disconnect</v-icon>
+        <v-icon v-if="status === 'Connected'" color="green">{{
+          mdiLanConnect
+        }}</v-icon>
+        <v-icon v-else color="red">{{ mdiLanDisconnect }}</v-icon>
       </v-card-title>
       <v-card-subtitle style="padding-bottom: 5px">
         {{ item.parent }}
@@ -78,8 +78,9 @@
             <v-row>
               <v-col>
                 <v-list-item-title
-                  ><v-icon :color="get_color(index)"
-                    >mdi-power-plug-outline</v-icon
+                  ><v-icon :color="get_color(index)">{{
+                    mdiPowerPlugOutline
+                  }}</v-icon
                   >{{ index }}</v-list-item-title
                 >
                 <v-list-item-subtitle style="text-align: center">
@@ -95,6 +96,7 @@
                   :value="index"
                   color="green"
                   inset
+                  :disabled="loading_pv"
                 />
               </v-col>
             </v-row>
@@ -102,11 +104,6 @@
         </v-list-item>
       </v-list>
       <v-card-actions>
-        <v-checkbox
-          v-model="autotemp"
-          label="Stabilize Temperatures"
-          color="green"
-        />
         <v-spacer />
         <v-btn color="grey darken-1" text @click="dialog = false">
           Close
@@ -126,6 +123,13 @@
 
 <script>
 import Range from "./Range";
+import {
+  mdiWifi,
+  mdiLanConnect,
+  mdiLanDisconnect,
+  mdiCog,
+  mdiPowerPlugOutline,
+} from "@mdi/js";
 
 export default {
   components: { Range },
@@ -134,7 +138,7 @@ export default {
     return {
       dialog: false,
       status: "Connected",
-      prevOutlets: [],
+      loading_pv: true,
       outlets: [],
       autotemp: false,
       range: {
@@ -145,6 +149,11 @@ export default {
       },
       load_prog: 0,
       parent_name: "",
+      mdiCog,
+      mdiPowerPlugOutline,
+      mdiWifi,
+      mdiLanConnect,
+      mdiLanDisconnect,
     };
   },
   methods: {
@@ -174,30 +183,15 @@ export default {
         }
       }
 
-      await fetch(`https://${this.$store.state.url}/simar/api/set_limits`, {
-        method: "post",
-        headers: {
-          Authorization: `Bearer ${await this.get_token()}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ pvs: pvs_to_change }),
-      });
+      await this.send_command("set_limits", { pvs: pvs_to_change });
 
       this.$emit("update-limit", pvs_to_change);
 
       this.load_prog = 80;
 
-      await fetch(
-        `https://${this.$store.state.url}/simar/api/outlets?host=SIMAR:${this.parent_name}`,
-        {
-          method: "post",
-          headers: {
-            Authorization: `Bearer ${await this.get_token()}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ outlets: outlets }),
-        }
-      );
+      await this.send_command("outlets?host=SIMAR:${this.parent_name}", {
+        outlets: outlets,
+      });
 
       this.$store.commit(
         "showSnackbar",
@@ -225,32 +219,31 @@ export default {
   },
   watch: {
     async dialog() {
+      this.loading_pv = true;
       let on_outlets = [];
       this.parent_name = this.item.parent.replace(" - ", ":");
-      let data = await this.send_command(
-        `HGET/BBB:${this.parent_name}/state_string`
+
+      const response = await fetch(
+        `https://${this.$store.state.url}/archiver-generic-backend/bypass?${this.$store.state.url}:7379/HGET/BBB:${this.parent_name}/state_string`
       );
+      let data = await response.json();
 
       if (data) {
         this.status = data.HGET;
 
-        data = await fetch(
-          `https://${this.$store.state.url}/simar/api/outlets?host=SIMAR:${this.parent_name}`,
-          {
-            method: "get",
-            headers: {
-              Authorization: `Bearer ${await this.get_token()}`,
-            },
-          }
+        data = await this.send_command(
+          `outlets?host=SIMAR:${this.parent_name}`,
+          {},
+          "GET"
         );
-
         data = await data.json();
 
         for (let i in data.outlets)
           if (data.outlets[i] === 1) on_outlets.push(parseInt(i));
       }
 
-      this.outlets = this.prevOutlets = on_outlets;
+      this.outlets = on_outlets;
+      this.loading_pv = false;
     },
   },
 };

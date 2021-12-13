@@ -21,7 +21,7 @@
 
       <template v-slot:action="{ attrs }">
         <v-btn icon text v-bind="attrs" @click="$store.commit('hideSnackbar')">
-          <v-icon>mdi-close</v-icon>
+          <v-icon>{{ mdiClose }}</v-icon>
         </v-btn>
       </template>
     </v-snackbar>
@@ -34,6 +34,7 @@ import Toolbar from "./components/Toolbar";
 import Footer from "./components/Footer";
 
 import { PublicClientApplication } from "@azure/msal-browser";
+import { mdiClose } from "@mdi/js";
 
 function getInitials(account) {
   return account.name.split(" ")[0].substring(0, 1);
@@ -54,6 +55,7 @@ export default {
       keys: ["Name", "Temperature", "Pressure", "Rack Open", "Humidity"],
       pvs: {},
     },
+    mdiClose,
   }),
 
   methods: {

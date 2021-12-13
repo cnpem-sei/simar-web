@@ -9,7 +9,7 @@
       >
         Power
         <template v-slot:actions v-if="critical">
-          <v-icon color="error"> mdi-alert-circle </v-icon>
+          <v-icon color="error">{{ mdiAlertCircle }}</v-icon>
         </template>
       </v-expansion-panel-header>
       <v-expansion-panel-content>
@@ -22,9 +22,9 @@
             <v-list-item-icon
               v-if="$vuetify.breakpoint.width > 1540"
               style="margin-right: 3px"
-              ><v-icon :color="get_color(index)"
-                >mdi-power-plug-outline</v-icon
-              ></v-list-item-icon
+              ><v-icon :color="get_color(index)">{{
+                mdiPowerPlugOutline
+              }}</v-icon></v-list-item-icon
             >
             <v-list-item-content>{{ index }}</v-list-item-content>
             <v-spacer />
@@ -86,11 +86,15 @@
 </template>
 
 <script>
+import { mdiAlertCircle, mdiPowerPlugOutline } from "@mdi/js";
+
 export default {
   props: ["item", "limits"],
   data: function () {
     return {
       critical: false,
+      mdiAlertCircle,
+      mdiPowerPlugOutline,
     };
   },
   methods: {
