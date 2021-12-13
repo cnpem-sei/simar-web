@@ -189,7 +189,7 @@ export default {
 
       this.load_prog = 80;
 
-      await this.send_command("outlets?host=SIMAR:${this.parent_name}", {
+      await this.send_command(`outlets?host=SIMAR:${this.parent_name}`, {
         outlets: outlets,
       });
 
