@@ -69,40 +69,43 @@
           "
         />
       </v-list>
-      <v-list dense style="column-count: 3">
-        <v-list-item
-          v-for="(key, index) in item.pvs.Current.values"
-          :key="index"
-        >
-          <v-list-item-content>
-            <v-row>
-              <v-col>
-                <v-list-item-title
-                  ><v-icon :color="get_color(index)">{{
-                    mdiPowerPlugOutline
-                  }}</v-icon
-                  >{{ index }}</v-list-item-title
-                >
-                <v-list-item-subtitle style="text-align: center">
-                  {{ item.pvs.Voltage.value }}</v-list-item-subtitle
-                >
-                <v-list-item-subtitle style="text-align: center">
-                  {{ item.pvs.Current.values[index] }}</v-list-item-subtitle
-                >
-              </v-col>
-              <v-col>
-                <v-switch
-                  v-model="outlets"
-                  :value="index"
-                  color="green"
-                  inset
-                  :disabled="loading_pv"
-                />
-              </v-col>
-            </v-row>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <v-container>
+        <v-row>
+          <v-col v-for="(column, index) in columns" :key="index">
+            <v-list dense>
+              <v-list-item v-for="(key, index) in column" :key="index">
+                <v-list-item-content>
+                  <v-row>
+                    <v-col>
+                      <v-list-item-title
+                        ><v-icon :color="get_color(index)">{{
+                          mdiPowerPlugOutline
+                        }}</v-icon
+                        >{{ key }}</v-list-item-title
+                      >
+                      <v-list-item-subtitle style="text-align: center">
+                        {{ item.pvs.Voltage.value }}</v-list-item-subtitle
+                      >
+                      <v-list-item-subtitle style="text-align: center">
+                        {{ item.pvs.Current.values[key] }}</v-list-item-subtitle
+                      >
+                    </v-col>
+                    <v-col>
+                      <v-switch
+                        v-model="outlets"
+                        :value="key"
+                        color="green"
+                        inset
+                        :disabled="loading_pv"
+                      />
+                    </v-col>
+                  </v-row>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-col>
+        </v-row>
+      </v-container>
       <v-card-actions>
         <v-spacer />
         <v-btn color="grey darken-1" text @click="dialog = false">
@@ -244,6 +247,17 @@ export default {
 
       this.outlets = on_outlets;
       this.loading_pv = false;
+    },
+  },
+  computed: {
+    columns() {
+      const column_count = this.$vuetify.breakpoint.mobile ? 1 : 3;
+      let columns = [];
+      let mid = Math.ceil(7 / column_count);
+      for (let col = 0; col < column_count; col++) {
+        columns.push([...Array(7).keys()].slice(col * mid, col * mid + mid));
+      }
+      return columns;
     },
   },
 };
