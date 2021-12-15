@@ -6,6 +6,7 @@
         class=""
         style="padding: 2px 16px; font-size: 16px"
         :disable-icon-rotate="critical"
+        :expand-icon="mdiMenuDown"
       >
         Power
         <template v-slot:actions v-if="critical">
@@ -52,7 +53,7 @@
             <v-chip
               small
               :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.Glitches.name}`"
-              :color="get_subvalues_color('Glitches')"
+              :color="get_subvalues_color('Glitches', item.pvs.Glitches.value)"
               text-color="white"
               >{{ item.pvs.Glitches.value }}</v-chip
             >
@@ -63,7 +64,7 @@
             <v-chip
               small
               :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.PFactor.name}`"
-              :color="get_subvalues_color('PFactor')"
+              :color="get_subvalues_color('PFactor', item.pvs.PFactor.value)"
               text-color="white"
               >{{ item.pvs.PFactor.value }}</v-chip
             >
@@ -74,7 +75,9 @@
             <v-chip
               small
               :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.Frequency.name}`"
-              :color="get_subvalues_color('Frequency')"
+              :color="
+                get_subvalues_color('Frequency', item.pvs.Frequency.value)
+              "
               text-color="white"
               >{{ item.pvs.Frequency.value }}</v-chip
             >
@@ -86,7 +89,7 @@
 </template>
 
 <script>
-import { mdiAlertCircle, mdiPowerPlugOutline } from "@mdi/js";
+import { mdiAlertCircle, mdiPowerPlugOutline, mdiMenuDown } from "@mdi/js";
 
 export default {
   props: ["item", "limits"],
@@ -95,6 +98,7 @@ export default {
       critical: false,
       mdiAlertCircle,
       mdiPowerPlugOutline,
+      mdiMenuDown,
     };
   },
   methods: {
@@ -124,12 +128,8 @@ export default {
 
       return "green";
     },
-    get_subvalues_color(type) {
-      const value = this.item.pvs[type].value.substring(
-        0,
-        this.item.pvs[type].value.indexOf(" ")
-      );
-      if (value === "?") return "gray";
+    get_subvalues_color(type, value) {
+      if (value === "?" || value === "") return "gray";
       switch (type) {
         case "Frequency":
           if (value < 55 || value > 65) return "red";

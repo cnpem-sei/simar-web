@@ -8,6 +8,7 @@
       :sort-by="this.settings.sort_by"
       :sort-desc="this.settings.sort_desc"
       :custom-sort="num_sort"
+      loading="true"
       hide-default-footer
     >
       <template v-slot:default="props">
@@ -28,6 +29,15 @@
               @update-sub="update_sub(item, $event)"
               @update-limit="update_limit(item, $event)"
             />
+          </v-col>
+        </v-row>
+      </template>
+      <template v-slot:loading>
+        <v-row>
+          <v-col v-for="item in 8" :key="item" cols="12" sm="6" md="4" lg="3">
+            <v-skeleton-loader
+              type="card-heading, image, list-item"
+            ></v-skeleton-loader>
           </v-col>
         </v-row>
       </template>
