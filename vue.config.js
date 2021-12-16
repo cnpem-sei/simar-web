@@ -21,4 +21,11 @@ module.exports = {
     port: 8085,
     hotOnly: false,
   },
-}
+  configureWebpack: {
+    optimization: {
+    splitChunks: {
+            minSize: 10000,
+            maxSize: 250000,
+        }
+  }}
+};
