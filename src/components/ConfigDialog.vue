@@ -32,7 +32,7 @@
       </v-card-subtitle>
       <v-divider />
       <v-list>
-        <Range
+        <limit-range
           name="Temperature"
           v-bind:item="item"
           @change="
@@ -41,7 +41,7 @@
             }
           "
         />
-        <Range
+        <limit-range
           name="Humidity"
           v-bind:item="item"
           @change="
@@ -50,7 +50,7 @@
             }
           "
         />
-        <Range
+        <limit-range
           name="Voltage"
           v-bind:item="item"
           @change="
@@ -59,7 +59,7 @@
             }
           "
         />
-        <Range
+        <limit-range
           name="Pressure"
           v-bind:item="item"
           @change="
@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import Range from "./Range";
+import LimitRange from "./LimitRange";
 import {
   mdiWifi,
   mdiLanConnect,
@@ -135,7 +135,7 @@ import {
 } from "@mdi/js";
 
 export default {
-  components: { Range },
+  components: { LimitRange },
   props: ["item"],
   data: function () {
     return {

@@ -3,7 +3,7 @@
     <v-card-title class="subheading font-weight-bold">
       {{ item.name }}
       <v-spacer />
-      <Config
+      <config-dialog
         v-bind:item="item"
         @update-limit="
           (e) => {
@@ -22,7 +22,7 @@
         <v-hover v-slot:default="{ hover }">
           <span>
             <v-slide-x-reverse-transition>
-              <Notify
+              <notification-toggler
                 v-show="
                   (hover ||
                     item.pvs[key].subscribed ||
@@ -46,7 +46,7 @@
         </v-hover>
       </v-list-item>
     </v-list>
-    <Panels
+    <power-panel
       v-bind:item="item"
       v-bind:limits="{ lo: item.v_lo, hi: item.v_hi }"
     />
@@ -54,9 +54,9 @@
 </template>
 
 <script>
-import Panels from "./Panels";
-import Config from "./Config";
-import Notify from "./Notify";
+import PowerPanel from "./PowerPanel";
+import ConfigDialog from "./ConfigDialog";
+import NotificationToggler from "./NotificationToggler";
 
 export default {
   props: ["items", "item", "filtered_keys", "keys"],
@@ -66,9 +66,9 @@ export default {
     };
   },
   components: {
-    Panels,
-    Config,
-    Notify,
+    PowerPanel,
+    ConfigDialog,
+    NotificationToggler,
   },
   methods: {
     get_pv_color(item, key) {

@@ -21,7 +21,7 @@
             md="4"
             lg="3"
           >
-            <Card
+            <rack-card
               :key="item.name"
               v-bind:item="item"
               v-bind:keys="settings.keys"
@@ -131,7 +131,7 @@
 <script>
 import * as consts from "../assets/constants.js";
 import * as e2w from "../assets/epics2web.js";
-import Card from "./Card";
+import RackCard from "./RackCard";
 import {
   mdiChevronRight,
   mdiChevronLeft,
@@ -227,7 +227,7 @@ function fill_template(pvs) {
 
 export default {
   components: {
-    Card,
+    RackCard,
   },
   props: ["settings"],
   data() {

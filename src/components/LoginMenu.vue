@@ -31,7 +31,7 @@
               >Reset limits and notifications</v-btn
             >
             <v-divider class="my-3"></v-divider>
-            <Telegram />
+            <telegram-dialog />
             <v-divider class="my-3"></v-divider>
             <v-btn @click="logout" depressed text> Disconnect </v-btn>
           </div>
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import Telegram from "./Telegram";
+import TelegramDialog from "./TelegramDialog";
 import { mdiLogin } from "@mdi/js";
 
 function getInitials(account) {
@@ -75,7 +75,7 @@ export default {
       mdiLogin,
     };
   },
-  components: { Telegram },
+  components: { TelegramDialog },
   methods: {
     async login() {
       await this.$store.state.msalInstance

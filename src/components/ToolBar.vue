@@ -38,7 +38,7 @@
         </v-btn-toggle>
       </template>
       <v-spacer />
-      <Login style="flex-grow: 0" v-on="$listeners"></Login>
+      <login-menu style="flex-grow: 0" v-on="$listeners" />
     </v-toolbar>
     <v-toolbar
       v-if="dropdown && $vuetify.breakpoint.smAndDown"
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import Login from "./Login";
+import LoginMenu from "./LoginMenu";
 import {
   mdiTrendingUp,
   mdiTrendingDown,
@@ -90,7 +90,7 @@ import {
 } from "@mdi/js";
 
 export default {
-  components: { Login },
+  components: { LoginMenu },
   props: ["settings"],
   data() {
     return {

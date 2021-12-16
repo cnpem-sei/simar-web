@@ -1,15 +1,15 @@
 <template>
   <v-app>
     <v-main fluid>
-      <Toolbar
+      <ToolBar
         @sort="update_sort"
         @desc="update_desc"
         @search="update_search"
         v-bind:settings="settings"
       />
-      <Iterator v-bind:settings="settings" />
+      <CardIterator v-bind:settings="settings" />
     </v-main>
-    <Footer />
+    <FooterBar />
 
     <v-snackbar
       v-model="$store.state.snackbar"
@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import Iterator from "./components/Iterator";
-import Toolbar from "./components/Toolbar";
-import Footer from "./components/Footer";
+import CardIterator from "./components/CardIterator";
+import ToolBar from "./components/ToolBar";
+import FooterBar from "./components/FooterBar";
 
 import { PublicClientApplication } from "@azure/msal-browser";
 import { mdiClose } from "@mdi/js";
@@ -43,9 +43,9 @@ function getInitials(account) {
 export default {
   name: "SIMAR",
   components: {
-    Toolbar,
-    Iterator,
-    Footer,
+    ToolBar,
+    CardIterator,
+    FooterBar,
   },
   data: () => ({
     settings: {
