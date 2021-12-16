@@ -66,6 +66,10 @@ export default {
       case "Humidity":
         this.max = 100;
         break;
+      case "Pressure":
+        this.max = 1200;
+        this.min = 0;
+        break;
     }
   },
 };
