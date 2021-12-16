@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2021-12-14
+### Added
+- Pressure limit range
+- Uses skeleton loaders to indicate loading
+- Limit is automatically updated
+
+### Changed
+- Multiple fixes to accomodate mobile browsers
+- Moves to definitive API
+- Uses API for remote actuation instead
+- No longer uses CDN for icons
+- Improved compiled size
+
 ## [0.2.0] - 2021-10-28
 ### Added
 - Support for push notifications on selected events
