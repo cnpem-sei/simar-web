@@ -33,9 +33,7 @@ export default {
   },
   methods: {
     async toggle_subscribe() {
-      let response;
-      if (!this.pv.subscribed) response = await this.subscribe();
-      else response = await this.unsubscribe();
+      let response = this.pv.subscribed ? await this.unsubscribe() : await this.subscribe();
 
       if (response === 200) this.$emit("update-sub");
     },
@@ -71,12 +69,15 @@ export default {
           sub: subscription,
         };
 
-        return await this.send_command("subscribe", pv_data).status;
+        const response = await this.send_command("subscribe", pv_data);
+
+        return response.status;
       }
       return undefined;
     },
     async unsubscribe() {
-      return this.send_command("unsubscribe", { pvs: [this.pv.name] }).status;
+      const response = await this.send_command("unsubscribe", { pvs: [this.pv.name] });
+      return response.status;
     },
   },
 };

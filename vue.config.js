@@ -19,7 +19,6 @@ module.exports = {
       cert: fs.readFileSync('./sim.crt'),
     } : undefined,
     port: 8085,
-    hotOnly: false,
   },
   configureWebpack: {
     optimization: {

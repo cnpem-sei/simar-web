@@ -22,6 +22,7 @@ Vue.mixin({
         `https://${this.$store.state.url}/simar/api/${endpoint}`,
         config,
       );
+
       return response;
     },
     async get_token() {
