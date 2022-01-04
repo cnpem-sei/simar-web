@@ -134,6 +134,19 @@ import {
   mdiPowerPlugOutline,
 } from "@mdi/js";
 
+async function fetch_timeout(resource, options = {}) {
+  const { timeout = 1000 } = options;
+
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  const response = await fetch(resource, {
+    ...options,
+    signal: controller.signal,
+  });
+  clearTimeout(id);
+  return response;
+}
+
 export default {
   components: { LimitRange },
   props: ["item"],
@@ -226,24 +239,25 @@ export default {
       let on_outlets = [];
       this.parent_name = this.item.parent.replace(" - ", ":");
 
-      const response = await fetch(
-        `https://${this.$store.state.url}/archiver-generic-backend/bypass?${this.$store.state.url}:7379/HGET/BBB:${this.parent_name}/state_string`
-      );
-      let data = await response.json();
-
-      if (data) {
-        this.status = data.HGET;
-
-        data = await this.send_command(
-          `outlets?host=SIMAR:${this.parent_name}`,
-          {},
-          "GET"
+      try {
+        await fetch_timeout(
+          `https://${this.$store.state.url}/archiver-generic-backend/bypass?${this.$store.state.url}:7379/HGET/BBB:${this.parent_name}/state_string`
         );
-        data = await data.json();
-
-        for (let i in data.outlets)
-          if (data.outlets[i] === 1) on_outlets.push(parseInt(i));
+        this.status = data.HGET;
+      } catch (err) {
+        this.status = "Connected";
+        console.warn(err);
       }
+
+      let data = await this.send_command(
+        `outlets?host=SIMAR:${this.parent_name}`,
+        {},
+        "GET"
+      );
+      data = await data.json();
+
+      for (let i in data.outlets)
+        if (data.outlets[i] === 1) on_outlets.push(parseInt(i));
 
       this.outlets = on_outlets;
       this.loading_pv = false;
