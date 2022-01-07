@@ -17,7 +17,7 @@
         <span class="text-h5">{{ item.name }}</span>
         <v-spacer />
         <v-icon
-          v-if="item.parent.substring(0, 5) === '10.15'"
+          v-if="item.parent.includes('10.15') || !item.parent.includes(' - ')"
           style="margin-right: 10px"
           color="grey"
           >{{ mdiWifi }}</v-icon
@@ -134,19 +134,6 @@ import {
   mdiPowerPlugOutline,
 } from "@mdi/js";
 
-async function fetch_timeout(resource, options = {}) {
-  const { timeout = 1000 } = options;
-
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
-  const response = await fetch(resource, {
-    ...options,
-    signal: controller.signal,
-  });
-  clearTimeout(id);
-  return response;
-}
-
 export default {
   components: { LimitRange },
   props: ["item"],
@@ -237,19 +224,26 @@ export default {
     async dialog() {
       this.loading_pv = true;
       let on_outlets = [];
-      this.parent_name = this.item.parent.replace(" - ", ":");
+      this.parent_name = this.item.parent.includes(" - ")
+        ? "BBB:" + this.item.parent.replace(" - ", ":")
+        : this.item.parent;
+      let data;
 
       try {
-        await fetch_timeout(
-          `https://${this.$store.state.url}/archiver-generic-backend/bypass?${this.$store.state.url}:7379/HGET/BBB:${this.parent_name}/state_string`
+        data = await this.send_command(
+          `status?host=${this.parent_name}`,
+          {},
+          "GET"
         );
-        this.status = data.HGET;
+        data = await data.json();
+
+        this.status = data.status ?? "Disconnected";
       } catch (err) {
-        this.status = "Connected";
+        this.status = "Disconnected";
         console.warn(err);
       }
 
-      let data = await this.send_command(
+      data = await this.send_command(
         `outlets?host=SIMAR:${this.parent_name}`,
         {},
         "GET"
