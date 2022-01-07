@@ -224,14 +224,16 @@ export default {
     async dialog() {
       this.loading_pv = true;
       let on_outlets = [];
-      this.parent_name = this.item.parent.includes(" - ")
-        ? "BBB:" + this.item.parent.replace(" - ", ":")
-        : this.item.parent;
+      this.parent_name = this.item.parent.replace(" - ", ":");
       let data;
 
       try {
         data = await this.send_command(
-          `status?host=${this.parent_name}`,
+          `status?host=${
+            this.parent_name.includes(":")
+              ? "BBB:" + this.parent_name
+              : this.parent_name
+          }`,
           {},
           "GET"
         );
