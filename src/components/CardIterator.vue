@@ -81,21 +81,21 @@
             <v-btn
               plain
               class="amb-val"
-              :href="`https://${$store.state.url}/archiver-viewer/?pv=`"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${items.at(-1).pvs.Temperature.name}`"
               ><v-icon dark>{{ mdiThermometer }}</v-icon
               >{{ items.at(-1).pvs.Temperature.value }}</v-btn
             >
             <v-btn
               plain
               class="amb-val"
-              :href="`https://${$store.state.url}/archiver-viewer/?pv=`"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${items.at(-1).pvs.Pressure.name}`"
               ><v-icon dark>{{ mdiGauge }}</v-icon
               >{{ items.at(-1).pvs.Pressure.value }}</v-btn
             >
             <v-btn
               plain
               class="amb-val"
-              :href="`https://${$store.state.url}/archiver-viewer/?pv=`"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${items.at(-1).pvs.Humidity.name}`"
               ><v-icon dark>{{ mdiWaterPercent }}</v-icon
               >{{ items.at(-1).pvs.Humidity.value }}</v-btn
             >
