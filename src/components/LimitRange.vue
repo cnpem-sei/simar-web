@@ -16,7 +16,7 @@
         single-line
         type="number"
         style="width: 60px"
-        @change="$set(item, lo, $event)"
+        @input="update_range($event, 'lo')"
       ></v-text-field>
       <v-text-field
         :value="range[1]"
@@ -25,7 +25,7 @@
         single-line
         type="number"
         style="width: 60px; margin-left: 10px"
-        @change="$set(item, hi, $event)"
+        @input="update_range($event, 'hi')"
       ></v-text-field>
     </template>
   </v-range-slider>
@@ -53,6 +53,12 @@ export default {
 
         this.$emit("change", input);
       },
+    },
+  },
+  methods: {
+    update_range(e, type) {
+      this[type] = e;
+      this.$emit("change", this.range);
     },
   },
   mounted() {

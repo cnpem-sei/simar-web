@@ -33,7 +33,9 @@ export default {
   },
   methods: {
     async toggle_subscribe() {
-      let response = this.pv.subscribed ? await this.unsubscribe() : await this.subscribe();
+      let response = this.pv.subscribed
+        ? await this.unsubscribe()
+        : await this.subscribe();
 
       if (response === 200) this.$emit("update-sub");
     },
@@ -51,7 +53,7 @@ export default {
               applicationServerKey: b64_uint8(process.env.VUE_APP_PUSH_KEY),
             });
           }
-        } catch {
+        } catch (err) {
           this.$store.commit(
             "showSnackbar",
             "A certificate error has occurred and we couldn't set up notifications for your browser. You can enable browser notifications by allowing insecure content in the site's permissions."
@@ -76,7 +78,9 @@ export default {
       return undefined;
     },
     async unsubscribe() {
-      const response = await this.send_command("unsubscribe", { pvs: [this.pv.name] });
+      const response = await this.send_command("unsubscribe", {
+        pvs: [this.pv.name],
+      });
       return response.status;
     },
   },

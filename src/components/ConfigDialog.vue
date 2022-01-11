@@ -172,6 +172,7 @@ export default {
 
       for (let pv of Object.keys(this.item.pvs)) {
         if (!this.item.pvs[pv].name) continue;
+
         if (
           this.range[pv] !== undefined &&
           this.range[pv][0] !== this.range[pv][1] &&
