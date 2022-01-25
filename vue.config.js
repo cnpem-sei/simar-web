@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 module.exports = {
-  publicPath: '',
+  publicPath: process.env.NODE_ENV === 'production' ? '/simar/' : '/',
 
   chainWebpack: config => {
     config
