@@ -4,7 +4,7 @@ RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
 WORKDIR /home/node/app
 
-COPY package*.json babel.config.js vue.config.js ./
+COPY package*.json babel.config.js vue.config.js .env ./
 
 RUN npm install --loglevel verbose
 
