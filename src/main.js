@@ -14,7 +14,7 @@ Vue.mixin({
         headers: { Authorization: `Bearer ${await this.get_token()}`, "Content-Type": "application/json" },
       };
 
-      if (method !== "GET") {
+      if (method === "POST") {
         config["body"] = JSON.stringify(body);
       }
 

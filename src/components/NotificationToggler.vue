@@ -64,12 +64,18 @@ export default {
           pvs: [
             {
               name: this.pv.name,
-              hi_limit: this.pv.hi_limit,
-              lo_limit: this.pv.lo_limit,
             },
           ],
           sub: subscription,
         };
+
+        if (this.pv.value === "No" || this.pv.value === "Yes") {
+          pv_data.pvs[0].hi_limit = 0;
+          pv_data.pvs[0].lo_limit = 0;
+        } else {
+          pv_data.pvs[0].hi_limit = this.pv.hi_limit;
+          pv_data.pvs[0].lo_limit = this.pv.lo_limit;
+        }
 
         const response = await this.send_command("subscribe", pv_data);
 

@@ -106,7 +106,7 @@ export default {
         await subscription.unsubscribe();
       }
 
-      this.send_command("unsubscribe_all", {}, "DELETE");
+      this.send_command("limits", {}, "DELETE");
     },
   },
 };

@@ -277,7 +277,7 @@ export default {
       return items;
     },
     async get_pv_info() {
-      const response = await this.send_command("get_pvs", {}, "GET");
+      const response = await this.send_command("pvs", {}, "GET");
       return await response.json();
     },
     async update_sub(item, key) {
@@ -324,7 +324,7 @@ export default {
     this.con.onupdate = this.on_update;
   },
   async mounted() {
-    let host = "10.0.38.46";
+    let host = "ais-eng-srv-la.cnpem.br";
     if (window.location.host === "vpn.cnpem.br") {
       // If using WEB VPN
       // Capture IPv4 address
@@ -342,7 +342,9 @@ export default {
         host.includes("10.0.38.50") ||
         host.includes("10.0.6.70")
       ) {
-        console.log("__`o##o>__ DEBUG SERVER. Setting host to 10.0.38.46");
+        console.log(
+          "__`o##o>__ DEBUG SERVER. Setting host to ais-eng-srv-la.cnpem.br"
+        );
       } else {
         this.$store.commit("setUrl", host);
       }
