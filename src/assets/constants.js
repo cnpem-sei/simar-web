@@ -20,6 +20,13 @@ export const EMPTY_PVS = {
         lo_limit: "",
         subscribed: false,
     },
+    Leak: {
+        name: "",
+        value: "?",
+        hi_limit: "",
+        lo_limit: "",
+        subscribed: false,
+    },
     Humidity: {
         name: "",
         value: "?",

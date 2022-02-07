@@ -82,22 +82,21 @@ export default {
           ? parseFloat(value.substring(0, value.indexOf(" ")))
           : parseFloat(value.substring(0, value.indexOf("%")));
 
-      switch (key) {
-        case "Rack Open":
-          return value === "No" ? "green" : "orange";
-        default:
-          if (
-            f_value > item.pvs[key].hi_limit * 1.2 ||
-            f_value < item.pvs[key].lo_limit * 0.8
-          )
-            return "red";
-          else if (
-            f_value > item.pvs[key].hi_limit ||
-            f_value < item.pvs[key].lo_limit
-          )
-            return "orange";
-          else return "green";
+      if (key === "Rack Open" || key == "Leak") {
+        return value === "No" ? "green" : "orange";
       }
+
+      if (
+        f_value > item.pvs[key].hi_limit * 1.2 ||
+        f_value < item.pvs[key].lo_limit * 0.8
+      )
+        return "red";
+      else if (
+        f_value > item.pvs[key].hi_limit ||
+        f_value < item.pvs[key].lo_limit
+      )
+        return "orange";
+      else return "green";
     },
   },
 };

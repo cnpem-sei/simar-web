@@ -521,6 +521,16 @@
                 }
             }
         ],
+        "10.128.131.142 - BBB-SIMAR-PA-RaPSE05-1": [
+            {
+                "name": "PSE, Rack 7",
+                "pvs": {
+                    "Leak": {
+                        "name": "PA-RaPSE07:SIMAR-01:RackWaterLeak-Mon"
+                    }
+                }
+            }
+        ],
         "10.128.131.141 - BBB-SIMAR-PA-RaPSC03-1": [
             {
                 "name": "PSC, Rack 1",
