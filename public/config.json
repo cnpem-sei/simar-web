@@ -67,7 +67,7 @@
                 }
             },
             {
-                "name": "Room 20, ELP-1 Rack (PS01)",
+                "name": "Room 20, PS01 Rack",
                 "pvs": {
                     "Temperature": {
                         "name": "IA-20RaPS01:CO-SIMAR-01:RackInternalTemp-Mon"
@@ -101,7 +101,7 @@
                 }
             },
             {
-                "name": "Room 20, ELP-2 Rack (PS02)",
+                "name": "Room 20, PS02 Rack",
                 "pvs": {
                     "Temperature": {
                         "name": "IA-20RaPS02:CO-SIMAR-01:RackInternalTemp-Mon"
@@ -259,7 +259,7 @@
                 }
             },
             {
-                "name": "CA, Controls Rack",
+                "name": "CA, CONS Rack",
                 "pvs": {
                     "Temperature": {
                         "name": "CA-RaCtrl:CO-SIMAR-01:RackInternalTemp-Mon"
@@ -316,7 +316,7 @@
         ],
         "10.0.6.56 - BBB-NEW-2021": [
             {
-                "name": "CONS, Controls Rack",
+                "name": "CONS, CONS Rack",
                 "pvs": {
                     "Voltage": {
                         "name": "CO-RaCtrl:CO-SIMAR-01:Voltage-Mon"
@@ -422,96 +422,6 @@
                 }
             }
         ],
-        "10.128.132.141 - BBB-SIMAR-PA-RaPSD04-1": [
-            {
-                "name": "PSD, Rack 1",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA-RaPSD01:SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA-RaPSD01:SIMAR-01:RackInternalPressure-Mon"
-                    }
-                }
-            },
-            {
-                "name": "PSD, Rack 2",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA-RaPSD02:SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA-RaPSD02:SIMAR-01:RackInternalPressure-Mon"
-                    }
-                }
-            },
-            {
-                "name": "PSD, Rack 3",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA-RaPSD03:SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA-RaPSD03:SIMAR-01:RackInternalPressure-Mon"
-                    }
-                }
-            },
-            {
-                "name": "PSD, Rack 4",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA-RaPSD04:SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA-RaPSD04:SIMAR-01:RackInternalPressure-Mon"
-                    }
-                }
-            },
-            {
-                "name": "PSD, Rack 5",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA-RaPSD05:SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA-RaPSD05:SIMAR-01:RackInternalPressure-Mon"
-                    }
-                }
-            },
-            {
-                "name": "PSD, Rack 6",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA-RaPSD06:SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA-RaPSD06:SIMAR-01:RackInternalPressure-Mon"
-                    }
-                }
-            },
-            {
-                "name": "PSD, Rack 7",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA-RaPSD07:SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA-RaPSD07:SIMAR-01:RackInternalPressure-Mon"
-                    }
-                }
-            },
-            {
-                "name": "PA, Ambient",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA:SIMAR-01:AmbientTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA:SIMAR-01:AmbientPressure-Mon"
-                    }
-                }
-            }
-        ],
         "10.128.131.142 - BBB-SIMAR-PA-RaPSE05-1": [
             {
                 "name": "PSE, Rack 7",
@@ -576,6 +486,187 @@
                     },
                     "Rack Open": {
                         "name": "PA-RaPSC04:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            }
+        ],
+        "10.128.118.141 - BBB-SIMAR-IA18-RaCtrl-1": [
+            {
+                "name": "Room 18, Diag 04 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA-18RaDiag04:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA-18RaDiag04:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA-18RaDiag04:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 18, BPM Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA-18RaBPM:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA-18RaBPM:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA-18RaBPM:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 18, CONS Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA-18RaCtrl:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA-18RaCtrl:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA-18RaCtrl:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 18, PS02 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA-18RaPS02:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA-18RaPS02:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA-18RaPS02:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 18, PS01 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA-18RaPS01:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA-18RaPS01:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA-18RaPS01:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            }
+        ],
+        "10.128.121.141 - BBB-SIMAR-LA-RaCtrl-1": [
+            {
+                "name": "LA, PS01 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "LA-RaPS01:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "LA-RaPS01:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "LA-RaPS01:SIMAR-01:RackOpen-Mon"
+                    },
+                    "Leak": {
+                        "name": "LA-RaPS01:SIMAR-01:RackWaterLeak-Mon"
+                    }
+                }
+            },
+            {
+                "name": "LA, PS02 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "LA-RaPS02:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "LA-RaPS02:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "LA-RaPS02:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "LA, PS03 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "LA-RaPS03:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "LA-RaPS03:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "LA-RaPS03:SIMAR-01:RackOpen-Mon"
+                    },
+                    "Leak": {
+                        "name": "LA-RaPS03:SIMAR-01:RackWaterLeak-Mon"
+                    }
+                }
+            },
+            {
+                "name": "LA, PS04 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "LA-RaPS04:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "LA-RaPS04:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "LA-RaPS04:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "LA, PS05 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "LA-RaPS05:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "LA-RaPS05:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "LA-RaPS05:SIMAR-01:RackOpen-Mon"
+                    },
+                    "Leak": {
+                        "name": "LA-RaPS05:SIMAR-01:RackWaterLeak-Mon"
+                    }
+                }
+            },
+            {
+                "name": "LA, PS06 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "LA-RaPS06:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "LA-RaPS06:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "LA-RaPS06:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "LA, CONS Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "LA-RaCtrl:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "LA-RaCtrl:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "LA-RaCtrl:SIMAR-01:RackOpen-Mon"
                     }
                 }
             }
