@@ -160,7 +160,6 @@ async function parse_json(self) {
       const response = await fetch("config.json");
       const data = await response.json();
       let pvs = [];
-      self.symbols = data.symbols;
       for (const [parent, children] of Object.entries(data.items)) {
         for (const sensor of children) {
           let pv_names = [];
@@ -243,7 +242,6 @@ export default {
       items_per_page: 8,
       headers: [],
       items: [],
-      symbols: {},
       con: undefined,
       loading_pv: true,
       mdiChevronRight,

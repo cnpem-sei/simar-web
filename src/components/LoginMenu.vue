@@ -92,6 +92,7 @@ export default {
         "showSnackbar",
         `Logged in as ${this.$store.state.account.username}`
       );
+      window.location.reload();
     },
     async logout() {
       await this.$store.state.msalInstance.logout({}).catch((error) => {
@@ -106,7 +107,8 @@ export default {
         await subscription.unsubscribe();
       }
 
-      this.send_command("limits", {}, "DELETE");
+      await this.send_command("limits", {}, "DELETE");
+      window.location.reload();
     },
   },
 };

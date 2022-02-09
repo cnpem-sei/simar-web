@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-toolbar src="../assets/back.png" dark color="blue darken-3" class="mb-1">
+    <v-toolbar src="@/assets/back.png" dark color="blue darken-3" class="mb-1">
       <template v-if="$vuetify.breakpoint.smAndDown">
         <v-btn icon v-on:click="dropdown = !dropdown">
           <v-icon>{{ mdiMenu }}</v-icon>
