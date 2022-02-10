@@ -11,8 +11,10 @@
       </v-card-title>
       <v-divider />
       <v-card-text>
-        <v-card outlined>
-          <v-card-title class="text-h5"> Connected Devices</v-card-title>
+        <v-container>
+          <v-card-title class="text-h5 action-title">
+            Connected Devices</v-card-title
+          >
 
           <v-card-subtitle
             >View or unlink all devices that receive event
@@ -24,6 +26,7 @@
               :headers="headers"
               dense
               hide-default-footer
+              disable-sort
             >
               <template v-slot:[`item.actions`]="{ item }">
                 <v-icon small @click="delete_device(item)">
@@ -31,51 +34,56 @@
                 </v-icon>
               </template>
             </v-data-table>
-
-            <h5>Telegram ID: {{ telegram_id }}</h5>
-            <v-btn icon x-small
-              ><v-icon>{{ mdiLinkVariantRemove }}</v-icon></v-btn
-            >
+            <h5 style="margin-top: 12px">
+              Telegram ID: {{ telegram_id }}
+              <v-btn icon x-small
+                ><v-icon>{{ mdiLinkVariantRemove }}</v-icon></v-btn
+              >
+            </h5>
           </v-card-text>
-        </v-card>
-        <v-card outlined>
+          <v-divider />
           <v-row>
-            <v-col cols="9">
-              <v-card-title class="text-h5"> Link Device</v-card-title>
+            <v-col cols="12" sm="9">
+              <v-card-title class="text-h5 action-title">
+                Link Device</v-card-title
+              >
 
               <v-card-subtitle
                 >Setup this device to receive browser notifications whenever an
                 event occurs.</v-card-subtitle
               >
             </v-col>
-            <v-col class="d-flex justify-center align-center" cols="3">
+            <v-col class="d-flex justify-end align-center" cols="12" sm="3">
               <v-btn @click="add_device" depressed dark color="blue"
                 >Link Device</v-btn
               >
             </v-col>
           </v-row>
-          <v-row>
-            <v-col cols="9">
-              <v-card-title class="text-h5">
+          <v-row style="margin-top: 0">
+            <v-col cols="12" sm="9" class="dense-col">
+              <v-card-title class="text-h5 action-title">
                 Link Telegram Account
               </v-card-title>
 
-              <v-card-subtitle
+              <v-card-subtitle dense
                 >Link your Telegram account to SIMAR to receive notifications
                 through
                 <a href="https://t.me/controlsgroupinfobot">EPICSTel</a
                 >.</v-card-subtitle
               >
             </v-col>
-            <v-col class="d-flex justify-center align-center" cols="3">
+            <v-col
+              class="d-flex justify-end align-center dense-col"
+              cols="12"
+              sm="3"
+            >
               <telegram-dialog />
             </v-col>
           </v-row>
-        </v-card>
-        <v-card outlined>
+          <v-divider />
           <v-row>
-            <v-col cols="9">
-              <v-card-title class="text-h5">
+            <v-col cols="12" sm="9">
+              <v-card-title class="text-h5 action-title">
                 Reset Notification Settings
               </v-card-title>
 
@@ -87,13 +95,13 @@
                 >.</v-card-subtitle
               >
             </v-col>
-            <v-col class="d-flex justify-center align-center" cols="3">
+            <v-col class="d-flex justify-end align-center" cols="12" sm="3">
               <v-btn @click="unsubscribe_all" depressed dark color="red"
                 >Reset</v-btn
               >
             </v-col>
           </v-row>
-        </v-card>
+        </v-container>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -190,3 +198,17 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.dense-col {
+  padding-top: 0;
+}
+
+.action-title {
+  color: #292929;
+}
+
+.action-button {
+  text-align: right;
+}
+</style>
