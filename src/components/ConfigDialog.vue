@@ -187,7 +187,7 @@ export default {
         }
       }
 
-      await this.send_command("set_limits", { pvs: pvs_to_change });
+      await this.send_command("limits", { pvs: pvs_to_change });
 
       this.$emit("update-limit", pvs_to_change);
 

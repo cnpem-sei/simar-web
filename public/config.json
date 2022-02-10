@@ -2,7 +2,7 @@
     "items": {
         "10.128.117.142 - BBB-SIMAR-IA17-RaCtrl2": [
             {
-                "name": "Room 17, CON Rack",
+                "name": "Room 17, CONS Rack",
                 "pvs": {
                     "Temperature": {
                         "name": "IA-17RaCtrl:CO-SIMAR-01:RackInternalTemp-Mon"
@@ -34,7 +34,7 @@
         ],
         "10.128.107.141 - BBB-SIMAR-IA07-RaCtrl1": [
             {
-                "name": "Room 7, CON Rack",
+                "name": "Room 7, CONS Rack",
                 "pvs": {
                     "Temperature": {
                         "name": "IA-07RaCtrl:CO-SIMAR-01:RackInternalTemp-Mon"
@@ -84,7 +84,7 @@
                 }
             },
             {
-                "name": "Room 20, CON Rack",
+                "name": "Room 20, CONS Rack",
                 "pvs": {
                     "Temperature": {
                         "name": "IA-20RaCtrl:CO-SIMAR-01:RackInternalTemp-Mon"

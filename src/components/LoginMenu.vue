@@ -27,11 +27,7 @@
             <h3>{{ $store.state.account.name }}</h3>
             <p class="text-caption mt-1">{{ $store.state.account.username }}</p>
             <v-divider class="my-3"></v-divider>
-            <v-btn @click="unsubscribe_all" depressed text
-              >Reset limits and notifications</v-btn
-            >
-            <v-divider class="my-3"></v-divider>
-            <telegram-dialog />
+            <notification-dialog />
             <v-divider class="my-3"></v-divider>
             <v-btn @click="logout" depressed text> Disconnect </v-btn>
           </div>
@@ -62,8 +58,8 @@
 </template>
 
 <script>
-import TelegramDialog from "./TelegramDialog";
 import { mdiLogin } from "@mdi/js";
+import NotificationDialog from "./NotificationDialog.vue";
 
 function getInitials(account) {
   return account.name.split(" ")[0].substring(0, 1);
@@ -75,7 +71,7 @@ export default {
       mdiLogin,
     };
   },
-  components: { TelegramDialog },
+  components: { NotificationDialog },
   methods: {
     async login() {
       await this.$store.state.msalInstance
@@ -98,17 +94,6 @@ export default {
       await this.$store.state.msalInstance.logout({}).catch((error) => {
         console.error(error);
       });
-    },
-    async unsubscribe_all() {
-      const subscription =
-        await this.$store.state.sw.pushManager.getSubscription();
-
-      if (subscription) {
-        await subscription.unsubscribe();
-      }
-
-      await this.send_command("limits", {}, "DELETE");
-      window.location.reload();
     },
   },
 };

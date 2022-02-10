@@ -11,18 +11,6 @@
 
 <script>
 import { mdiBell } from "@mdi/js";
-function b64_uint8(base64String) {
-  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
-
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
 
 export default {
   props: ["pv"],
@@ -50,7 +38,9 @@ export default {
           if (!subscription) {
             subscription = await this.$store.state.sw.pushManager.subscribe({
               userVisibleOnly: true,
-              applicationServerKey: b64_uint8(process.env.VUE_APP_PUSH_KEY),
+              applicationServerKey: this.b64_uint8(
+                process.env.VUE_APP_PUSH_KEY
+              ),
             });
           }
         } catch (err) {
@@ -67,6 +57,10 @@ export default {
             },
           ],
           sub: subscription,
+          device_info: {
+            host: window.location.host,
+            user_agent: navigator.userAgent,
+          },
         };
 
         if (this.pv.value === "No" || this.pv.value === "Yes") {

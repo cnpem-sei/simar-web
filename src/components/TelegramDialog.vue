@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="dialog" max-width="700px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-on="on" v-bind="attrs" depressed text>
-        Link Telegram account</v-btn
+      <v-btn v-on="on" v-bind="attrs" depressed dark color="blue">
+        Link Telegram</v-btn
       >
     </template>
     <v-card>

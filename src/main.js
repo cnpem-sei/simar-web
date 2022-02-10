@@ -32,6 +32,18 @@ Vue.mixin({
       });
 
       return token.accessToken;
+    },
+    b64_uint8(b64_string) {
+      const padding = "=".repeat((4 - (b64_string.length % 4)) % 4);
+      const base64 = (b64_string + padding).replace(/-/g, "+").replace(/_/g, "/");
+
+      const raw_data = window.atob(base64);
+      const output_arr = new Uint8Array(raw_data.length);
+
+      for (let i = 0; i < raw_data.length; ++i) {
+        output_arr[i] = raw_data.charCodeAt(i);
+      }
+      return output_arr;
     }
   },
 });
