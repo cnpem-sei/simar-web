@@ -300,7 +300,7 @@
         ],
         "10.128.161.141 - BBB-SIMAR-RF": [
             {
-                "name": "RF, Ambient Temperature",
+                "name": "RF, Ambient",
                 "pvs": {
                     "Temperature": {
                         "name": "RA-RaCtrl:CO-SIMAR-01:AmbientTemp-Mon"
@@ -418,16 +418,6 @@
                     },
                     "Humidity": {
                         "name": "GEN-01:CO-SIMAR-01:Humidity-Mon"
-                    }
-                }
-            }
-        ],
-        "10.128.131.142 - BBB-SIMAR-PA-RaPSE05-1": [
-            {
-                "name": "PSE, Rack 7",
-                "pvs": {
-                    "Leak": {
-                        "name": "PA-RaPSE07:SIMAR-01:RackWaterLeak-Mon"
                     }
                 }
             }

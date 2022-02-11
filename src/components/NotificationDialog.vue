@@ -36,7 +36,7 @@
             </v-data-table>
             <h5 style="margin-top: 12px">
               Telegram ID: {{ telegram_id }}
-              <v-btn icon x-small
+              <v-btn icon x-small @click="delete_telegram()"
                 ><v-icon>{{ mdiLinkVariantRemove }}</v-icon></v-btn
               >
             </h5>
@@ -189,6 +189,10 @@ export default {
         });
         await this.update_devices();
       }
+    },
+    async delete_telegram() {
+      await this.send_command(`telegram?id=${this.telegram_id}`, {}, "DELETE");
+      await this.update_devices();
     },
   },
   watch: {
