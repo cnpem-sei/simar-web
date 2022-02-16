@@ -3,6 +3,9 @@
     <v-card-title class="subheading font-weight-bold">
       {{ item.name }}
       <v-spacer />
+      <v-btn icon small fab color="grey" @click="display_archiver"
+        ><v-icon>{{ mdiChartAreasplineVariant }}</v-icon></v-btn
+      >
       <config-dialog
         v-bind:item="item"
         @update-limit="
@@ -57,12 +60,14 @@
 import PowerPanel from "./PowerPanel";
 import ConfigDialog from "./ConfigDialog";
 import NotificationToggler from "./NotificationToggler";
+import { mdiChartAreasplineVariant } from "@mdi/js";
 
 export default {
   props: ["items", "item", "filtered_keys", "keys"],
   data: function () {
     return {
       dialog: false,
+      mdiChartAreasplineVariant,
     };
   },
   components: {
@@ -97,6 +102,14 @@ export default {
       )
         return "orange";
       else return "green";
+    },
+    display_archiver() {
+      window.open(
+        `https://${
+          this.$store.state.url
+        }/archiver-viewer/?pv=${this.item.pv_names.join("&pv=")}`,
+        "_blank"
+      );
     },
   },
 };
