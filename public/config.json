@@ -16,7 +16,7 @@
                 }
             }
         ],
-        "SIMAR-SI08M1": [
+        "BBB-SIMAR-Mini-03": [
             {
                 "name": "Sector 8, M1",
                 "pvs": {
@@ -342,7 +342,7 @@
                 }
             }
         ],
-        "BBB-SIMAR-Mini-05": [
+        "Unknown - 5": [
             {
                 "name": "Mini SIMAR, unit 5",
                 "pvs": {
@@ -358,7 +358,7 @@
                 }
             }
         ],
-        "BBB-SIMAR-Mini-04": [
+        "Unknown - 4": [
             {
                 "name": "Mini SIMAR, unit 4",
                 "pvs": {
@@ -374,7 +374,7 @@
                 }
             }
         ],
-        "BBB-SIMAR-Mini-03": [
+        "Unknown - 3": [
             {
                 "name": "Mini SIMAR, unit 3",
                 "pvs": {
@@ -386,96 +386,6 @@
                     },
                     "Humidity": {
                         "name": "GEN-03:CO-SIMAR-01:Humidity-Mon"
-                    }
-                }
-            }
-        ],
-        "BBB-SIMAR-Mini-02": [
-            {
-                "name": "Mini SIMAR, unit 2",
-                "pvs": {
-                    "Temperature": {
-                        "name": "GEN-02:CO-SIMAR-01:Temp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "GEN-02:CO-SIMAR-01:Pressure-Mon"
-                    },
-                    "Humidity": {
-                        "name": "GEN-02:CO-SIMAR-01:Humidity-Mon"
-                    }
-                }
-            }
-        ],
-        "BBB-SIMAR-Mini-01": [
-            {
-                "name": "Mini SIMAR, unit 1",
-                "pvs": {
-                    "Temperature": {
-                        "name": "GEN-01:CO-SIMAR-01:Temp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "GEN-01:CO-SIMAR-01:Pressure-Mon"
-                    },
-                    "Humidity": {
-                        "name": "GEN-01:CO-SIMAR-01:Humidity-Mon"
-                    }
-                }
-            }
-        ],
-        "10.128.131.141 - BBB-SIMAR-PA-RaPSC03-1": [
-            {
-                "name": "PSC, Rack 1",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA-RaPSC01:SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA-RaPSC01:SIMAR-01:RackInternalPressure-Mon"
-                    },
-                    "Rack Open": {
-                        "name": "PA-RaPSC01:SIMAR-01:RackOpen-Mon"
-                    }
-                }
-            },
-            {
-                "name": "PSC, Rack 2",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA-RaPSC02:SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA-RaPSC02:SIMAR-01:RackInternalPressure-Mon"
-                    },
-                    "Rack Open": {
-                        "name": "PA-RaPSC02:SIMAR-01:RackOpen-Mon"
-                    }
-                }
-            },
-            {
-                "name": "PSC, Rack 3",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA-RaPSC03:SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA-RaPSC03:SIMAR-01:RackInternalPressure-Mon"
-                    },
-                    "Rack Open": {
-                        "name": "PA-RaPSC03:SIMAR-01:RackOpen-Mon"
-                    }
-                }
-            },
-            {
-                "name": "PSC, Rack 4",
-                "pvs": {
-                    "Temperature": {
-                        "name": "PA-RaPSC04:SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "PA-RaPSC04:SIMAR-01:RackInternalPressure-Mon"
-                    },
-                    "Rack Open": {
-                        "name": "PA-RaPSC04:SIMAR-01:RackOpen-Mon"
                     }
                 }
             }
