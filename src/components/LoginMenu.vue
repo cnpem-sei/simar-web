@@ -91,6 +91,16 @@ export default {
       window.location.reload();
     },
     async logout() {
+      let subscription =
+        await this.$store.state.sw.pushManager.getSubscription();
+
+      if (subscription)
+        await this.send_command(
+          `devices?endpoints=${subscription.endpoint}`,
+          {},
+          "DELETE"
+        );
+
       await this.$store.state.msalInstance.logout({}).catch((error) => {
         console.error(error);
       });
