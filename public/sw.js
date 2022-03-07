@@ -1,3 +1,5 @@
+const channel = new BroadcastChannel("sw");
+
 function receive_push(event) {
     const { image, tag, url, title, body } = event.data.json();
 
@@ -9,6 +11,8 @@ function receive_push(event) {
         tag: tag,
         image: image,
     };
+    channel.postMessage({title: "Notification Received"});
+
     event.waitUntil(self.registration.showNotification(title, options));
 }
 

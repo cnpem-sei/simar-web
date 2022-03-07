@@ -16,14 +16,9 @@
       timeout="4000"
       color="white"
       light
+      dismissible
     >
       {{ $store.state.message }}
-
-      <template v-slot:action="{ attrs }">
-        <v-btn icon text v-bind="attrs" @click="$store.commit('hideSnackbar')">
-          <v-icon>{{ mdiClose }}</v-icon>
-        </v-btn>
-      </template>
     </v-snackbar>
   </v-app>
 </template>
@@ -76,7 +71,7 @@ export default {
       this.settings.sort_by = value;
     },
   },
-  created() {
+  async created() {
     const msalInstance = new PublicClientApplication(
       this.$store.state.msalConfig
     );
@@ -88,6 +83,16 @@ export default {
     if (accounts.length == 0) return;
     accounts[0].initials = getInitials(accounts[0]);
     this.$store.commit("setAccount", accounts[0]);
+
+    const serviceWorker = await navigator.serviceWorker.register("./sw.js");
+    this.$store.commit("setSw", serviceWorker);
+
+    const channel = new BroadcastChannel("sw");
+      channel.addEventListener("message", () => {
+      this.$store.commit("updateNotifications");
+    });
+    
+    this.$store.commit("updateNotifications");
   },
 };
 </script>

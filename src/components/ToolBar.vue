@@ -38,6 +38,7 @@
         </v-btn-toggle>
       </template>
       <v-spacer />
+      <notification-dropdown style="flex-grow: 0"/>
       <login-menu style="flex-grow: 0" v-on="$listeners" />
     </v-toolbar>
     <v-toolbar
@@ -81,6 +82,8 @@
 
 <script>
 import LoginMenu from "./LoginMenu";
+import NotificationDropdown from "./NotificationDropdown";
+
 import {
   mdiTrendingUp,
   mdiTrendingDown,
@@ -90,7 +93,7 @@ import {
 } from "@mdi/js";
 
 export default {
-  components: { LoginMenu },
+  components: { LoginMenu, NotificationDropdown },
   props: ["settings"],
   data() {
     return {

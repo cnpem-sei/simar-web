@@ -347,9 +347,6 @@ export default {
         this.$store.commit("setUrl", host);
       }
     }
-
-    const serviceWorker = await navigator.serviceWorker.register("./sw.js");
-    this.$store.commit("setSw", serviceWorker);
   },
 };
 </script>
