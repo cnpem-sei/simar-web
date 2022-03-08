@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="dialog" max-width="800px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-on="on" v-bind="attrs" depressed text>
-        Notification Settings</v-btn
+      <v-btn v-on="on" v-bind="attrs" icon color="grey">
+        <v-icon>{{ mdiCog }}</v-icon></v-btn
       >
     </template>
     <v-card>
@@ -109,7 +109,7 @@
 
 <script>
 import TelegramDialog from "./TelegramDialog";
-import { mdiLinkVariantRemove } from "@mdi/js";
+import { mdiLinkVariantRemove, mdiCog } from "@mdi/js";
 
 export default {
   data: function () {
@@ -128,6 +128,7 @@ export default {
       ],
       telegram_id: "Unknown",
       mdiLinkVariantRemove,
+      mdiCog,
       items: [],
     };
   },

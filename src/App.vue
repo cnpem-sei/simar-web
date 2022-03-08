@@ -88,10 +88,11 @@ export default {
     this.$store.commit("setSw", serviceWorker);
 
     const channel = new BroadcastChannel("sw");
-      channel.addEventListener("message", () => {
-      this.$store.commit("updateNotifications");
-    });
-    
+    channel.addEventListener(
+      "message",
+      this.$store.commit("updateNotifications")
+    );
+
     this.$store.commit("updateNotifications");
   },
 };
