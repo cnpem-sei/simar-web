@@ -35,6 +35,7 @@ export default {
 
           subscription =
             await this.$store.state.sw.pushManager.getSubscription();
+            
           if (!subscription) {
             subscription = await this.$store.state.sw.pushManager.subscribe({
               userVisibleOnly: true,
@@ -44,9 +45,10 @@ export default {
             });
           }
         } catch (err) {
+          console.error(err);
           this.$store.commit(
             "showSnackbar",
-            "A certificate error has occurred and we couldn't set up notifications for your browser. You can enable browser notifications by allowing insecure content in the site's permissions."
+            "We couldn't set up notifications for your browser. You can still use Telegram notifications, however."
           );
         }
 

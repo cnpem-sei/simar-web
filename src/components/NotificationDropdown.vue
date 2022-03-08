@@ -24,6 +24,8 @@
         </v-badge>
       </template>
       <v-list width="400px" max-height="500px" class="overflow-y-auto">
+        <notification-dialog />
+        <v-divider/>
         <v-list-item
           v-for="notification of $store.state.notifications"
           :key="notification.oid"
@@ -45,6 +47,7 @@
 
 <script>
 import { mdiBell, mdiClose } from "@mdi/js";
+import NotificationDialog from "./NotificationDialog.vue";
 
 export default {
   data() {
@@ -53,6 +56,7 @@ export default {
       mdiClose,
     };
   },
+  components: { NotificationDialog },
   methods: {
     async remove_notification(oid) {
       await this.send_command(`notification?oid=${oid}`, {}, "DELETE");
