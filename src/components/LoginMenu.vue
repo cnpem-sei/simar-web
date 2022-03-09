@@ -93,7 +93,6 @@ export default {
       if (subscription)
         await this.send_command(
           `devices?endpoints=${subscription.endpoint}`,
-          {},
           "DELETE"
         );
 

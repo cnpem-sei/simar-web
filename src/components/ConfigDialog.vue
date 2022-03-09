@@ -187,15 +187,19 @@ export default {
         }
       }
 
-      await this.send_command("limits", { pvs: pvs_to_change });
+      await this.send_command("limits", "POST", { pvs: pvs_to_change });
 
       this.$emit("update-limit", pvs_to_change);
 
       this.load_prog = 80;
 
-      await this.send_command(`outlets?host=SIMAR:${this.parent_name}`, {
-        outlets: outlets,
-      });
+      await this.send_command(
+        `outlets?host=SIMAR:${this.parent_name}`,
+        "POST",
+        {
+          outlets: outlets,
+        }
+      );
 
       this.$store.commit(
         "showSnackbar",
@@ -235,7 +239,6 @@ export default {
               ? "BBB:" + this.parent_name
               : this.parent_name
           }`,
-          {},
           "GET"
         );
         data = await data.json();
@@ -248,7 +251,6 @@ export default {
 
       data = await this.send_command(
         `outlets?host=SIMAR:${this.parent_name}`,
-        {},
         "GET"
       );
       data = await data.json();

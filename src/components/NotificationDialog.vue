@@ -142,21 +142,17 @@ export default {
         await subscription.unsubscribe();
       }
 
-      await this.send_command("limits", {}, "DELETE");
+      await this.send_command("limits", "DELETE");
       window.location.reload();
     },
     async update_devices() {
-      const response = await this.send_command("devices", {}, "GET");
+      const response = await this.send_command("devices", "GET");
       const data = await response.json();
       this.items = data.devices;
       this.telegram_id = data.telegram_id || "Unknown";
     },
     async delete_device(item) {
-      await this.send_command(
-        `devices?endpoints=${item.endpoint}`,
-        {},
-        "DELETE"
-      );
+      await this.send_command(`devices?endpoints=${item.endpoint}`, "DELETE");
       this.update_devices();
     },
     async add_device() {
@@ -181,7 +177,7 @@ export default {
             "A certificate error has occurred and we couldn't set up notifications for your browser. You can enable browser notifications by allowing insecure content in the site's permissions."
           );
         }
-        await this.send_command("subscribe", {
+        await this.send_command("subscribe", "POST", {
           sub: subscription,
           device_info: {
             host: window.location.host,
@@ -192,7 +188,7 @@ export default {
       }
     },
     async delete_telegram() {
-      await this.send_command(`telegram?id=${this.telegram_id}`, {}, "DELETE");
+      await this.send_command(`telegram?id=${this.telegram_id}`, "DELETE");
       await this.update_devices();
     },
   },

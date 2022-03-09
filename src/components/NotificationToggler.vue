@@ -35,7 +35,7 @@ export default {
 
           subscription =
             await this.$store.state.sw.pushManager.getSubscription();
-            
+
           if (!subscription) {
             subscription = await this.$store.state.sw.pushManager.subscribe({
               userVisibleOnly: true,
@@ -73,14 +73,14 @@ export default {
           pv_data.pvs[0].lo_limit = this.pv.lo_limit;
         }
 
-        const response = await this.send_command("subscribe", pv_data);
+        const response = await this.send_command("subscribe", "POST", pv_data);
 
         return response.status;
       }
       return undefined;
     },
     async unsubscribe() {
-      const response = await this.send_command("unsubscribe", {
+      const response = await this.send_command("unsubscribe", "POST", {
         pvs: [this.pv.name],
       });
       return response.status;

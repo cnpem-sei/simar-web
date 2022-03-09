@@ -8,7 +8,7 @@ Vue.prototype.$msalInstance = {};
 
 Vue.mixin({
   methods: {
-    async send_command(endpoint, body, method = "POST") {
+    async send_command(endpoint, method = "POST", body = {}) {
       let config = {
         method: method,
         headers: { Authorization: `Bearer ${await this.get_token()}`, "Content-Type": "application/json" },

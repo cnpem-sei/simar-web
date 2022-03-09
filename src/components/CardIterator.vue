@@ -275,7 +275,7 @@ export default {
       return items;
     },
     async get_pv_info() {
-      const response = await this.send_command("pvs", {}, "GET");
+      const response = await this.send_command("pvs", "GET");
       return await response.json();
     },
     async update_sub(item, key) {

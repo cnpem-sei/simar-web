@@ -74,14 +74,13 @@ export default {
   components: { NotificationDialog },
   methods: {
     async remove_notification(oid) {
-      await this.send_command(`notification?oid=${oid}`, {}, "DELETE");
+      await this.send_command(`notification?oid=${oid}`, "DELETE");
       this.$store.commit("updateNotifications");
     },
     async clear_notifications() {
       await this.send_command(
         "notification?" +
           this.$store.state.notifications.map((n) => `oid=${n.oid}`).join("&"),
-        {},
         "DELETE"
       );
       this.$store.commit("updateNotifications");
