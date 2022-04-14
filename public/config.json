@@ -1,21 +1,5 @@
 {
     "items": {
-        "10.128.117.142 - BBB-SIMAR-IA17-RaCtrl2": [
-            {
-                "name": "Room 17, CONS Rack",
-                "pvs": {
-                    "Temperature": {
-                        "name": "IA-17RaCtrl:CO-SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "IA-17RaCtrl:CO-SIMAR-01:RackInternalPressure-Mon"
-                    },
-                    "Rack Open": {
-                        "name": "IA-17RaCtrl:CO-SIMAR-01:RackOpen-Mon"
-                    }
-                }
-            }
-        ],
         "BBB-SIMAR-Mini-03": [
             {
                 "name": "Sector 8, M1",
@@ -28,22 +12,6 @@
                     },
                     "Humidity": {
                         "name": "SI-08M1:CO-SIMAR-01:Humidity-Mon"
-                    }
-                }
-            }
-        ],
-        "10.128.107.141 - BBB-SIMAR-IA07-RaCtrl1": [
-            {
-                "name": "Room 7, CONS Rack",
-                "pvs": {
-                    "Temperature": {
-                        "name": "IA-07RaCtrl:CO-SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "IA-07RaCtrl:CO-SIMAR-01:RackInternalPressure-Mon"
-                    },
-                    "Rack Open": {
-                        "name": "IA-07RaCtrl:CO-SIMAR-01:RackOpen-Mon"
                     }
                 }
             }
@@ -314,7 +282,7 @@
                 }
             }
         ],
-        "10.0.6.56 - BBB-NEW-2021": [
+        "10.0.6.104 - BBB-SIMAR-TEST": [
             {
                 "name": "CONS, CONS Rack",
                 "pvs": {
@@ -570,6 +538,236 @@
                     }
                 }
             }
+        ],
+        "10.128.116.141 - BBB-SIMAR-IA16-RaCtrl1": [
+            {
+                "name": "Room 16, BPM Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA16-RaBPM:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA16-RaBPM:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA16-RaBPM:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 16, PS01 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA16-RaPS01:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA16-RaPS01:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA16-RaPS01:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 16, CONS Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA16-RaCtrl:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA16-RaCtrl:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA16-RaCtrl:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 16, PS02 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA16-RaPS02:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA16-RaPS02:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA16-RaPS02:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 16, VAC Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA16-RaVAC:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA16-RaVAC:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA16-RaVAC:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 16, BbB Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA16-RaBbB:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA16-RaBbB:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA16-RaBbB:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            }                      
+        ],
+        "10.128.117.142 - BBB-SIMAR-IA17-RaCtrl1": [
+            {
+                "name": "Room 17, BPM Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA17-RaBPM:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA17-RaBPM:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA17-RaBPM:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 17, PS01 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA17-RaPS01:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA17-RaPS01:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA17-RaPS01:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 17, CONS Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA17-RaCtrl:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA17-RaCtrl:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA17-RaCtrl:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 17, PS02 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA17-RaPS02:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA17-RaPS02:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA17-RaPS02:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 17, VAC Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA17-RaVAC:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA17-RaVAC:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA17-RaVAC:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            }         
+        ],
+        "10.128.119.141 - BBB-SIMAR-IA18-RaCtrl2": [
+            {
+                "name": "Room 18-II, BPM Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA19-RaBPM:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA19-RaBPM:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA19-RaBPM:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 18-II, PS01 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA19-RaPS01:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA19-RaPS01:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA19-RaPS01:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 18-II, CONS Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA19-RaCtrl:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA19-RaCtrl:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA19-RaCtrl:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 18-II, PS02 Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA19-RaPS02:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA19-RaPS02:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA19-RaPS02:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            },
+            {
+                "name": "Room 18-II, VAC Rack",
+                "pvs": {
+                    "Temperature": {
+                        "name": "IA19-RaVAC:SIMAR-01:RackInternalTemp-Mon"
+                    },
+                    "Pressure": {
+                        "name": "IA19-RaVAC:SIMAR-01:RackInternalPressure-Mon"
+                    },
+                    "Rack Open": {
+                        "name": "IA19-RaVAC:SIMAR-01:RackOpen-Mon"
+                    }
+                }
+            }         
         ],
         "10.15.0.254 - SIMAR-EXT-R0": [
             {
