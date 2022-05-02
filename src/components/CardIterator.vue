@@ -181,14 +181,9 @@ async function parse_json(self) {
             const current_pv_names = [];
 
             const current_name = sensor.pvs.Current.name;
-            const current_pos = current_name.indexOf("Current") + 7;
 
-            for (let i = 1; i < 8; i++) {
-              current_pv_names.push(
-                current_name.substring(0, current_pos) +
-                  i +
-                  current_name.substring(current_pos)
-              );
+            for (let i = 0; i < 7; i++) {
+              current_pv_names.push(current_name.replace("?", i));
             }
 
             pv_names = pv_names.concat(current_pv_names);
@@ -214,7 +209,7 @@ function get_type(pv) {
     if (pv_type.includes(probable_type)) return probable_type;
     if (pv_type.includes("Temp")) return "Temperature";
     if (pv_type.includes("RackOpen")) return "Rack Open";
-    if (pv_type.includes("Pfactor")) return "PFactor";
+    if (pv_type.includes("PwrFactor")) return "PFactor";
     if (pv_type.includes("Glitch")) return "Glitches";
   }
 }
@@ -302,7 +297,7 @@ export default {
           e.detail.value === 0 ? "No" : "Yes";
       } else if (pv_type === "Current") {
         this.items[index].pvs.Current.values[
-          parseInt(e.detail.pv.charAt(e.detail.pv.indexOf("Current") + 7))
+          parseInt(e.detail.pv.charAt(e.detail.pv.indexOf("CH") + 2))
         ] = e.detail.value.toFixed(2) + consts.SYMBOLS[pv_type];
       } else {
         this.items[index].pvs[pv_type].value =

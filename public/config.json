@@ -282,30 +282,24 @@
                 }
             }
         ],
-        "10.0.6.104 - BBB-SIMAR-TEST": [
+        "10.128.114.141 - BBB-SIMAR-IA14-RaCtrl1": [
             {
-                "name": "CONS, CONS Rack",
+                "name": "Room 14, CONS Rack",
                 "pvs": {
                     "Voltage": {
-                        "name": "CO-RaCtrl:CO-SIMAR-01:Voltage-Mon"
+                        "name": "IA14-RaCtrl:CO-SIMAR-01:Voltage-Mon"
                     },
                     "Current": {
-                        "name": "CO-RaCtrl:CO-SIMAR-01:Current-Mon"
+                        "name": "IA14-RaCtrl:CO-SIMAR-01:CH?Current-Mon"
                     },
                     "Frequency": {
-                        "name": "CO-RaCtrl:CO-SIMAR-01:Frequency-Mon"
+                        "name": "IA14-RaCtrl:CO-SIMAR-01:PwrFrequency-Mon"
                     },
                     "PFactor": {
-                        "name": "CO-RaCtrl:CO-SIMAR-01:Pfactor-Mon"
+                        "name": "IA14-RaCtrl:CO-SIMAR-01:PwrFactor-Mon"
                     },
                     "Glitches": {
-                        "name": "CO-RaCtrl:CO-SIMAR-01:Glitch-Mon"
-                    },
-                    "Temperature": {
-                        "name": "CO-RaCtrl:CO-SIMAR-01:RackInternalTemp-Mon"
-                    },
-                    "Pressure": {
-                        "name": "CO-RaCtrl:CO-SIMAR-01:RackInternalPressure-Mon"
+                        "name": "IA14-RaCtrl:CO-SIMAR-01:Glitch-Mon"
                     }
                 }
             }
@@ -623,7 +617,7 @@
                         "name": "IA16-RaBbB:CO-SIMAR-01:RackOpen-Mon"
                     }
                 }
-            }                      
+            }
         ],
         "10.128.117.142 - BBB-SIMAR-IA17-RaCtrl1": [
             {
@@ -695,7 +689,7 @@
                         "name": "IA17-RaVAC:CO-SIMAR-01:RackOpen-Mon"
                     }
                 }
-            }         
+            }
         ],
         "10.128.119.141 - BBB-SIMAR-IA18-RaCtrl2": [
             {
@@ -767,7 +761,7 @@
                         "name": "IA19-RaVAC:CO-SIMAR-02:RackOpen-Mon"
                     }
                 }
-            }         
+            }
         ],
         "10.15.0.254 - SIMAR-EXT-R0": [
             {

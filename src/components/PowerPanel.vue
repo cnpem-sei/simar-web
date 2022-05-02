@@ -143,10 +143,7 @@ export default {
       return "green";
     },
     get_current_pv(name, index) {
-      const current_pos = name.indexOf("Current") + 7;
-      return (
-        name.substring(0, current_pos) + index + name.substring(current_pos)
-      );
+      return name.replace("?", index);
     },
   },
 };
