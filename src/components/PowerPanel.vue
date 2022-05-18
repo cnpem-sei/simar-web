@@ -53,6 +53,7 @@
             <v-chip
               small
               :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.Glitches.name}`"
+              target="_blank"
               :color="get_subvalues_color('Glitches', item.pvs.Glitches.value)"
               text-color="white"
               >{{ item.pvs.Glitches.value }}</v-chip
@@ -64,6 +65,7 @@
             <v-chip
               small
               :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.PFactor.name}`"
+              target="_blank"
               :color="get_subvalues_color('PFactor', item.pvs.PFactor.value)"
               text-color="white"
               >{{ item.pvs.PFactor.value }}</v-chip
@@ -75,6 +77,7 @@
             <v-chip
               small
               :href="`https://${$store.state.url}/archiver-viewer/?pv=${item.pvs.Frequency.name}`"
+              target="_blank"
               :color="
                 get_subvalues_color('Frequency', item.pvs.Frequency.value)
               "

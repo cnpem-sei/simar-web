@@ -23,6 +23,13 @@ Vue.mixin({
         config,
       );
 
+      if (response.status == 500) {
+        this.$store.commit(
+          "showSnackbar",
+          `A server side error has occurred! Please try again later`
+        );
+      }
+
       return response;
     },
     async get_token() {

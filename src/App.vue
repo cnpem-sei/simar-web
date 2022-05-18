@@ -19,6 +19,7 @@
       dismissible
     >
       {{ $store.state.message }}
+      <v-button @click="console.log('close')">X</v-button>
     </v-snackbar>
   </v-app>
 </template>
@@ -27,14 +28,11 @@
 import CardIterator from "./components/CardIterator";
 import ToolBar from "./components/ToolBar";
 import FooterBar from "./components/FooterBar";
-
 import { PublicClientApplication } from "@azure/msal-browser";
 import { mdiClose } from "@mdi/js";
-
 function getInitials(account) {
   return account.name.split(" ")[0].substring(0, 1);
 }
-
 export default {
   name: "SIMAR",
   components: {
@@ -59,7 +57,6 @@ export default {
     },
     mdiClose,
   }),
-
   methods: {
     update_search: function (value) {
       this.settings.search = value;
@@ -75,24 +72,18 @@ export default {
     const msalInstance = new PublicClientApplication(
       this.$store.state.msalConfig
     );
-
     this.$store.commit("setInstance", msalInstance);
-
     const accounts = this.$store.state.msalInstance.getAllAccounts();
-
     if (accounts.length == 0) return;
     accounts[0].initials = getInitials(accounts[0]);
     this.$store.commit("setAccount", accounts[0]);
-
     const serviceWorker = await navigator.serviceWorker.register("./sw.js");
     this.$store.commit("setSw", serviceWorker);
-
     const channel = new BroadcastChannel("sw");
     channel.addEventListener(
       "message",
       this.$store.commit("updateNotifications")
     );
-
     this.$store.commit("updateNotifications");
   },
 };
