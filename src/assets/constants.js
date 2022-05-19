@@ -79,7 +79,7 @@ export const SYMBOLS = {
     Voltage: " V",
     Current: " A",
     Frequency: " Hz",
-    PFactor: "%",
+    PFactor: "",
     Glitches: ""
 };
 

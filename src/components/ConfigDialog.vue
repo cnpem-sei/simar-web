@@ -77,18 +77,18 @@
                 <v-list-item-content>
                   <v-row>
                     <v-col>
-                      <v-list-item-title
+                      <v-list-item-title style="max-width: 90px"
                         ><v-icon :color="get_color(index)">{{
                           mdiPowerPlugOutline
                         }}</v-icon
                         >{{ key }}</v-list-item-title
-                      >
-                      <v-list-item-subtitle style="text-align: center">
+                      ><v-list-item-subtitle style="text-align: center">
                         {{ item.pvs.Voltage.value }}</v-list-item-subtitle
                       >
                       <v-list-item-subtitle style="text-align: center">
                         {{ item.pvs.Current.values[key] }}</v-list-item-subtitle
                       >
+                      
                     </v-col>
                     <v-col>
                       <v-switch
