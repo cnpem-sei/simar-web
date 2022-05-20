@@ -72,7 +72,7 @@
           <v-spacer />
 
           <v-layout
-            v-if="items.length"
+            v-if="items.length && external_sensor.pvs !== undefined"
             align-center
             justify-center
             class="hidden-sm-and-down"
@@ -81,29 +81,23 @@
             <v-btn
               plain
               class="amb-val"
-              :href="`https://${$store.state.url}/archiver-viewer/?pv=${
-                items.at(-1).pvs.Temperature.name
-              }`"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${external_sensor.pvs.Temperature.name}`"
               ><v-icon dark>{{ mdiThermometer }}</v-icon
-              >{{ items.at(-1).pvs.Temperature.value }}</v-btn
+              >{{ external_sensor.pvs.Temperature.value }}</v-btn
             >
             <v-btn
               plain
               class="amb-val"
-              :href="`https://${$store.state.url}/archiver-viewer/?pv=${
-                items.at(-1).pvs.Pressure.name
-              }`"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${external_sensor.pvs.Pressure.name}`"
               ><v-icon dark>{{ mdiGauge }}</v-icon
-              >{{ items.at(-1).pvs.Pressure.value }}</v-btn
+              >{{ external_sensor.pvs.Pressure.value }}</v-btn
             >
             <v-btn
               plain
               class="amb-val"
-              :href="`https://${$store.state.url}/archiver-viewer/?pv=${
-                items.at(-1).pvs.Humidity.name
-              }`"
+              :href="`https://${$store.state.url}/archiver-viewer/?pv=${external_sensor.pvs.Humidity.name}`"
               ><v-icon dark>{{ mdiWaterPercent }}</v-icon
-              >{{ items.at(-1).pvs.Humidity.value }}</v-btn
+              >{{ external_sensor.pvs.Humidity.value }}</v-btn
             >
           </v-layout>
 
@@ -239,6 +233,7 @@ export default {
       items: [],
       con: undefined,
       loading_pv: true,
+      external_sensor: {},
       mdiChevronRight,
       mdiChevronLeft,
       mdiChevronDown,
@@ -315,6 +310,8 @@ export default {
 
     this.con.onopen = this.con.monitorPvs(await parse_json(this));
     this.con.onupdate = this.on_update;
+
+    this.external_sensor = this.items.find((e) => e.name === "B, 15");
   },
   async mounted() {
     let host = "ais-eng-srv-la.cnpem.br";

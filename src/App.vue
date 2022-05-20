@@ -19,7 +19,6 @@
       dismissible
     >
       {{ $store.state.message }}
-      <v-button @click="console.log('close')">X</v-button>
     </v-snackbar>
   </v-app>
 </template>

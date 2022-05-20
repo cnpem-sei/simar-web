@@ -16,16 +16,23 @@
       <v-card-title>
         <span class="text-h5">{{ item.name }}</span>
         <v-spacer />
-        <v-icon
-          v-if="item.parent.includes('10.15') || !item.parent.includes(' - ')"
-          style="margin-right: 10px"
-          color="grey"
-          >{{ mdiWifi }}</v-icon
+        <a
+          :href="`https://${$store.state.url}/bbbread/?search=${
+            parent_name.split(':')[0]
+          }`"
+          target="_blank"
         >
-        <v-icon v-if="status === 'Connected'" color="green">{{
-          mdiLanConnect
-        }}</v-icon>
-        <v-icon v-else color="red">{{ mdiLanDisconnect }}</v-icon>
+          <v-icon
+            v-if="item.parent.includes('10.15') || !item.parent.includes(' - ')"
+            style="margin-right: 10px"
+            color="grey"
+            >{{ mdiWifi }}</v-icon
+          >
+          <v-icon v-if="status === 'Connected'" color="green">{{
+            mdiLanConnect
+          }}</v-icon>
+          <v-icon v-else color="red">{{ mdiLanDisconnect }}</v-icon>
+        </a>
       </v-card-title>
       <v-card-subtitle style="padding-bottom: 5px">
         {{ item.parent }}
@@ -77,18 +84,20 @@
                 <v-list-item-content>
                   <v-row>
                     <v-col>
-                      <v-list-item-title style="max-width: 90px"
+                      <v-list-item-title
                         ><v-icon :color="get_color(index)">{{
                           mdiPowerPlugOutline
                         }}</v-icon
-                        >{{ key }}</v-list-item-title
+                        ><outlet-name
+                          @update-name="update_name($event, key)"
+                          v-bind:index="key"
+                          v-bind:name="outlet_names[key]" /></v-list-item-title
                       ><v-list-item-subtitle style="text-align: center">
                         {{ item.pvs.Voltage.value }}</v-list-item-subtitle
                       >
                       <v-list-item-subtitle style="text-align: center">
                         {{ item.pvs.Current.values[key] }}</v-list-item-subtitle
                       >
-                      
                     </v-col>
                     <v-col>
                       <v-switch
@@ -126,6 +135,7 @@
 
 <script>
 import LimitRange from "./LimitRange";
+import OutletName from "./OutletName";
 import {
   mdiWifi,
   mdiLanConnect,
@@ -135,7 +145,7 @@ import {
 } from "@mdi/js";
 
 export default {
-  components: { LimitRange },
+  components: { LimitRange, OutletName },
   props: ["item"],
   data: function () {
     return {
@@ -143,6 +153,8 @@ export default {
       status: "Connected",
       loading_pv: true,
       outlets: [],
+      outlet_names: ["0", "1", "2", "3", "4", "5", "6", "7"],
+      new_names: {},
       autotemp: false,
       range: {
         Humidity: [0, 0],
@@ -160,6 +172,10 @@ export default {
     };
   },
   methods: {
+    async update_name(name, id) {
+      this.$set(this.outlet_names, id, name);
+      this.new_names[id] = name;
+    },
     async apply_changes() {
       this.load_prog = 33;
 
@@ -198,6 +214,7 @@ export default {
         "POST",
         {
           outlets: outlets,
+          names: this.new_names,
         }
       );
 
@@ -275,3 +292,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.show-edit {
+  color: rgba(0, 0, 0, 0.54) !important;
+}
+</style>
