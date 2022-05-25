@@ -61,10 +61,5 @@ export default {
       dialog: false,
     };
   },
-  methods: {
-    apply_changes() {
-      this.send;
-    },
-  },
 };
 </script>

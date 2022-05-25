@@ -153,7 +153,7 @@ export default {
       status: "Connected",
       loading_pv: true,
       outlets: [],
-      outlet_names: ["0", "1", "2", "3", "4", "5", "6", "7"],
+      outlet_names: ["0", "1", "2", "3", "4", "5", "6"],
       new_names: {},
       autotemp: false,
       range: {
@@ -178,11 +178,6 @@ export default {
     },
     async apply_changes() {
       this.load_prog = 33;
-
-      const outlets = [];
-
-      for (let i = 0; i < this.item.pvs.Current.values.length; i++)
-        outlets.push(this.outlets.includes(i) ? 1 : 0);
 
       const pvs_to_change = [];
 
@@ -209,12 +204,23 @@ export default {
 
       this.load_prog = 80;
 
+      let outlets = [];
+
+      console.log(this.outlets);
+
+      for (let i = 0; i < this.outlet_names.length; i++) {
+        outlets.push({
+          setpoint: this.outlets.includes(i),
+          name: this.new_names[i],
+          id: i,
+        });
+      }
+
       await this.send_command(
         `outlets?host=SIMAR:${this.parent_name}`,
         "POST",
         {
           outlets: outlets,
-          names: this.new_names,
         }
       );
 
@@ -272,11 +278,13 @@ export default {
       );
       data = await data.json();
 
-      for (let i in data.outlets)
-        if (data.outlets[i] === 1) on_outlets.push(parseInt(i));
+      for (let i in data.outlets) {
+        this.outlet_names[i] = data.outlets[i].name;
+        if (data.outlets[i].status === 1) on_outlets.push(parseInt(i));
+      }
 
       this.outlets = on_outlets;
-      this.loading_pv = false;
+      this.loading_pv = data.outlets[i];
     },
   },
   computed: {
