@@ -284,7 +284,7 @@ export default {
       }
 
       this.outlets = on_outlets;
-      this.loading_pv = data.outlets.length > 0;
+      this.loading_pv = data.length < 1;
     },
   },
   computed: {
