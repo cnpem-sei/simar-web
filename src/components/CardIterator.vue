@@ -313,33 +313,6 @@ export default {
 
     this.external_sensor = this.items.find((e) => e.name === "B, 15");
   },
-  async mounted() {
-    let host = "ais-eng-srv-la.cnpem.br";
-    if (window.location.host === "vpn.cnpem.br") {
-      // If using WEB VPN
-      // Capture IPv4 address
-      const ipRegExp =
-        /https?\/((?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])))\//;
-      const match = ipRegExp.exec(window.location.href);
-      if (match && match.length > 1) {
-        host = match[1];
-      }
-    } else {
-      host = window.location.host;
-      if (
-        host.includes("0.0.0.0") ||
-        host.includes("localhost") ||
-        host.includes("10.0.38.50") ||
-        host.includes("10.0.6.70")
-      ) {
-        console.log(
-          "__`o##o>__ DEBUG SERVER. Setting host to ais-eng-srv-la.cnpem.br"
-        );
-      } else {
-        this.$store.commit("setUrl", host);
-      }
-    }
-  },
 };
 </script>
 

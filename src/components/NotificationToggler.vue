@@ -52,17 +52,19 @@ export default {
           );
         }
 
+        subscription = subscription.toJSON();
+
         const pv_data = {
           pvs: [
             {
               name: this.pv.name,
             },
           ],
-          sub: subscription,
-          device_info: {
-            host: window.location.host,
-            user_agent: navigator.userAgent,
-          },
+          endpoint: subscription.endpoint,
+          auth: subscription.keys.auth,
+          p256dh: subscription.keys.p256dh,
+          host: window.location.host,
+          user_agent: navigator.userAgent,
         };
 
         if (this.pv.value === "No" || this.pv.value === "Yes") {

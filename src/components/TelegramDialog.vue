@@ -121,19 +121,7 @@ export default {
   methods: {
     async register() {
       this.can_move = false;
-      const response = await fetch(
-        `https://${this.$store.state.url}/simar/api/telegram`,
-        {
-          method: "post",
-          headers: {
-            Authorization: `Bearer ${await this.get_token()}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: this.id,
-          }),
-        }
-      );
+      const response = await this.send_command(`telegram/${this.id}`, "POST");
       if (response.status !== 200) {
         this.$store.commit("showSnackbar", `Invalid Telegram ID!`);
         this.id = "";

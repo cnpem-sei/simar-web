@@ -69,3 +69,13 @@ new Vue({
   vuetify,
   render: (h) => h(App),
 }).$mount("#app");
+
+if (window.location.host === "vpn.cnpem.br") {
+  const ipRegExp =
+    /https?\/((?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])))\//;
+  const match = ipRegExp.exec(window.location.href);
+  if (match && match.length > 1) store.commit("setUrl", match[1]);
+} else {
+  console.log(process.env.NODE_ENV);
+  if (process.env.NODE_ENV !== "development") store.commit("setUrl", window.location.host);
+}

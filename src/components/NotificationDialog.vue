@@ -177,18 +177,20 @@ export default {
             "A certificate error has occurred and we couldn't set up notifications for your browser. You can enable browser notifications by allowing insecure content in the site's permissions."
           );
         }
+        subscription = subscription.toJSON();
+
         await this.send_command("subscribe", "POST", {
-          sub: subscription,
-          device_info: {
-            host: window.location.host,
-            user_agent: navigator.userAgent,
-          },
+          endpoint: subscription.endpoint,
+          auth: subscription.keys.auth,
+          p256dh: subscription.keys.p256dh,
+          host: window.location.host,
+          user_agent: navigator.userAgent,
         });
         await this.update_devices();
       }
     },
     async delete_telegram() {
-      await this.send_command(`telegram?id=${this.telegram_id}`, "DELETE");
+      await this.send_command(`telegram/${this.telegram_id}`, "DELETE");
       await this.update_devices();
     },
   },

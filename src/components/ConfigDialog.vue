@@ -183,6 +183,7 @@ export default {
 
       for (let pv of Object.keys(this.item.pvs)) {
         if (!this.item.pvs[pv].name) continue;
+        //console.log(this.item.pvs[pv], this.range[pv][0] !== this.item.pvs[pv].lo_limit);
 
         if (
           this.range[pv] !== undefined &&
@@ -195,18 +196,17 @@ export default {
             lo_limit: this.range[pv][0],
             hi_limit: this.range[pv][1],
           });
+          console.log(pvs_to_change);
         }
       }
 
-      await this.send_command("limits", "POST", { pvs: pvs_to_change });
+      await this.send_command("limits", "POST", pvs_to_change);
 
       this.$emit("update-limit", pvs_to_change);
 
       this.load_prog = 80;
 
       let outlets = [];
-
-      console.log(this.outlets);
 
       for (let i = 0; i < this.outlet_names.length; i++) {
         outlets.push({
@@ -217,11 +217,9 @@ export default {
       }
 
       await this.send_command(
-        `outlets?host=SIMAR:${this.parent_name}`,
+        `outlets/SIMAR:${this.parent_name}`,
         "POST",
-        {
-          outlets: outlets,
-        }
+        outlets
       );
 
       this.$store.commit(
@@ -257,7 +255,7 @@ export default {
 
       try {
         data = await this.send_command(
-          `status?host=${
+          `status/${
             this.parent_name.includes(":")
               ? "BBB:" + this.parent_name
               : this.parent_name
@@ -273,14 +271,14 @@ export default {
       }
 
       data = await this.send_command(
-        `outlets?host=SIMAR:${this.parent_name}`,
+        `outlets/SIMAR:${this.parent_name}`,
         "GET"
       );
       data = await data.json();
 
-      for (let i in data.outlets) {
-        this.outlet_names[i] = data.outlets[i].name;
-        if (data.outlets[i].status === 1) on_outlets.push(parseInt(i));
+      for (let i in data) {
+        this.outlet_names[i] = data[i].name;
+        if (data[i].status === 1) on_outlets.push(parseInt(i));
       }
 
       this.outlets = on_outlets;
