@@ -1,6 +1,7 @@
 # SIMAR Front end - EPICS
 
 ![Screencap](readme-data/screencap.png)
+![Config](readme-data/config.png)
 
 ## Project setup
 ```
