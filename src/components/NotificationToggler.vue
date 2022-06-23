@@ -75,14 +75,18 @@ export default {
           pv_data.pvs[0].lo_limit = this.pv.lo_limit;
         }
 
-        const response = await this.send_command("subscribe", "POST", pv_data);
+        const response = await this.send_command(
+          "pvs/subscribe",
+          "POST",
+          pv_data
+        );
 
         return response.status;
       }
       return undefined;
     },
     async unsubscribe() {
-      const response = await this.send_command("unsubscribe", "POST", {
+      const response = await this.send_command("pvs/unsubscribe", "POST", {
         pvs: [this.pv.name],
       });
       return response.status;

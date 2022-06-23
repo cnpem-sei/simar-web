@@ -200,7 +200,7 @@ export default {
         }
       }
 
-      await this.send_command("limits", "POST", pvs_to_change);
+      await this.send_command("pvs", "POST", pvs_to_change);
 
       this.$emit("update-limit", pvs_to_change);
 
@@ -255,7 +255,7 @@ export default {
 
       try {
         data = await this.send_command(
-          `status/${
+          `/beaglebones/status/${
             this.parent_name.includes(":")
               ? "BBB:" + this.parent_name
               : this.parent_name

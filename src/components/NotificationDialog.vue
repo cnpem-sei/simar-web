@@ -142,7 +142,7 @@ export default {
         await subscription.unsubscribe();
       }
 
-      await this.send_command("limits", "DELETE");
+      await this.send_command("pvs", "DELETE");
       window.location.reload();
     },
     async update_devices() {
